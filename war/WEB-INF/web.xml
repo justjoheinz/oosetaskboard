@@ -6,6 +6,7 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 
   <!-- Servlets -->
+  <!-- 
   <servlet>
     <servlet-name>greetServlet</servlet-name>
     <servlet-class>de.oose.taskboard.server.GreetingServiceImpl</servlet-class>
@@ -15,7 +16,7 @@
     <servlet-name>greetServlet</servlet-name>
     <url-pattern>/oosetaskboard/greet</url-pattern>
   </servlet-mapping>
-  
+  -->
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>OoseTaskboard.html</welcome-file>

@@ -26,12 +26,13 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.oose.taskboard.client.presenter.TaskPresenter.Display;
 import de.oose.taskboard.shared.bo.TaskBO;
 
 /**
  * Sample implementation of {@link TaskView}.
  */
-public class TaskViewImpl extends VerticalPanel implements TaskView {
+public class TaskViewImpl extends VerticalPanel implements Display {
 	private CellList<TaskBO> clPlanung;
 	private CellList<TaskBO> clArbeit;
 	private CellList<TaskBO> clAbnahme;

@@ -7,13 +7,13 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 import de.oose.taskboard.client.presenter.Presenter;
+import de.oose.taskboard.client.presenter.TaskPresenter;
+import de.oose.taskboard.client.view.TaskViewImpl;
 
 public class AppController implements Presenter, ValueChangeHandler<String>{
 
 	private final HandlerManager eventBus;
 	private HasWidgets container;
-	
-	
 	
 
 	public AppController(HandlerManager eventBus) {
@@ -36,7 +36,7 @@ public class AppController implements Presenter, ValueChangeHandler<String>{
 			Presenter presenter = null;
 			
 			if(token.equals("taskList")){
-				//den Presenter für den Initialzustand aufrufen
+				presenter = new TaskPresenter(new TaskViewImpl());
 			}
 			
 			if(presenter != null){
