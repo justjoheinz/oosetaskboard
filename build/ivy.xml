@@ -1,15 +1,18 @@
-<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:noNamespaceSchemaLocation=
-                   "http://ant.apache.org/ivy/schemas/ivy.xsd">
-	<info organisation="de.oose" module="gwt-test" >
-		<ivyauthor name="oose Innovative Informatik" url="http://www.oose.de"/>
-	</info>	
+<ivy-module version="2.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+	<info organisation="de.oose" module="gwt-test">
+		<ivyauthor name="oose Innovative Informatik" url="http://www.oose.de" />
+	</info>
 	<configurations>
 		<conf name="default" visibility="public" extends="master" />
 		<conf name="master" visibility="public" />
 	</configurations>
 	<dependencies>
-		<dependency org="net.sf.dozer" name="dozer" rev="${dozer.version}" conf="master->default(*)"/>
-            
+		<dependency org="net.sf.dozer" name="dozer" rev="${dozer.version}"
+			conf="master->default(*)" />
+		<dependency org="org.apache.derby" name="derby" rev="${derby.version}"
+			conf="master->default(*)" />
+
 	</dependencies>
 </ivy-module>

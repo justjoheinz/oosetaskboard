@@ -28,6 +28,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.oose.taskboard.client.presenter.TaskPresenter.Display;
 import de.oose.taskboard.shared.bo.TaskBO;
+import com.google.gwt.user.client.ui.DecoratorPanel;
+import com.google.gwt.user.client.ui.Label;
 
 /**
  * Sample implementation of {@link TaskView}.
@@ -37,6 +39,18 @@ public class TaskViewImpl extends VerticalPanel implements Display {
 	private CellList<TaskBO> clArbeit;
 	private CellList<TaskBO> clAbnahme;
 	private CellList<TaskBO> clFertig;
+	private DecoratorPanel decoratorPanel;
+	private DecoratorPanel decoratorPanel_1;
+	private DecoratorPanel decoratorPanel_2;
+	private DecoratorPanel decoratorPanel_3;
+	private VerticalPanel verticalPanel;
+	private Label lblNewLabel;
+	private VerticalPanel vPArbeit;
+	private VerticalPanel vPDone;
+	private VerticalPanel vpReview;
+	private Label lblNewLabel_1;
+	private Label lblNewLabel_2;
+	private Label lblNewLabel_3;
 
 	public TaskViewImpl() {
 		setSize("800", "600");
@@ -46,50 +60,91 @@ public class TaskViewImpl extends VerticalPanel implements Display {
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		add(horizontalPanel);
 		horizontalPanel.setSize("100%", "100%");
-
-		clPlanung = new CellList<TaskBO>(
-				new AbstractCell<TaskBO>() {
-					@Override
-					public void render(Context context, TaskBO value,
-							SafeHtmlBuilder sb) {
-						sb.append(SafeHtmlUtils.fromString(value.getTitel()));
-					}
-				});
-		horizontalPanel.add(clPlanung);
-		clPlanung.setWidth("25%");
-
-		clArbeit = new CellList<TaskBO>(
-				new AbstractCell<TaskBO>() {
-					@Override
-					public void render(Context context, TaskBO value,
-							SafeHtmlBuilder sb) {
-						sb.append(SafeHtmlUtils.fromString(value.getTitel()));
-					}
-				});
-		horizontalPanel.add(clArbeit);
-		clArbeit.setWidth("25%");
-
-		clAbnahme = new CellList<TaskBO>(
-				new AbstractCell<TaskBO>() {
-					@Override
-					public void render(Context context, TaskBO value,
-							SafeHtmlBuilder sb) {
-						sb.append(SafeHtmlUtils.fromString(value.getTitel()));
-					}
-				});
-		horizontalPanel.add(clAbnahme);
-		clAbnahme.setWidth("25%");
-
-		clFertig = new CellList<TaskBO>(
-				new AbstractCell<TaskBO>() {
-					@Override
-					public void render(Context context, TaskBO value,
-							SafeHtmlBuilder sb) {
-						sb.append(SafeHtmlUtils.fromString(value.getTitel()));
-					}
-				});
-		horizontalPanel.add(clFertig);
-		clFertig.setWidth("25%");
+										
+										verticalPanel = new VerticalPanel();
+										horizontalPanel.add(verticalPanel);
+										
+										lblNewLabel = new Label("Planung");
+										lblNewLabel.setStyleName("bigFont");
+										verticalPanel.add(lblNewLabel);
+										lblNewLabel.setSize("210", "18");
+										
+										decoratorPanel = new DecoratorPanel();
+										verticalPanel.add(decoratorPanel);
+										
+												clPlanung = new CellList<TaskBO>(
+														new AbstractCell<TaskBO>() {
+															@Override
+															public void render(Context context, TaskBO value,
+																	SafeHtmlBuilder sb) {
+																sb.append(SafeHtmlUtils.fromString(value.getTitel()));
+															}
+														});
+												decoratorPanel.setWidget(clPlanung);
+												clPlanung.setSize("200px", "300px");
+												
+												vPArbeit = new VerticalPanel();
+												horizontalPanel.add(vPArbeit);
+												
+												lblNewLabel_1 = new Label("Work");
+												lblNewLabel_1.setStyleName("bigFont");
+												vPArbeit.add(lblNewLabel_1);
+												
+												decoratorPanel_1 = new DecoratorPanel();
+												vPArbeit.add(decoratorPanel_1);
+												
+														clArbeit = new CellList<TaskBO>(
+																new AbstractCell<TaskBO>() {
+																	@Override
+																	public void render(Context context, TaskBO value,
+																			SafeHtmlBuilder sb) {
+																		sb.append(SafeHtmlUtils.fromString(value.getTitel()));
+																	}
+																});
+														decoratorPanel_1.setWidget(clArbeit);
+														clArbeit.setSize("200px", "300px");
+												
+												vpReview = new VerticalPanel();
+												horizontalPanel.add(vpReview);
+												
+												lblNewLabel_3 = new Label("Review");
+												lblNewLabel_3.setStyleName("bigFont");
+												vpReview.add(lblNewLabel_3);
+												
+												decoratorPanel_3 = new DecoratorPanel();
+												vpReview.add(decoratorPanel_3);
+												
+														clAbnahme = new CellList<TaskBO>(
+																new AbstractCell<TaskBO>() {
+																	@Override
+																	public void render(Context context, TaskBO value,
+																			SafeHtmlBuilder sb) {
+																		sb.append(SafeHtmlUtils.fromString(value.getTitel()));
+																	}
+																});
+														decoratorPanel_3.setWidget(clAbnahme);
+														clAbnahme.setSize("200px", "300px");
+												
+												vPDone = new VerticalPanel();
+												horizontalPanel.add(vPDone);
+												
+												lblNewLabel_2 = new Label("Done");
+												lblNewLabel_2.setStyleName("bigFont");
+												vPDone.add(lblNewLabel_2);
+												
+												decoratorPanel_2 = new DecoratorPanel();
+												vPDone.add(decoratorPanel_2);
+												
+														clFertig = new CellList<TaskBO>(
+																new AbstractCell<TaskBO>() {
+																	@Override
+																	public void render(Context context, TaskBO value,
+																			SafeHtmlBuilder sb) {
+																		sb.append(SafeHtmlUtils.fromString(value.getTitel()));
+																	}
+																});
+														decoratorPanel_2.setWidget(clFertig);
+														clFertig.setSize("200px", "300px");
 		
 		Button btnNewTask = new Button("New button");
 		btnNewTask.setText("New Task");
