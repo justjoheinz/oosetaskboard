@@ -64,7 +64,7 @@ public class TaskViewImpl extends VerticalPanel implements Display {
 										verticalPanel = new VerticalPanel();
 										horizontalPanel.add(verticalPanel);
 										
-										lblNewLabel = new Label("Planung");
+										lblNewLabel = new Label("Planning");
 										lblNewLabel.setStyleName("bigFont");
 										verticalPanel.add(lblNewLabel);
 										lblNewLabel.setSize("210", "18");
