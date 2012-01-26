@@ -13,6 +13,13 @@
 			conf="master->default(*)" />
 		<dependency org="org.apache.derby" name="derby" rev="${derby.version}"
 			conf="master->default(*)" />
-
+		<dependency org="org.hibernate" name="hibernate-core"
+			rev="${hibernate.core.version}" conf="master->default(*)" />
+		<dependency org="com.google.inject" name="guice" rev="${guice.version}"
+			conf="master->default(*)" />
+		<dependency org="com.google.inject.extensions" name="guice-persist"
+			rev="${guice.version}" conf="master->default(*)" />
+		<dependency org="javax.validation" name="validation-api"
+			rev="${validation-api.version}" conf="master->default(*)" />
 	</dependencies>
 </ivy-module>

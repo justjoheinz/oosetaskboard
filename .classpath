@@ -4,5 +4,6 @@
 	<classpathentry kind="src" output="test-classes" path="test"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=build%2Fivy.xml&amp;confs=*&amp;ivySettingsPath=%24%7Bworkspace_loc%3AooseTaskboard%2Fbuild%2Fivysettings.xml%7D&amp;loadSettingsOnDemand=true&amp;propertyFiles=%24%7Bworkspace_loc%3AooseTaskboard%2Fbuild%2Fivyversions.properties%7D"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
