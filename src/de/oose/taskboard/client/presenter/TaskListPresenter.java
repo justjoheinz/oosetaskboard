@@ -5,6 +5,8 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -13,6 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.oose.taskboard.client.event.EditTaskEvent;
 import de.oose.taskboard.client.service.TaskServiceAsync;
+import de.oose.taskboard.client.widget.Taskboard;
 import de.oose.taskboard.shared.bo.TaskBO;
 
 public class TaskListPresenter implements Presenter {
@@ -25,6 +28,7 @@ public class TaskListPresenter implements Presenter {
 	public interface Display {
 		public void setTaskList(List<TaskBO> tasks);
 		public HasClickHandlers getTaskButton();
+		public Taskboard getTaskboard();
 		public Widget asWidget();
 	}
 
@@ -64,6 +68,15 @@ public class TaskListPresenter implements Presenter {
 			@Override
 			public void onClick(ClickEvent event) {
 				eventBus.fireEvent(new EditTaskEvent(null));	
+			}
+		});
+		
+		display.getTaskboard().addSelectionHandler(new SelectionHandler<TaskBO>() {
+			
+			@Override
+			public void onSelection(SelectionEvent<TaskBO> event) {
+				Window.alert("SELECT!!!");
+				eventBus.fireEvent(new EditTaskEvent(event.getSelectedItem()));
 			}
 		});
 	}

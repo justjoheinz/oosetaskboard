@@ -35,7 +35,7 @@ NONE
 
             <property
                 name="hibernate.connection.url"
-                value="jdbc:derby:/Users/markusklink/MyDB;create=true" />
+                value="jdbc:derby:/Users/markusklink/taskboardDB;create=true" />
 
             <property
                 name="hibernate.connection.driver_class"

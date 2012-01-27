@@ -19,104 +19,27 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DecoratorPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.oose.taskboard.client.presenter.TaskListPresenter.Display;
-import de.oose.taskboard.client.widget.TaskCellList;
+import de.oose.taskboard.client.widget.Taskboard;
 import de.oose.taskboard.shared.bo.TaskBO;
 
 /**
  * Sample implementation of {@link TaskView}.
  */
 public class TaskListView extends VerticalPanel implements Display {
-	private TaskCellList clPlanning;
-	private TaskCellList clWork;
-	private TaskCellList clReview;
-	private TaskCellList clDone;
-	private DecoratorPanel decoratorPanel;
-	private DecoratorPanel decoratorPanel_1;
-	private DecoratorPanel decoratorPanel_2;
-	private DecoratorPanel decoratorPanel_3;
-	private VerticalPanel vPPlanning;
-	private Label lblNewLabel;
-	private VerticalPanel vPWork;
-	private VerticalPanel vPDone;
-	private VerticalPanel vpReview;
-	private Label lblNewLabel_1;
-	private Label lblNewLabel_2;
-	private Label lblNewLabel_3;
+	
+	private Taskboard taskboard;
+	
 	private Button btnTask;
 
 	public TaskListView() {
 		setSpacing(5);
 		setSize("800", "600");
 
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		horizontalPanel.setSpacing(5);
-		add(horizontalPanel);
-		horizontalPanel.setSize("100%", "100%");
-
-		vPPlanning = new VerticalPanel();
-		horizontalPanel.add(vPPlanning);
-		vPPlanning.setSize("210px", "334px");
-
-		lblNewLabel = new Label("Planning");
-		lblNewLabel.setStyleName("bigFont");
-		vPPlanning.add(lblNewLabel);
-		lblNewLabel.setSize("210", "18");
-
-		decoratorPanel = new DecoratorPanel();
-		vPPlanning.add(decoratorPanel);
-		decoratorPanel.setSize("210px", "310px");
-		
-				clPlanning = new TaskCellList(TaskBO.PLANNING);
-				decoratorPanel.setWidget(clPlanning);
-				clPlanning.setSize("200px", "300px");
-
-		vPWork = new VerticalPanel();
-		horizontalPanel.add(vPWork);
-
-		lblNewLabel_1 = new Label("Work");
-		lblNewLabel_1.setStyleName("bigFont");
-		vPWork.add(lblNewLabel_1);
-
-		decoratorPanel_1 = new DecoratorPanel();
-		vPWork.add(decoratorPanel_1);
-
-		clWork = new TaskCellList(TaskBO.WORK);
-		decoratorPanel_1.setWidget(clWork);
-		clWork.setSize("200px", "300px");
-
-		vpReview = new VerticalPanel();
-		horizontalPanel.add(vpReview);
-
-		lblNewLabel_3 = new Label("Review");
-		lblNewLabel_3.setStyleName("bigFont");
-		vpReview.add(lblNewLabel_3);
-
-		decoratorPanel_3 = new DecoratorPanel();
-		vpReview.add(decoratorPanel_3);
-
-		clReview = new TaskCellList(TaskBO.REVIEW);
-		decoratorPanel_3.setWidget(clReview);
-		clReview.setSize("200px", "300px");
-
-		vPDone = new VerticalPanel();
-		horizontalPanel.add(vPDone);
-
-		lblNewLabel_2 = new Label("Done");
-		lblNewLabel_2.setStyleName("bigFont");
-		vPDone.add(lblNewLabel_2);
-
-		decoratorPanel_2 = new DecoratorPanel();
-		vPDone.add(decoratorPanel_2);
-
-		clDone = new TaskCellList(TaskBO.DONE);
-		decoratorPanel_2.setWidget(clDone);
-		clDone.setSize("200px", "300px");
+		taskboard =  new Taskboard();
+		add(taskboard);
 
 		btnTask = new Button("New button");
 		btnTask.setText("New Task");
@@ -126,16 +49,17 @@ public class TaskListView extends VerticalPanel implements Display {
 
 	@Override
 	public void setTaskList(List<TaskBO> tasks) {
-		clPlanning.setFilteredRowData(tasks);
-		clWork.setFilteredRowData(tasks);
-		clReview.setFilteredRowData(tasks);
-		clDone.setFilteredRowData(tasks);
+		taskboard.setTaskList(tasks);
 	}
 
-	
 	@Override
 	public HasClickHandlers getTaskButton() {
 		return btnTask;
+	}
+
+	@Override
+	public Taskboard getTaskboard() {
+		return taskboard;
 	}
 
 }
