@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -15,20 +16,19 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.oose.taskboard.client.event.EditTaskEvent;
 import de.oose.taskboard.client.service.TaskServiceAsync;
-import de.oose.taskboard.client.widget.Taskboard;
 import de.oose.taskboard.shared.bo.TaskBO;
 
 public class TaskListPresenter implements Presenter {
 
 	private final Display display;
-	private  List<TaskBO> tasks;
+	private List<TaskBO> tasks;
 	private final HandlerManager eventBus;
 	private TaskServiceAsync taskService;
 
 	public interface Display {
 		public void setTaskList(List<TaskBO> tasks);
 		public HasClickHandlers getTaskButton();
-		public Taskboard getTaskboard();
+		public HasSelectionHandlers<TaskBO> getTaskboard();
 		public Widget asWidget();
 	}
 

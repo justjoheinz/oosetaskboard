@@ -18,6 +18,7 @@ package de.oose.taskboard.client.view;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -58,7 +59,7 @@ public class TaskListView extends VerticalPanel implements Display {
 	}
 
 	@Override
-	public Taskboard getTaskboard() {
+	public HasSelectionHandlers<TaskBO> getTaskboard() {
 		return taskboard;
 	}
 
