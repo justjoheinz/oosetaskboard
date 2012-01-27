@@ -57,7 +57,7 @@ public class EditTaskView extends VerticalPanel implements Display {
 		areaDescription = new TextArea();
 		flexTable.setWidget(1, 1, areaDescription);
 		
-		Label lblNewLabel_3 = new Label("New label");
+		Label lblNewLabel_3 = new Label("A short description of this task");
 		lblNewLabel_3.setStyleName("small-font");
 		flexTable.setWidget(1, 2, lblNewLabel_3);
 
@@ -79,7 +79,7 @@ public class EditTaskView extends VerticalPanel implements Display {
 		
 		flexTable.setWidget(2, 1, boxStatus);
 		
-		Label lblNewLabel_4 = new Label("New label");
+		Label lblNewLabel_4 = new Label("The current state of this task");
 		lblNewLabel_4.setStyleName("small-font");
 		flexTable.setWidget(2, 2, lblNewLabel_4);
 
