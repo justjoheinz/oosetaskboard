@@ -6,6 +6,8 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+import de.oose.taskboard.client.event.EditTaskCancelledEvent;
+import de.oose.taskboard.client.event.EditTaskCancelledEventHandler;
 import de.oose.taskboard.client.event.EditTaskEvent;
 import de.oose.taskboard.client.event.EditTaskHandler;
 import de.oose.taskboard.client.event.UpdateTasksEvent;
@@ -43,6 +45,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				presenter.go(container);
 			}
 		});
+		
+		eventBus.addHandler(EditTaskCancelledEvent.TYPE, new EditTaskCancelledEventHandler() {
+			
+			@Override
+			public void onEditTaskCancelled(EditTaskCancelledEvent event) {
+				doEditTaskCancelled();
+			}
+		});
 
 		eventBus.addHandler(UpdateTasksEvent.TYPE, new UpdateTasksHandler() {
 
@@ -54,6 +64,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				presenter.go(container);
 			}
 		});
+	}
+	
+	private void doEditTaskCancelled() {
+		History.newItem("taskList");
 	}
 
 	// Methode die aufgerufen wird, wenn im Browser "Back", "Forward" geklickt
