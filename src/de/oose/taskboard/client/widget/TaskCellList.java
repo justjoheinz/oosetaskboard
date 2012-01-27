@@ -49,7 +49,9 @@ public class TaskCellList extends CellList<TaskBO> {
 	}
 
 	public void setFilteredRowData(List<TaskBO> original) {
-		setRowData(filter(original));
+		List<TaskBO> filtered = filter(original);
+		setRowCount(filtered.size());
+		setRowData(filtered);
 	}
 
 }

@@ -15,23 +15,18 @@
  */
 package de.oose.taskboard.client.view;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
-import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.oose.taskboard.client.presenter.TaskListPresenter.Display;
 import de.oose.taskboard.client.widget.TaskCellList;
 import de.oose.taskboard.shared.bo.TaskBO;
-import com.google.gwt.user.client.ui.DecoratorPanel;
-import com.google.gwt.user.client.ui.Label;
 
 /**
  * Sample implementation of {@link TaskView}.
@@ -66,6 +61,7 @@ public class TaskListView extends VerticalPanel implements Display {
 
 		vPPlanning = new VerticalPanel();
 		horizontalPanel.add(vPPlanning);
+		vPPlanning.setSize("210px", "334px");
 
 		lblNewLabel = new Label("Planning");
 		lblNewLabel.setStyleName("bigFont");
@@ -74,10 +70,11 @@ public class TaskListView extends VerticalPanel implements Display {
 
 		decoratorPanel = new DecoratorPanel();
 		vPPlanning.add(decoratorPanel);
-
-		clPlanning = new TaskCellList(TaskBO.PLANNING);
-		decoratorPanel.setWidget(clPlanning);
-		clPlanning.setSize("200px", "300px");
+		decoratorPanel.setSize("210px", "310px");
+		
+				clPlanning = new TaskCellList(TaskBO.PLANNING);
+				decoratorPanel.setWidget(clPlanning);
+				clPlanning.setSize("200px", "300px");
 
 		vPWork = new VerticalPanel();
 		horizontalPanel.add(vPWork);

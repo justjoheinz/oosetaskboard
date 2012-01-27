@@ -3,37 +3,51 @@ package de.oose.taskboard.server;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dozer.DozerBeanMapper;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import org.dozer.Mapper;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.google.inject.persist.Transactional;
 
 import de.oose.taskboard.client.service.TaskService;
+import de.oose.taskboard.server.entity.Task;
 import de.oose.taskboard.shared.bo.TaskBO;
 
-public class TaskServiceImpl extends RemoteServiceServlet implements
-		TaskService {
+public class TaskServiceImpl implements TaskService {
 
-	Mapper mapper = null;
+	@Inject
+	Mapper mapper;
+
+	@Inject
+	EntityManager em;
+
 	private static List<TaskBO> tasks = new ArrayList<TaskBO>();
 
 	public TaskServiceImpl() {
-		mapper = new DozerBeanMapper();
 
-		tasks.add(new TaskBO(1, "Task1", "Ein Task", TaskBO.DONE));
-		tasks.add(new TaskBO(2, "Task2", "Ein Task", TaskBO.PLANNING));
-		tasks.add(new TaskBO(3, "Task3", "Ein Task", TaskBO.DONE));
-		tasks.add(new TaskBO(4, "Task4", "Ein Task", TaskBO.REVIEW));
 	}
 
 	@Override
 	public List<TaskBO> getTasks() {
-		return tasks;
+		Query query = em.createQuery("from Task");
+		List<Task> tasks = query.getResultList();
+		List<TaskBO> taskBOs = new ArrayList<TaskBO>();
+		for (Task t : tasks) {
+			TaskBO bo = mapper.map(t, TaskBO.class);
+			taskBOs.add(bo);
+		}
+		return taskBOs;
 	}
 
 	@Override
+	@Transactional
 	public TaskBO addTask(TaskBO taskBO) {
 		tasks.add(taskBO);
+		Task entity = mapper.map(taskBO, Task.class);
+		em.persist(entity);
+		taskBO = mapper.map(entity, TaskBO.class);
 		return taskBO;
 	}
 }

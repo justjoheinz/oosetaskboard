@@ -13,7 +13,6 @@ import de.oose.taskboard.client.event.UpdateTasksHandler;
 import de.oose.taskboard.client.presenter.EditTaskPresenter;
 import de.oose.taskboard.client.presenter.Presenter;
 import de.oose.taskboard.client.presenter.TaskListPresenter;
-import de.oose.taskboard.client.presenter.TaskListPresenter.Display;
 import de.oose.taskboard.client.service.TaskServiceAsync;
 import de.oose.taskboard.client.view.EditTaskView;
 import de.oose.taskboard.client.view.TaskListView;
@@ -78,7 +77,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 	}
 
-	// setzen des Initialzustandes für die History. Damit wird die Startview
+	// setzen des Initialzustandes fï¿½r die History. Damit wird die Startview
 	// gesetzt
 	// oder, falls ein Historyeintrag gesetzt ist, entsprechend an die richtige
 	// View
