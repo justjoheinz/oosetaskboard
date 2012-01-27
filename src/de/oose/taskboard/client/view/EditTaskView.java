@@ -23,6 +23,7 @@ public class EditTaskView extends VerticalPanel implements Display {
 	private TextBox boxTitle;
 	private TextArea areaDescription;
 	private Button btnAddTask;
+	private Button btnCancel;
 	private ValueListBox<String> boxStatus;
 
 	public EditTaskView() {
@@ -91,9 +92,9 @@ public class EditTaskView extends VerticalPanel implements Display {
 		horizontalPanel.add(btnAddTask);
 		btnAddTask.setText("Add Task");
 
-		Button btnNewButton = new Button("New button");
-		horizontalPanel.add(btnNewButton);
-		btnNewButton.setText("Cancel");
+		btnCancel = new Button("New button");
+		horizontalPanel.add(btnCancel);
+		btnCancel.setText("Cancel");
 	}
 
 	@Override
@@ -115,6 +116,11 @@ public class EditTaskView extends VerticalPanel implements Display {
 	@Override
 	public HasValue<String> getTaskTitle() {
 		return boxTitle;
+	}
+
+	@Override
+	public HasClickHandlers getCancelButton() {
+		return btnCancel;
 	}
 
 }

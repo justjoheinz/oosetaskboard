@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.oose.taskboard.client.event.EditTaskCancelledEvent;
 import de.oose.taskboard.client.event.UpdateTasksEvent;
 import de.oose.taskboard.client.service.TaskServiceAsync;
 import de.oose.taskboard.shared.bo.TaskBO;
@@ -25,6 +26,7 @@ public class EditTaskPresenter implements Presenter {
 		public HasValue<String> getDescription();
 		public HasValue<String> getStatus();
 		public HasClickHandlers getAddButton();
+		public HasClickHandlers getCancelButton();
 		public Widget asWidget();
 	}
 
@@ -43,6 +45,15 @@ public class EditTaskPresenter implements Presenter {
 	        saveTask();
 	      }
 	    });
+	    
+	    display.getCancelButton().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				eventBus.fireEvent(new EditTaskCancelledEvent());
+				
+			}
+		});
 	}
 	
 	public EditTaskPresenter(Display display, TaskServiceAsync taskService, HandlerManager eventBus) {
