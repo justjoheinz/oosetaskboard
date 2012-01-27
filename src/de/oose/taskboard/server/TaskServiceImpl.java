@@ -15,6 +15,7 @@ import de.oose.taskboard.client.service.TaskService;
 import de.oose.taskboard.server.entity.Task;
 import de.oose.taskboard.shared.bo.TaskBO;
 
+
 public class TaskServiceImpl implements TaskService {
 
 	@Inject
