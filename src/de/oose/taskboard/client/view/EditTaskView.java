@@ -46,12 +46,20 @@ public class EditTaskView extends VerticalPanel implements Display {
 
 		boxTitle = new TextBox();
 		flexTable.setWidget(0, 1, boxTitle);
+		
+		Label lblTheTitleOf = new Label("The title of the task");
+		lblTheTitleOf.setStyleName("small-font");
+		flexTable.setWidget(0, 2, lblTheTitleOf);
 
 		Label lblNewLabel_2 = new Label("Description");
 		flexTable.setWidget(1, 0, lblNewLabel_2);
 
 		areaDescription = new TextArea();
 		flexTable.setWidget(1, 1, areaDescription);
+		
+		Label lblNewLabel_3 = new Label("New label");
+		lblNewLabel_3.setStyleName("small-font");
+		flexTable.setWidget(1, 2, lblNewLabel_3);
 
 		Label lblStatus = new Label("Status");
 		flexTable.setWidget(2, 0, lblStatus);
@@ -70,6 +78,10 @@ public class EditTaskView extends VerticalPanel implements Display {
 				TaskBO.PLANNING, TaskBO.WORK, TaskBO.REVIEW, TaskBO.DONE }));
 		
 		flexTable.setWidget(2, 1, boxStatus);
+		
+		Label lblNewLabel_4 = new Label("New label");
+		lblNewLabel_4.setStyleName("small-font");
+		flexTable.setWidget(2, 2, lblNewLabel_4);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.setSpacing(5);

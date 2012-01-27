@@ -8,6 +8,7 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellList;
+import com.google.gwt.user.client.ui.Label;
 
 import de.oose.taskboard.shared.bo.TaskBO;
 
@@ -32,6 +33,7 @@ public class TaskCellList extends CellList<TaskBO> {
 			}
 		});
 		this.filter = filter;
+		setEmptyListWidget(new Label("nothing"));
 	}
 
 	private List<TaskBO> filter(List<TaskBO> original) {

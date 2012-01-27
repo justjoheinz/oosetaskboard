@@ -35,3 +35,6 @@ h1 {
 .bigFont {
 	font-size: large;
 }
+.small-font {
+font-size: x-small;
+}

@@ -19,6 +19,8 @@
 			conf="master->default(*)" />
 		<dependency org="com.google.inject.extensions" name="guice-persist"
 			rev="${guice.version}" conf="master->default(*)" />
+		<dependency org="com.google.inject.extensions" name="guice-servlet"
+			rev="${guice.version}" conf="master->default(*)" />
 		<dependency org="javax.validation" name="validation-api"
 			rev="${validation-api.version}" conf="master->default(*)" />
 	</dependencies>
