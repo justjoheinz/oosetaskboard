@@ -1,5 +1,9 @@
 package de.oose.taskboard.client;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -16,20 +20,37 @@ import de.oose.taskboard.client.presenter.EditTaskPresenter;
 import de.oose.taskboard.client.presenter.Presenter;
 import de.oose.taskboard.client.presenter.TaskListPresenter;
 import de.oose.taskboard.client.service.TaskServiceAsync;
-import de.oose.taskboard.client.view.EditTaskView;
-import de.oose.taskboard.client.view.TaskListView;
 
+/**
+ * The main class of the application, responsible for reacting to events and
+ * dispatching to the correct presenters, which coordinate the view.
+ * 
+ * @author markusklink
+ * 
+ */
+@Singleton
 public class AppController implements Presenter, ValueChangeHandler<String> {
 
-	private final HandlerManager eventBus;
-	private HasWidgets container;
+	private static final Class<? extends TaskListPresenter.Display> taskViewClass = de.oose.taskboard.client.view.TaskListView.class;
 
+	@Inject
+	private HandlerManager eventBus;
+	@Inject
 	private TaskServiceAsync taskService;
 
+	private HasWidgets container;
+
+	@Inject
+	private EditTaskPresenter editTaskPresenter;
+	@Inject
+	private TaskListPresenter taskListPresenter;
+
+	@Inject
 	public AppController(TaskServiceAsync taskService, HandlerManager eventBus) {
-		this.eventBus = eventBus;
 		this.taskService = taskService;
+		this.eventBus = eventBus;
 		bind();
+
 	}
 
 	private void bind() {
@@ -40,32 +61,40 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			@Override
 			public void onEditTask(EditTaskEvent event) {
 				History.newItem("edit", false);
-				Presenter presenter = new EditTaskPresenter(new EditTaskView(),
-						taskService, eventBus);
-				presenter.go(container);
+
+				if (event.getTaskBO() != null) {
+					editTaskPresenter.setTask(event.getTaskBO());
+				} else {
+					editTaskPresenter.setTask(null);
+				}
+				editTaskPresenter.go(container);
 			}
 		});
-		
-		eventBus.addHandler(EditTaskCancelledEvent.TYPE, new EditTaskCancelledEventHandler() {
-			
-			@Override
-			public void onEditTaskCancelled(EditTaskCancelledEvent event) {
-				doEditTaskCancelled();
-			}
-		});
+
+		eventBus.addHandler(EditTaskCancelledEvent.TYPE,
+				new EditTaskCancelledEventHandler() {
+
+					@Override
+					public void onEditTaskCancelled(EditTaskCancelledEvent event) {
+						doEditTaskCancelled();
+					}
+				});
 
 		eventBus.addHandler(UpdateTasksEvent.TYPE, new UpdateTasksHandler() {
 
 			@Override
 			public void onUpdateTaskList(UpdateTasksEvent event) {
 				History.newItem("update", false);
-				Presenter presenter = new TaskListPresenter(new TaskListView(),
-						taskService, eventBus);
-				presenter.go(container);
+				TaskListPresenter.Display taskListView = GWT
+						.create(taskViewClass);
+				// Presenter presenter = new TaskListPresenter(taskListView,
+				// taskService, eventBus);
+				taskListPresenter.go(container);
+				// presenter.go(container);
 			}
 		});
 	}
-	
+
 	private void doEditTaskCancelled() {
 		History.newItem("taskList");
 	}
@@ -77,16 +106,18 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		String token = event.getValue();
 
 		if (token != null) {
-			Presenter presenter = null;
 
 			if (token.equals("taskList")) {
-				presenter = new TaskListPresenter(new TaskListView(),
-						taskService, eventBus);
+				TaskListPresenter.Display taskListView = GWT
+						.create(taskViewClass);
+				// presenter = new TaskListPresenter(taskListView, taskService,
+				// eventBus);
+				taskListPresenter.go(container);
 			}
 
-			if (presenter != null) {
-				presenter.go(container);
-			}
+			// if (presenter != null) {
+			// presenter.go(container);
+			// }
 		}
 
 	}

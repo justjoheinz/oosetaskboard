@@ -9,6 +9,8 @@
 		<conf name="master" visibility="public" />
 	</configurations>
 	<dependencies>
+		
+	
 		<dependency org="net.sf.dozer" name="dozer" rev="${dozer.version}"
 			conf="master->default(*)" />
 		<dependency org="org.apache.derby" name="derby" rev="${derby.version}"
@@ -17,13 +19,20 @@
 			rev="${hibernate.core.version}" conf="master->default(*)" />
 		<dependency org="org.hibernate" name="hibernate-entitymanager"
 			rev="${hibernate.core.version}" conf="master->default(*)" />
-		<dependency org="com.google.inject" name="guice" rev="${guice.version}"
+		<dependency org="com.google.inject" name="guice" rev="${com.google.guice.version}"
 			conf="master->default(*)" />
 		<dependency org="com.google.inject.extensions" name="guice-persist"
-			rev="${guice.version}" conf="master->default(*)" />
+			rev="${com.google.guice.version}" conf="master->default(*)" />
 		<dependency org="com.google.inject.extensions" name="guice-servlet"
-			rev="${guice.version}" conf="master->default(*)" />
+			rev="${com.google.guice.version}" conf="master->default(*)" />
 		<dependency org="javax.validation" name="validation-api"
 			rev="${validation-api.version}" conf="master->default(*)" />
+		<dependency org="com.google.gwt.inject" name="gin"
+			rev="${google-gin.version}" conf="master->default(*)"/>
+			
+		<!-- override transitive dependencies with correct versions of google gwt and guice -->
+		<override org="com.google.gwt" rev="${com.google.gwt.version}"/>
+		<override org="com.google.inject" rev="${com.google.guice.version}"/>
+		<override org="com.google.inject.extensions" rev="${com.google.guice.version}"/>
 	</dependencies>
 </ivy-module>

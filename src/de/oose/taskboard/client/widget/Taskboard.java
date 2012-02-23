@@ -113,7 +113,6 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
 				TaskBO bo = selectionModel.getSelectedObject();
-				Window.alert(bo.toString());
 				SelectionEvent.fire(Taskboard.this, bo);
 			}
 		});

@@ -47,6 +47,7 @@ public class TaskServiceImpl implements TaskService {
 	public TaskBO addTask(TaskBO taskBO) {
 		tasks.add(taskBO);
 		Task entity = mapper.map(taskBO, Task.class);
+		entity = em.merge(entity);
 		em.persist(entity);
 		taskBO = mapper.map(entity, TaskBO.class);
 		return taskBO;

@@ -22,4 +22,8 @@ public class EditTaskEvent extends GwtEvent<EditTaskHandler>{
 		handler.onEditTask(this);
 	}
 
+	public TaskBO getTaskBO() {
+		return taskBO;
+	}
+
 }

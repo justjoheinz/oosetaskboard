@@ -2,6 +2,9 @@ package de.oose.taskboard.client.presenter;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -18,6 +21,7 @@ import de.oose.taskboard.client.event.EditTaskEvent;
 import de.oose.taskboard.client.service.TaskServiceAsync;
 import de.oose.taskboard.shared.bo.TaskBO;
 
+@Singleton
 public class TaskListPresenter implements Presenter {
 
 	private final Display display;
@@ -30,6 +34,15 @@ public class TaskListPresenter implements Presenter {
 		public HasClickHandlers getTaskButton();
 		public HasSelectionHandlers<TaskBO> getTaskboard();
 		public Widget asWidget();
+	}
+	
+	@Inject
+	public TaskListPresenter(Display display, TaskServiceAsync taskServie, HandlerManager eventBus) {
+		this.display = display;
+		this.eventBus = eventBus;
+		this.taskService = taskServie; 
+		this.tasks = null;
+		bind();
 	}
 
 	@Override
@@ -54,14 +67,6 @@ public class TaskListPresenter implements Presenter {
 		});
 	}
 
-	public TaskListPresenter(Display display, TaskServiceAsync taskServie, HandlerManager eventBus) {
-		this.display = display;
-		this.eventBus = eventBus;
-		this.taskService = taskServie; 
-		this.tasks = null;
-		bind();
-	}
-
 	public void bind() {
 		display.getTaskButton().addClickHandler(new ClickHandler() {
 			
@@ -75,7 +80,6 @@ public class TaskListPresenter implements Presenter {
 			
 			@Override
 			public void onSelection(SelectionEvent<TaskBO> event) {
-				Window.alert("SELECT!!!");
 				eventBus.fireEvent(new EditTaskEvent(event.getSelectedItem()));
 			}
 		});

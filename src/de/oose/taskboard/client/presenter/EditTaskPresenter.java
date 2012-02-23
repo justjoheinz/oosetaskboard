@@ -1,5 +1,8 @@
 package de.oose.taskboard.client.presenter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -15,32 +18,35 @@ import de.oose.taskboard.client.event.UpdateTasksEvent;
 import de.oose.taskboard.client.service.TaskServiceAsync;
 import de.oose.taskboard.shared.bo.TaskBO;
 
+@Singleton
 public class EditTaskPresenter implements Presenter {
 	
 	public final Display display;
 	private HandlerManager eventBus;
 	private TaskServiceAsync taskService;
 	
-	public interface Display {
-		public HasValue<String> getTaskTitle();
-		public HasValue<String> getDescription();
-		public HasValue<String> getStatus();
-		public HasClickHandlers getAddButton();
+	public interface Display extends HasValue<TaskBO>{
+		public HasClickHandlers getConfirmationButton();
 		public HasClickHandlers getCancelButton();
 		public Widget asWidget();
+	}
+	
+	@Inject
+	public EditTaskPresenter(Display display, TaskServiceAsync taskService, HandlerManager eventBus) {
+		this.display = display;
+		this.eventBus = eventBus;
+		this.taskService = taskService;
+		bind();
 	}
 
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
-		display.getTaskTitle().setValue("");
-		display.getDescription().setValue("");
-		display.getStatus().setValue("");
 		container.add(display.asWidget());
 	}
 	
 	public void bind() {
-	    display.getAddButton().addClickHandler(new ClickHandler() {
+	    display.getConfirmationButton().addClickHandler(new ClickHandler() {
 	      public void onClick(ClickEvent event) {
 	        saveTask();
 	      }
@@ -56,18 +62,11 @@ public class EditTaskPresenter implements Presenter {
 		});
 	}
 	
-	public EditTaskPresenter(Display display, TaskServiceAsync taskService, HandlerManager eventBus) {
-		this.display = display;
-		this.eventBus = eventBus;
-		this.taskService = taskService;
-		bind();
-	}
+	
 	
 	public void saveTask() {
 		TaskBO taskBO = new TaskBO();
-		taskBO.setDescription(display.getDescription().getValue());
-		taskBO.setTitle(display.getTaskTitle().getValue());
-		taskBO.setStatus(display.getStatus().getValue());
+		taskBO = display.getValue();
 		taskService.addTask(taskBO, new AsyncCallback<TaskBO>() {
 			
 			@Override
@@ -80,6 +79,10 @@ public class EditTaskPresenter implements Presenter {
 				Window.alert(caught.getMessage());
 			}
 		});
+	}
+	
+	public void setTask(TaskBO task) {
+		display.setValue(task);
 	}
 
 }

@@ -3,6 +3,8 @@ package de.oose.taskboard.client.view;
 import java.util.Arrays;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.text.shared.AbstractRenderer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratorPanel;
@@ -19,19 +21,27 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.oose.taskboard.client.presenter.EditTaskPresenter.Display;
 import de.oose.taskboard.shared.bo.TaskBO;
 
-public class EditTaskView extends VerticalPanel implements Display {
+/**
+ * The view to add new task or edit an exisiting one.
+ * @author markusklink
+ *
+ */
+public class EditTaskView extends VerticalPanel implements Display, HasValue<TaskBO> {
 	private TextBox boxTitle;
 	private TextArea areaDescription;
-	private Button btnAddTask;
+	private Button btnConfirmation;
 	private Button btnCancel;
 	private ValueListBox<String> boxStatus;
+	private TaskBO task;
+	private Label lblWindowLabel;
 
 	public EditTaskView() {
 		setWidth("800");
+		task = null;
 
-		Label lblNewLabel = new Label("New Task");
-		lblNewLabel.setStyleName("bigFont");
-		add(lblNewLabel);
+		lblWindowLabel = new Label("New Task");
+		lblWindowLabel.setStyleName("bigFont");
+		add(lblWindowLabel);
 
 		DecoratorPanel decoratorPanel = new DecoratorPanel();
 		add(decoratorPanel);
@@ -88,39 +98,80 @@ public class EditTaskView extends VerticalPanel implements Display {
 		horizontalPanel.setSpacing(5);
 		add(horizontalPanel);
 
-		btnAddTask = new Button("New button");
-		horizontalPanel.add(btnAddTask);
-		btnAddTask.setText("Add Task");
+		btnConfirmation = new Button();
+		horizontalPanel.add(btnConfirmation);
+		btnConfirmation.setText("Add Task");
 
-		btnCancel = new Button("New button");
+		btnCancel = new Button();
 		horizontalPanel.add(btnCancel);
 		btnCancel.setText("Cancel");
+		
+		init();
 	}
 
 	@Override
-	public HasValue<String> getDescription() {
-		return areaDescription;
-	}
-
-	@Override
-	public HasValue<String> getStatus() {
-		return boxStatus;
-	}
-
-	@Override
-	public HasClickHandlers getAddButton() {
-		return btnAddTask;
-
-	}
-
-	@Override
-	public HasValue<String> getTaskTitle() {
-		return boxTitle;
+	public HasClickHandlers getConfirmationButton() {
+		return btnConfirmation;
 	}
 
 	@Override
 	public HasClickHandlers getCancelButton() {
 		return btnCancel;
+	}
+
+	
+
+	@Override
+	public HandlerRegistration addValueChangeHandler(
+			ValueChangeHandler<TaskBO> handler) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	/**
+	 * @return a new task based on the current UI elements.
+	 */
+	public TaskBO getValue() {
+		task.setDescription(areaDescription.getText());
+		task.setTitle(boxTitle.getText());
+		task.setStatus(boxStatus.getValue());
+		return task;
+	}
+
+	@Override
+	/**
+	 * set the active task and init the ui elements.
+	 */
+	public void setValue(TaskBO value) {
+		task = value;
+		init();
+	}
+
+	@Override
+	public void setValue(TaskBO value, boolean fireEvents) {
+		setValue(value);
+	}
+	
+	/**
+	 * initialize the UI elements with the default values or the values of the active task.
+	 */
+	private void init() {
+		if (task == null) {
+			task = new TaskBO();
+			areaDescription.setText("");
+			boxTitle.setText("");
+			boxStatus.setValue("PLANNING");
+			btnConfirmation.setText("New Task");
+			lblWindowLabel.setText("New Task");
+		}
+		else {
+			areaDescription.setText(task.getDescription());
+			boxTitle.setText(task.getTitle());
+			boxStatus.setValue(task.getStatus());
+			btnConfirmation.setText("Confirm");
+			lblWindowLabel.setText("Edit Task");
+		}
 	}
 
 }
