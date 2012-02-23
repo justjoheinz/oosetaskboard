@@ -21,9 +21,9 @@ import de.oose.taskboard.shared.bo.TaskBO;
 @Singleton
 public class EditTaskPresenter implements Presenter {
 	
-	public final Display display;
-	private HandlerManager eventBus;
-	private TaskServiceAsync taskService;
+	private final Display display;
+	private final HandlerManager eventBus;
+	private final TaskServiceAsync taskService;
 	
 	public interface Display extends HasValue<TaskBO>{
 		public HasClickHandlers getConfirmationButton();

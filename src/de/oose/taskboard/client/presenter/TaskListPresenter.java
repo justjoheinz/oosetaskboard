@@ -27,7 +27,7 @@ public class TaskListPresenter implements Presenter {
 	private final Display display;
 	private List<TaskBO> tasks;
 	private final HandlerManager eventBus;
-	private TaskServiceAsync taskService;
+	private final TaskServiceAsync taskService;
 
 	public interface Display {
 		public void setTaskList(List<TaskBO> tasks);
