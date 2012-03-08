@@ -2,8 +2,6 @@ package de.oose.taskboard.client.view;
 
 import java.util.Arrays;
 
-import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.dom.client.HasKeyUpHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.text.shared.AbstractRenderer;
@@ -19,7 +17,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ValueListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.oose.taskboard.client.presenter.EditTaskPresenter.Display;
 import de.oose.taskboard.shared.bo.TaskBO;
 
 /**
@@ -27,7 +24,7 @@ import de.oose.taskboard.shared.bo.TaskBO;
  * @author markusklink
  *
  */
-public class EditTaskView extends VerticalPanel implements Display, HasValue<TaskBO> {
+public class EditTaskView extends VerticalPanel implements HasValue<TaskBO> {
 	private TextBox boxTitle;
 	private TextArea areaDescription;
 	private Button btnConfirmation;
@@ -111,12 +108,12 @@ public class EditTaskView extends VerticalPanel implements Display, HasValue<Tas
 	}
 
 
-	@Override
+	
 	public Button getConfirmationButton() {
 		return btnConfirmation;
 	}
 
-	@Override
+	
 	public Button getCancelButton() {
 		return btnCancel;
 	}
@@ -176,15 +173,14 @@ public class EditTaskView extends VerticalPanel implements Display, HasValue<Tas
 		}
 	}
 
-	@Override
+	
 	public TextBox getTitleField() {
 		return boxTitle;
 	}
 
 
-	@Override
+	
 	public TextArea getDescriptionField() {
 		return areaDescription;
 	}
-
 }

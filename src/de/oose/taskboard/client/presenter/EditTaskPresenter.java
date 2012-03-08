@@ -12,45 +12,31 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
 
 import de.oose.taskboard.client.event.EditTaskCancelledEvent;
 import de.oose.taskboard.client.event.UpdateTasksEvent;
 import de.oose.taskboard.client.service.TaskServiceAsync;
+import de.oose.taskboard.client.view.EditTaskView;
 import de.oose.taskboard.shared.bo.TaskBO;
 import de.oose.taskboard.shared.validation.ValidationResult;
 
 @Singleton
 public class EditTaskPresenter implements Presenter {
 
-	private final Display display;
+	private final EditTaskView display;
 	private final HandlerManager eventBus;
 	private final TaskServiceAsync taskService;
 
-	public interface Display extends HasValue<TaskBO> {
-		public TextBox getTitleField();
-		
-		public TextArea getDescriptionField();
-
-		public Button getConfirmationButton();
-
-		public Button getCancelButton();
-
-		public Widget asWidget();
-	}
+	
 
 	@Inject
-	public EditTaskPresenter(Display display, TaskServiceAsync taskService,
+	public EditTaskPresenter(EditTaskView display, TaskServiceAsync taskService,
 			HandlerManager eventBus) {
 		this(display, taskService, eventBus, null);
 	}
 	
-	public EditTaskPresenter(Display display, TaskServiceAsync taskService,
+	public EditTaskPresenter(EditTaskView display, TaskServiceAsync taskService,
 			HandlerManager eventBus, TaskBO taskBO) {
 		this.display = display;
 		this.eventBus = eventBus;

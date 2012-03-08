@@ -22,14 +22,13 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.oose.taskboard.client.presenter.TaskListPresenter.Display;
 import de.oose.taskboard.client.widget.Taskboard;
 import de.oose.taskboard.shared.bo.TaskBO;
 
 /**
  * Sample implementation of {@link TaskView}.
  */
-public class TaskListView extends VerticalPanel implements Display {
+public class TaskListView extends VerticalPanel  {
 	
 	private Taskboard taskboard;
 	
@@ -57,22 +56,22 @@ public class TaskListView extends VerticalPanel implements Display {
 
 	}
 
-	@Override
+	
 	public void setTaskList(List<TaskBO> tasks) {
 		taskboard.setTaskList(tasks);
 	}
 
-	@Override
+	
 	public Button getTaskButton() {
 		return btnTask;
 	}
 	
-	@Override
+	
 	public Button getDeleteButton() {
 		return btnDelete;
 	}
 
-	@Override
+	
 	public HasSelectionHandlers<TaskBO> getTaskboard() {
 		return taskboard;
 	}
