@@ -32,6 +32,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO> {
 	private ValueListBox<String> boxStatus;
 	private TaskBO task;
 	private Label lblWindowLabel;
+	private String state;
 
 	public EditTaskView() {
 		setWidth("800");
@@ -163,6 +164,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO> {
 			boxStatus.setValue("PLANNING");
 			btnConfirmation.setText("New Task");
 			lblWindowLabel.setText("New Task");
+			state = "New";
 		}
 		else {
 			areaDescription.setText(task.getDescription());
@@ -170,6 +172,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO> {
 			boxStatus.setValue(task.getStatus());
 			btnConfirmation.setText("Confirm");
 			lblWindowLabel.setText("Edit Task");
+			state = "Edit";
 		}
 	}
 
@@ -182,5 +185,9 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO> {
 	
 	public TextArea getDescriptionField() {
 		return areaDescription;
+	}
+	
+	public String getState(){
+		return state;
 	}
 }

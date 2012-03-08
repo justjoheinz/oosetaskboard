@@ -54,7 +54,12 @@ public class EditTaskPresenter implements Presenter {
 	public void bind() {
 		display.getConfirmationButton().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				if(display.getState().equals("New")){
 				saveTask();
+				}
+				else{
+					updateTask();
+				}
 			}
 		});
 
@@ -91,6 +96,24 @@ public class EditTaskPresenter implements Presenter {
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert(caught.getMessage());
+			}
+		});
+	}
+	
+	public void updateTask(){
+		TaskBO taskBO = display.getValue();
+		
+		taskService.updateTask(taskBO, new AsyncCallback<TaskBO>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert(caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(TaskBO result) {
+				eventBus.fireEvent(new UpdateTasksEvent(result));
+				
 			}
 		});
 	}
