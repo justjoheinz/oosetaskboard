@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="GWT Ant Task" basedir=".">
+	<!-- = = = = = = = = = = = = = = = = =
+          macrodef: GWT.Compile          
+         = = = = = = = = = = = = = = = = = -->
+	<macrodef name="gwt.compile">
+		<attribute name="module" default="default" />
+		<sequential>
+			<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
+				<classpath >
+					<!-- src dir is added to ensure the module.xml file(s) are on the classpath -->
+					<pathelement location="${src.dir}" />
+					<pathelement location="${build.dir}" />
+					<path refid="project.classpath" />
+				</classpath>
+				<jvmarg value="-Xmx256M" />
+				<arg value="@{module}" />
+			</java>
+		</sequential>
+	</macrodef>
+</project>

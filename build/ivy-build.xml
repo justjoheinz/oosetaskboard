@@ -60,10 +60,17 @@
 	</target>
 
 	<target name="download" depends="init-ivy" description="Retrieve required artifacts and copy them into the project.lib.dir.">
-		<ivy:retrieve pattern="${project.lib.dir}/[artifact]-[revision].[ext]" type="bundle,jar" sync="true" conf="master" />
+		<ivy:retrieve pattern="${project.lib.dir}/[artifact]-[revision](-[classifier]).[ext]" type="bundle,jar" sync="true" conf="master" />
 		<copy todir="${project.lib.dir}">
 			<fileset dir="locallibs" />
 		</copy>
+		<move file="${project.lib.dir}/gwt-servlet-2.4.0.jar" tofile="${project.lib.dir}/gwt-servlet.jar" />
+		<move file="${project.lib.dir}/gwt-dev-2.4.0.jar" tofile="${project.lib.dir}/gwt-dev.jar" />
+		<move file="${project.lib.dir}/gwt-user-2.4.0.jar" tofile="${project.lib.dir}/gwt-user.jar" />
+		<!--<ivy:retrieve pattern="${project.lib.dir}/[artifact].[ext]" type="bundle,jar" sync="true" conf="gwt" />
+		<copy todir="${project.lib.dir}">
+			<fileset dir="locallibs" />
+		</copy> -->
 		<antcall target="refresh" />
 	</target>
 

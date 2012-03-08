@@ -5,7 +5,7 @@ import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceServletContextListener;
 
 /**
- * Setup google guice injectios and start the persistence service
+ * Setup google guice injections and start the persistence service
  * 
  * @author markusklink
  * 
