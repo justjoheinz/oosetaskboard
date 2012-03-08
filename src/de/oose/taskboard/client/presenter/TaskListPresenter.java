@@ -7,13 +7,13 @@ import javax.inject.Singleton;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -31,8 +31,8 @@ public class TaskListPresenter implements Presenter {
 
 	public interface Display {
 		public void setTaskList(List<TaskBO> tasks);
-		public HasClickHandlers getTaskButton();
-		public HasClickHandlers getDeleteButton();
+		public Button getTaskButton();
+		public Button getDeleteButton();
 		public HasSelectionHandlers<TaskBO> getTaskboard();
 		public Widget asWidget();
 	}

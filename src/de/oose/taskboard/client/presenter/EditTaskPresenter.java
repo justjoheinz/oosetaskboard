@@ -47,9 +47,15 @@ public class EditTaskPresenter implements Presenter {
 	@Inject
 	public EditTaskPresenter(Display display, TaskServiceAsync taskService,
 			HandlerManager eventBus) {
+		this(display, taskService, eventBus, null);
+	}
+	
+	public EditTaskPresenter(Display display, TaskServiceAsync taskService,
+			HandlerManager eventBus, TaskBO taskBO) {
 		this.display = display;
 		this.eventBus = eventBus;
 		this.taskService = taskService;
+		setTask(taskBO);
 		bind();
 	}
 

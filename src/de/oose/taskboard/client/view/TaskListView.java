@@ -17,15 +17,14 @@ package de.oose.taskboard.client.view;
 
 import java.util.List;
 
-import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.oose.taskboard.client.presenter.TaskListPresenter.Display;
 import de.oose.taskboard.client.widget.Taskboard;
 import de.oose.taskboard.shared.bo.TaskBO;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 
 /**
  * Sample implementation of {@link TaskView}.
@@ -64,12 +63,12 @@ public class TaskListView extends VerticalPanel implements Display {
 	}
 
 	@Override
-	public HasClickHandlers getTaskButton() {
+	public Button getTaskButton() {
 		return btnTask;
 	}
 	
 	@Override
-	public HasClickHandlers getDeleteButton() {
+	public Button getDeleteButton() {
 		return btnDelete;
 	}
 
