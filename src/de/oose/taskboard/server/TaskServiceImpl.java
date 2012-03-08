@@ -12,6 +12,7 @@ import org.dozer.Mapper;
 import com.google.inject.persist.Transactional;
 
 import de.oose.taskboard.client.service.TaskService;
+import de.oose.taskboard.server.entity.PersistenceService;
 import de.oose.taskboard.server.entity.Task;
 import de.oose.taskboard.shared.bo.TaskBO;
 

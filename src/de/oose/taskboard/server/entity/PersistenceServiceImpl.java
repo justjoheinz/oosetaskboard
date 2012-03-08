@@ -1,11 +1,10 @@
-package de.oose.taskboard.server;
+package de.oose.taskboard.server.entity;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import com.google.inject.persist.Transactional;
 
-import de.oose.taskboard.server.entity.Task;
 
 public class PersistenceServiceImpl implements PersistenceService {
 	
@@ -28,11 +27,13 @@ public class PersistenceServiceImpl implements PersistenceService {
 	
 	@Override
 	@Transactional
-	public void removeTask(int id) {
+	public void deleteTask(int id) {
 		Task task = em.find(Task.class, id);
 		em.remove(task);
 	}
 	
+	@Override
+	@Transactional
 	public Task updateTask(int id, String title, String description, String status) {
 		Task task = em.find(Task.class, id);
 		task.setTitle(title);
