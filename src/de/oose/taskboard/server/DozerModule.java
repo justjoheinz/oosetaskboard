@@ -10,6 +10,7 @@ public class DozerModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(Mapper.class).to(DozerBeanMapper.class).asEagerSingleton();
+		bind(PersistenceService.class).to(PersistenceServiceImpl.class);
 	}
 
 }

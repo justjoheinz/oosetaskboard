@@ -1,38 +1,70 @@
 <ivy-module version="2.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd"
+	xmlns:m="http://ant.apache.org/ivy/maven">
+
 	<info organisation="de.oose" module="gwt-test">
 		<ivyauthor name="oose Innovative Informatik" url="http://www.oose.de" />
 	</info>
 	<configurations>
+		<conf name="gwt" visibility="public" />
 		<conf name="default" visibility="public" extends="master" />
 		<conf name="master" visibility="public" />
 	</configurations>
 	<dependencies>
-		
-	
+		<!-- Dozer DTO mapping dependencies -->
 		<dependency org="net.sf.dozer" name="dozer" rev="${dozer.version}"
 			conf="master->default(*)" />
+
+		<!-- Derby dependencies -->
 		<dependency org="org.apache.derby" name="derby" rev="${derby.version}"
 			conf="master->default(*)" />
+
+		<dependency org="org.hsqldb" name="hsqldb" rev="2.2.8"
+			conf="master->default(*)" />
+
+
+		<!-- Hibernate dependencies -->
 		<dependency org="org.hibernate" name="hibernate-core"
 			rev="${hibernate.core.version}" conf="master->default(*)" />
 		<dependency org="org.hibernate" name="hibernate-entitymanager"
 			rev="${hibernate.core.version}" conf="master->default(*)" />
-		<dependency org="com.google.inject" name="guice" rev="${com.google.guice.version}"
-			conf="master->default(*)" />
+		<dependency org="org.hibernate" name="hibernate-validator"
+			rev="4.2.0.Final" conf="master->default(*)" />
+
+
+		<!-- Guice dependencies -->
+		<dependency org="com.google.inject" name="guice"
+			rev="${com.google.guice.version}" conf="master->default(*)" />
 		<dependency org="com.google.inject.extensions" name="guice-persist"
 			rev="${com.google.guice.version}" conf="master->default(*)" />
 		<dependency org="com.google.inject.extensions" name="guice-servlet"
 			rev="${com.google.guice.version}" conf="master->default(*)" />
+
+		<!-- Validation API -->
 		<dependency org="javax.validation" name="validation-api"
-			rev="${validation-api.version}" conf="master->default(*)" />
+			rev="${validation-api.version}" conf="master->default(*)">
+			<artifact name="validation-api" />
+			<artifact name="validation-api" m:classifier="sources" />
+		</dependency>
+
+		<!-- GWT dependencies -->
 		<dependency org="com.google.gwt.inject" name="gin"
-			rev="${google-gin.version}" conf="master->default(*)"/>
-			
-		<!-- override transitive dependencies with correct versions of google gwt and guice -->
-		<override org="com.google.gwt" rev="${com.google.gwt.version}"/>
-		<override org="com.google.inject" rev="${com.google.guice.version}"/>
-		<override org="com.google.inject.extensions" rev="${com.google.guice.version}"/>
+			rev="${google-gin.version}" conf="master->default(*)" />
+
+		<dependency org="com.google.gwt" name="gwt"
+			rev="${com.google.gwt.version}" conf="master->default(*)" />
+		<dependency org="com.google.gwt" name="gwt-user"
+			rev="${com.google.gwt.version}" conf="master->default(*)" />
+		<dependency org="com.google.gwt" name="gwt-dev"
+			rev="${com.google.gwt.version}" conf="master->default(*)" />
+
+
+
+		<!-- override transitive dependencies with correct versions of google gwt 
+			and guice -->
+		<override org="com.google.gwt" rev="${com.google.gwt.version}" />
+		<override org="com.google.inject" rev="${com.google.guice.version}" />
+		<override org="com.google.inject.extensions" rev="${com.google.guice.version}" />
 	</dependencies>
 </ivy-module>
