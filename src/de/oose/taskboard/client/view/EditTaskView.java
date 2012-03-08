@@ -181,4 +181,10 @@ public class EditTaskView extends VerticalPanel implements Display, HasValue<Tas
 		return boxTitle;
 	}
 
+
+	@Override
+	public TextArea getDescriptionField() {
+		return areaDescription;
+	}
+
 }
