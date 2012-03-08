@@ -1,9 +1,15 @@
 package de.oose.taskboard.server.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import com.google.inject.persist.Transactional;
+
+import de.oose.taskboard.shared.bo.TaskBO;
 
 
 public class PersistenceServiceImpl implements PersistenceService {
@@ -42,5 +48,13 @@ public class PersistenceServiceImpl implements PersistenceService {
 		em.persist(task);
 		return task;
 	}
+	
+	@Override
+	public List<Task> getTasks() {
+		Query query = em.createQuery("from Task");
+		List<Task> tasks = query.getResultList();
+		return tasks;
+	}
+
 
 }

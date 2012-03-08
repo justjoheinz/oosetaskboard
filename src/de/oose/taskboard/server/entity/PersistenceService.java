@@ -1,5 +1,7 @@
 package de.oose.taskboard.server.entity;
 
+import java.util.List;
+
 
 public interface PersistenceService {
 
@@ -8,5 +10,7 @@ public interface PersistenceService {
 	void deleteTask(int id);
 
 	Task updateTask(int id, String title, String description, String status);
+
+	List<Task> getTasks();
 
 }

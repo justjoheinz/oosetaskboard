@@ -35,8 +35,7 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public List<TaskBO> getTasks() {
-		Query query = em.createQuery("from Task");
-		List<Task> tasks = query.getResultList();
+		List<Task> tasks = ps.getTasks();
 		List<TaskBO> taskBOs = new ArrayList<TaskBO>();
 		for (Task t : tasks) {
 			TaskBO bo = mapper.map(t, TaskBO.class);
