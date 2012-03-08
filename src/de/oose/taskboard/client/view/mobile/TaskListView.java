@@ -22,6 +22,7 @@ public class TaskListView extends VerticalPanel implements Display, HasSelection
 	private Button btnAddTask;
 	private CellTable<TaskBO> ctTasks;
 	private SingleSelectionModel<TaskBO> selectionModel;
+	private Button btnDelete;
 	public TaskListView() {
 		
 		DecoratorPanel decoratorPanel = new DecoratorPanel();
@@ -70,6 +71,10 @@ public class TaskListView extends VerticalPanel implements Display, HasSelection
 		btnAddTask.setText("Add Task");
 		add(btnAddTask);
 		
+		btnDelete = new Button("New button");
+		btnDelete.setText("Delete task");
+		add(btnDelete);
+		
 	}
 
 	@Override
@@ -80,6 +85,11 @@ public class TaskListView extends VerticalPanel implements Display, HasSelection
 	@Override
 	public HasClickHandlers getTaskButton() {
 		return btnAddTask;
+	}
+	
+	@Override
+	public HasClickHandlers getDeleteButton() {
+		return btnDelete;
 	}
 
 	@Override

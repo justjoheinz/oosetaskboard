@@ -32,6 +32,7 @@ public class TaskListPresenter implements Presenter {
 	public interface Display {
 		public void setTaskList(List<TaskBO> tasks);
 		public HasClickHandlers getTaskButton();
+		public HasClickHandlers getDeleteButton();
 		public HasSelectionHandlers<TaskBO> getTaskboard();
 		public Widget asWidget();
 	}
