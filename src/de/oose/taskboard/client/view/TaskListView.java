@@ -24,11 +24,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.oose.taskboard.client.widget.Taskboard;
 import de.oose.taskboard.shared.bo.TaskBO;
+import de.oose.taskboard.shared.validation.ValidationResult;
 
 /**
  * Sample implementation of {@link TaskView}.
  */
-public class TaskListView extends VerticalPanel  {
+public class TaskListView extends VerticalPanel   {
 	
 	private Taskboard taskboard;
 	

@@ -105,6 +105,7 @@ public class EditTaskPresenter implements Presenter {
 		if (display.getValue() != null) {
 			List<ValidationResult<TaskBO>> result = display.getValue()
 					.validate();
+			display.displayErrors(result);
 			if (result.isEmpty()) {
 				display.getConfirmationButton().setEnabled(true);
 			}
