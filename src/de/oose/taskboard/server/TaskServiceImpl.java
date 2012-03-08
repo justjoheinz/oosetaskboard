@@ -23,8 +23,10 @@ public class TaskServiceImpl implements TaskService {
 
 	@Inject
 	EntityManager em;
+	
+	@Inject
+	private PersistenceService ps;
 
-	private static List<TaskBO> tasks = new ArrayList<TaskBO>();
 
 	public TaskServiceImpl() {
 
@@ -45,11 +47,8 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	@Transactional
 	public TaskBO addTask(TaskBO taskBO) {
-		tasks.add(taskBO);
-		Task entity = mapper.map(taskBO, Task.class);
-		entity = em.merge(entity);
-		em.persist(entity);
-		taskBO = mapper.map(entity, TaskBO.class);
+		Task task = ps.createTask(taskBO.getTitle(), taskBO.getDescription(), taskBO.getStatus());
+		taskBO = mapper.map(task, TaskBO.class);
 		return taskBO;
 	}
 }
