@@ -35,6 +35,7 @@ public class TaskListView extends VerticalPanel implements Display {
 	private Taskboard taskboard;
 	
 	private Button btnTask;
+	private Button btnDelete;
 
 	public TaskListView() {
 		setSpacing(5);
@@ -51,9 +52,9 @@ public class TaskListView extends VerticalPanel implements Display {
 		horizontalPanel.add(btnTask);
 		btnTask.setText("New Task");
 		
-		Button btnNewButton = new Button("New button");
-		btnNewButton.setText("Delete task");
-		horizontalPanel.add(btnNewButton);
+		btnDelete = new Button("New button");
+		btnDelete.setText("Delete task");
+		horizontalPanel.add(btnDelete);
 
 	}
 
@@ -65,6 +66,11 @@ public class TaskListView extends VerticalPanel implements Display {
 	@Override
 	public HasClickHandlers getTaskButton() {
 		return btnTask;
+	}
+	
+	@Override
+	public HasClickHandlers getDeleteButton() {
+		return btnDelete;
 	}
 
 	@Override
