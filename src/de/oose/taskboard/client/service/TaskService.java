@@ -11,4 +11,6 @@ import de.oose.taskboard.shared.bo.TaskBO;
 public interface TaskService extends RemoteService {
 	public List<TaskBO> getTasks();
 	public TaskBO addTask(TaskBO taskBO);
+	public TaskBO updateTask(TaskBO taskBO);
+	public void deleteTask(TaskBO taskBO);
 }

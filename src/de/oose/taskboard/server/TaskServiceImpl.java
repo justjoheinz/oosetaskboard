@@ -51,4 +51,17 @@ public class TaskServiceImpl implements TaskService {
 		taskBO = mapper.map(task, TaskBO.class);
 		return taskBO;
 	}
+
+	@Override
+	public TaskBO updateTask(TaskBO taskBO) {
+		Task task = ps.updateTask(taskBO.getId(), taskBO.getTitle(), taskBO.getDescription(), taskBO.getStatus());
+		taskBO = mapper.map(task, TaskBO.class);
+		return taskBO;
+	}
+
+	@Override
+	public void deleteTask(TaskBO taskBO) {
+		ps.deleteTask(taskBO.getId());
+		
+	}
 }

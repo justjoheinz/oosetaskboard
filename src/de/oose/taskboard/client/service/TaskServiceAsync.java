@@ -12,4 +12,8 @@ public interface TaskServiceAsync {
 
 	void addTask(TaskBO taskBO, AsyncCallback<TaskBO> callback);
 
+	void updateTask(TaskBO taskBO, AsyncCallback<TaskBO> callback);
+
+	void deleteTask(TaskBO taskBO, AsyncCallback<Void> callback);
+
 }
