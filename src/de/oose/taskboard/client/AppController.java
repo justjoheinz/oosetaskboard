@@ -20,6 +20,7 @@ import de.oose.taskboard.client.presenter.EditTaskPresenter;
 import de.oose.taskboard.client.presenter.Presenter;
 import de.oose.taskboard.client.presenter.TaskListPresenter;
 import de.oose.taskboard.client.service.TaskServiceAsync;
+import de.oose.taskboard.client.view.TaskListView;
 
 /**
  * The main class of the application, responsible for reacting to events and
@@ -30,8 +31,6 @@ import de.oose.taskboard.client.service.TaskServiceAsync;
  */
 @Singleton
 public class AppController implements Presenter, ValueChangeHandler<String> {
-
-	private static final Class<? extends TaskListPresenter.Display> taskViewClass = de.oose.taskboard.client.view.TaskListView.class;
 
 	@Inject
 	private HandlerManager eventBus;
@@ -60,7 +59,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 			@Override
 			public void onEditTask(EditTaskEvent event) {
-				History.newItem("edit", false);
+				History.newItem("edit", false); 
 
 				if (event.getTaskBO() != null) {
 					editTaskPresenter.setTask(event.getTaskBO());
@@ -85,7 +84,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			@Override
 			public void onUpdateTaskList(UpdateTasksEvent event) {
 				History.newItem("update", false);
-				TaskListPresenter.Display taskListView = GWT
+				TaskListView taskListView = GWT
 						.create(de.oose.taskboard.client.view.TaskListView.class);
 				// Presenter presenter = new TaskListPresenter(taskListView,
 				// taskService, eventBus);
@@ -108,7 +107,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		if (token != null) {
 
 			if (token.equals("taskList")) {
-				TaskListPresenter.Display taskListView = GWT
+				TaskListView taskListView = GWT
 						.create(de.oose.taskboard.client.view.TaskListView.class);
 				// presenter = new TaskListPresenter(taskListView, taskService,
 				// eventBus);
