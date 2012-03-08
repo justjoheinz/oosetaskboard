@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.oose.taskboard.client.presenter.TaskListPresenter.Display;
 import de.oose.taskboard.client.widget.Taskboard;
 import de.oose.taskboard.shared.bo.TaskBO;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 
 /**
  * Sample implementation of {@link TaskView}.
@@ -41,10 +42,18 @@ public class TaskListView extends VerticalPanel implements Display {
 
 		taskboard =  new Taskboard();
 		add(taskboard);
+		
+		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		horizontalPanel.setSpacing(5);
+		add(horizontalPanel);
 
 		btnTask = new Button("New button");
+		horizontalPanel.add(btnTask);
 		btnTask.setText("New Task");
-		add(btnTask);
+		
+		Button btnNewButton = new Button("New button");
+		btnNewButton.setText("Delete task");
+		horizontalPanel.add(btnNewButton);
 
 	}
 
