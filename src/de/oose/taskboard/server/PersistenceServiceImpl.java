@@ -25,5 +25,21 @@ public class PersistenceServiceImpl implements PersistenceService {
 		em.persist(task);
 		return task;
 	}
+	
+	@Override
+	@Transactional
+	public void removeTask(int id) {
+		Task task = em.find(Task.class, id);
+		em.remove(task);
+	}
+	
+	public Task updateTask(int id, String title, String description, String status) {
+		Task task = em.find(Task.class, id);
+		task.setTitle(title);
+		task.setDescription(description);
+		task.setStatus(status);
+		em.persist(task);
+		return task;
+	}
 
 }

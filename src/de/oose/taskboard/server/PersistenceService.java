@@ -10,4 +10,6 @@ public interface PersistenceService {
 	public abstract Task createTask(String title, String description,
 			String status);
 
+	public abstract void removeTask(int id);
+
 }
