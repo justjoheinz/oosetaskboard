@@ -2,3 +2,5 @@
 /builddir
 /dist
 war/
+tomcat/
+
