@@ -2,3 +2,8 @@
 /builddir
 /dist
 war/
+.gwt/
+
+
+#mac stuff
+.DS_Store

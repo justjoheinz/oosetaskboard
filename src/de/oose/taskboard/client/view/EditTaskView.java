@@ -3,6 +3,7 @@ package de.oose.taskboard.client.view;
 import java.util.Arrays;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.dom.client.HasKeyUpHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.text.shared.AbstractRenderer;
@@ -109,13 +110,14 @@ public class EditTaskView extends VerticalPanel implements Display, HasValue<Tas
 		init();
 	}
 
+
 	@Override
-	public HasClickHandlers getConfirmationButton() {
+	public Button getConfirmationButton() {
 		return btnConfirmation;
 	}
 
 	@Override
-	public HasClickHandlers getCancelButton() {
+	public Button getCancelButton() {
 		return btnCancel;
 	}
 
@@ -172,6 +174,11 @@ public class EditTaskView extends VerticalPanel implements Display, HasValue<Tas
 			btnConfirmation.setText("Confirm");
 			lblWindowLabel.setText("Edit Task");
 		}
+	}
+
+	@Override
+	public TextBox getTitleField() {
+		return boxTitle;
 	}
 
 }

@@ -5,13 +5,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 import org.dozer.Mapper;
 
 import com.google.inject.persist.Transactional;
 
 import de.oose.taskboard.client.service.TaskService;
+import de.oose.taskboard.server.entity.PersistenceService;
 import de.oose.taskboard.server.entity.Task;
 import de.oose.taskboard.shared.bo.TaskBO;
 
@@ -34,8 +34,7 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public List<TaskBO> getTasks() {
-		Query query = em.createQuery("from Task");
-		List<Task> tasks = query.getResultList();
+		List<Task> tasks = ps.getTasks();
 		List<TaskBO> taskBOs = new ArrayList<TaskBO>();
 		for (Task t : tasks) {
 			TaskBO bo = mapper.map(t, TaskBO.class);
@@ -47,8 +46,24 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	@Transactional
 	public TaskBO addTask(TaskBO taskBO) {
+		taskBO.validate();
 		Task task = ps.createTask(taskBO.getTitle(), taskBO.getDescription(), taskBO.getStatus());
 		taskBO = mapper.map(task, TaskBO.class);
 		return taskBO;
 	}
+
+	@Override
+	public TaskBO updateTask(TaskBO taskBO) {
+		taskBO.validate();
+		Task task = ps.updateTask(taskBO.getId(), taskBO.getTitle(), taskBO.getDescription(), taskBO.getStatus());
+		taskBO = mapper.map(task, TaskBO.class);
+		return taskBO;
+	}
+
+	@Override
+	public void deleteTask(TaskBO taskBO) {
+		ps.deleteTask(taskBO.getId());
+		
+	}
+	
 }

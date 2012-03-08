@@ -43,7 +43,7 @@ public class TaskBO implements Serializable {
     }
 
     public void setTitle(String title) {
-   	 this.title = title;
+    	this.title = title;
     }
 
     public String getDescription() {
@@ -60,6 +60,16 @@ public class TaskBO implements Serializable {
 
     public void setStatus(String status) {
    	 this.status = status;
+    }
+    
+    public void validate() {
+    	if (title != null && title.length() > 5) {
+    		return;
+    	}
+    	else {
+    		throw new ValidationException(this,"title");
+    	}
+    	
     }
 
 }
