@@ -1,7 +1,7 @@
-<project name="test" basedir="." default="default">
+<project name="war deploy" basedir="." default="default">
 	<property name="src.dir" value="../src" />
 	<property name="build.dir" value="../war" />
-	<property name="entrypoint.class" value="OoseTaskboard" />
+	<property name="gwt.module.name" value="de.oose.taskboard.OoseTaskboard"/>
 	<path id="compile.classpath">
 		<fileset dir="${build.dir}/WEB-INF/lib">
 			<include name="**/*.jar" />
@@ -9,28 +9,29 @@
 		</fileset>
 	</path>
 
-	<target name="default" depends="gwtc, buildwar,deploy">
+	<import file="gwt.compile.ant.xml" />
+
+	
+	<target name="default" depends="javac, gwtc, buildwar,deploy">
 	</target>
 
-	<target name="gwtc" description="GWT compile to JavaScript">
-		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
-			<classpath>
-				<pathelement location="${src.dir}" />
-				<path refid="compile.classpath" />
-			</classpath>
-			<arg line="-logLevel INFO" />
-			<jvmarg value="-Xmx1024M" />
-			<arg value="${entrypoint.class}" />
-		</java>
+	<target name="javac" description="Compiles Java types needed during GWT compilation">
+		<mkdir dir="${build.dir}/WEB-INF/classes" />
+		<javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes">
+			<classpath refid="compile.classpath" />
+		</javac>
 	</target>
 
-	<target name="buildwar">
-		<war basedir="." destfile="taskboard.war" webxml="war/WEB-INF/web.xml">
-			
-			<webinf dir="war/WEB-INF/">
-				<include name="**/gwt-servlet.jar" />
-				
-			</webinf>
+	<target name="gwtc" >
+		<!-- See gwt.compile.ant.xml for gwt.compile task defination -->
+		<gwt.compile module="${gwt.module.name}" warDir="${build.dir}"/>
+	</target>
+
+
+	<target name="buildwar" depends="gwtc">
+		<war basedir="${build.dir}" destfile="taskboard.war" webxml="${build.dir}/WEB-INF/web.xml">
+
+
 		</war>
 	</target>
 

@@ -86,7 +86,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			public void onUpdateTaskList(UpdateTasksEvent event) {
 				History.newItem("update", false);
 				TaskListPresenter.Display taskListView = GWT
-						.create(taskViewClass);
+						.create(de.oose.taskboard.client.view.TaskListView.class);
 				// Presenter presenter = new TaskListPresenter(taskListView,
 				// taskService, eventBus);
 				taskListPresenter.go(container);
@@ -109,7 +109,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 			if (token.equals("taskList")) {
 				TaskListPresenter.Display taskListView = GWT
-						.create(taskViewClass);
+						.create(de.oose.taskboard.client.view.TaskListView.class);
 				// presenter = new TaskListPresenter(taskListView, taskService,
 				// eventBus);
 				taskListPresenter.go(container);

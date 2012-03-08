@@ -9,7 +9,7 @@ public class ServletModule extends com.google.inject.servlet.ServletModule {
     @Override
     protected void configureServlets() {
         
-        install(new JpaPersistModule("taskboard")); 
+        install(new JpaPersistModule("taskboardHsql")); 
         filter("/*").through(PersistFilter.class);
         
         serve("/oosetaskboard/GWT.rpc").with(GuiceRemoteServiceServlet.class);
