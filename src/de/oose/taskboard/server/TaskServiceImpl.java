@@ -19,10 +19,10 @@ import de.oose.taskboard.shared.bo.TaskBO;
 public class TaskServiceImpl implements TaskService {
 
 	@Inject
-	Mapper mapper;
+	private Mapper mapper;
 
 	@Inject
-	EntityManager em;
+	private EntityManager em;
 	
 	@Inject
 	private PersistenceService ps;
