@@ -62,10 +62,22 @@ public class PersistenceServiceImpl implements PersistenceService {
 
 	@Override
 	public List<Task> getTasks(String status) {
-		Query query = em.createQuery("from Tasks t where t.status = '" + status
-				+ "'");
+		Query query = createTaskQuery(status);
 		List<Task> tasks = query.getResultList();
 		return tasks;
+	}
+
+	@Override
+	public List<Task> getTasks(String status, int start, int count) {
+		Query query = createTaskQuery(status);
+		query.setFirstResult(start);
+		query.setMaxResults(count);
+		List<Task> tasks = query.getResultList();
+		return tasks;
+	}
+
+	private Query createTaskQuery(String status) {
+		return em.createQuery("from Tasks t where t.status = '" + status + "'");
 	}
 
 }

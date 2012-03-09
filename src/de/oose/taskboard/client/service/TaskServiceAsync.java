@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.oose.taskboard.server.entity.Task;
 import de.oose.taskboard.shared.bo.TaskBO;
 
 public interface TaskServiceAsync {
@@ -17,5 +18,8 @@ public interface TaskServiceAsync {
 	void deleteTask(TaskBO taskBO, AsyncCallback<Void> callback);
 
 	void getTasks(String status, AsyncCallback<List<TaskBO>> callback);
+
+	void getTasks(String status, int start, int count,
+			AsyncCallback<List<TaskBO>> callback);
 
 }
