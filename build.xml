@@ -116,7 +116,7 @@
 		</sequential>
 	</target>
 
-	<target name="tomcat-start" depends="tomcat-install,deploy"
+	<target name="tomcat-start" depends="tomcat-install"
 		description="Starts the local tomcat, if neccesary the task installs it and deploys the webapp">
 		<java classname="org.apache.catalina.startup.Bootstrap" fork="true"
 			classpathref="tomcat.class.path">
