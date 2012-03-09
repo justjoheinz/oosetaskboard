@@ -32,9 +32,10 @@
 		<mkdir dir="${dist.dir}" />
 	</target>
 
-	<target name="clean">
+	<target name="clean" depends="tomcat-stop">
 		<delete dir="${build.dir}" />
 		<delete dir="${dist.dir}" />
+		<delete dir="${tomcat.install.dir}"/>
 	</target>
 
 	<!-- Compile the java source code using javac -->
@@ -83,11 +84,13 @@
 		</war>
 	</target>
 		
-	<target name="tomcat_check" description="Checks if the tomcat needs to be installed">
+	<target name="tomcat-check-installed" description="Checks if the tomcat needs to be installed">
 		 <available file="{tomcat.home}" type="dir" property="tomcat.installed"/>
 	</target>	
 	
-	<target name="tomcat_install" description="Download and unzip the tomcat" depends="tomcat_check" unless="tomcat.installed">
+	<target name="tomcat-install" depends="tomcat-check-installed" unless="tomcat.installed"
+		description="Download and install tomcat server">
+		<mkdir dir="${tomcat.install.dir}"/>
 		<echo>Downloading Tomcat</echo>
 		<get dest="${tomcat.install.dir}/tomcat.zip" src="${tomcat.download.url}"/>
 		<echo>Installing Tomcat</echo>
@@ -103,7 +106,8 @@
 		<pathelement location="${tomcat.home}/bin/tomcat-juli.jar"/>
 	</path>
 
-	<target name="deploy" depends="war">
+	<target name="deploy" depends="war,tomcat-install"
+		description="Builds the webapp and deploys it in the local tomcat">
 		<sequential>
 			<antcall target="tomcat-stop"/>
 			<delete dir="${tomcat.home}/webapps/${dist.context}" failonerror="false"/>
@@ -112,14 +116,16 @@
 		</sequential>
 	</target>
 
-	<target name="tomcat-start" depends="tomcat_install">
+	<target name="tomcat-start" depends="tomcat-install,deploy"
+		description="Starts the local tomcat, if neccesary the task installs it and deploys the webapp">
 		<java classname="org.apache.catalina.startup.Bootstrap" fork="true"
 			classpathref="tomcat.class.path">
 			<jvmarg value="-Dcatalina.home=${tomcat.home}"/>
 		</java>
 	</target>
 
-	<target name="tomcat-stop" depends="tomcat-check-status" if="tomcat.started">
+	<target name="tomcat-stop" depends="tomcat-check-status" if="tomcat.started"
+		description="Checks if the tomcat is running and if it is it get's stopped">
 		<java classname="org.apache.catalina.startup.Bootstrap" fork="true"
 			classpathref="tomcat.class.path">
 			<jvmarg value="-Dcatalina.home=${tomcat.home}"/>
