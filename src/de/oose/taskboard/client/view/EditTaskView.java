@@ -48,7 +48,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 	private Label lblStatusMsg;
 
 	public EditTaskView() {
-		setWidth("800");
+		setSize("800px", "400px");
 		task = null;
 
 		lblWindowLabel = new Label("New Task");
@@ -57,35 +57,49 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 
 		DecoratorPanel decoratorPanel = new DecoratorPanel();
 		add(decoratorPanel);
+		decoratorPanel.setSize("100%", "100%");
 
 		FlexTable flexTable = new FlexTable();
 		flexTable.setCellSpacing(5);
 		flexTable.setCellPadding(5);
 		decoratorPanel.setWidget(flexTable);
-		flexTable.setWidth("100%");
+		flexTable.setSize("100%", "100%");
 
 		Label lblNewLabel_1 = new Label("Title");
+		lblNewLabel_1.setStyleName("gwt-Label bold");
 		flexTable.setWidget(0, 0, lblNewLabel_1);
+		flexTable.getCellFormatter().setWidth(0, 0, "100px");
+		lblNewLabel_1.setWidth("");
 
 		boxTitle = new TextBox();
 		flexTable.setWidget(0, 1, boxTitle);
+		flexTable.getCellFormatter().setWidth(0, 1, "500px");
+		boxTitle.setWidth("100%");
 
 		lblTitleMsg = new Label(DESC_TITLE);
 		lblTitleMsg.setStyleName("small-font");
 		flexTable.setWidget(0, 2, lblTitleMsg);
+		flexTable.getCellFormatter().setWidth(0, 2, "");
 
 		Label lblNewLabel_2 = new Label("Description");
+		lblNewLabel_2.setStyleName("gwt-Label bold");
 		flexTable.setWidget(1, 0, lblNewLabel_2);
+		flexTable.getCellFormatter().setWidth(1, 0, "100px");
 
 		areaDescription = new TextArea();
 		flexTable.setWidget(1, 1, areaDescription);
+		flexTable.getCellFormatter().setWidth(1, 1, "500px");
+		flexTable.getCellFormatter().setWordWrap(1, 1, true);
+		areaDescription.setSize("100%", "200px");
 
 		lblDescriptionMsg = new Label(DESC_DESCRIPTION);
 		lblDescriptionMsg.setStyleName("small-font");
 		flexTable.setWidget(1, 2, lblDescriptionMsg);
 
 		Label lblStatus = new Label("Status");
+		lblStatus.setStyleName("gwt-Label bold");
 		flexTable.setWidget(2, 0, lblStatus);
+		flexTable.getCellFormatter().setWidth(2, 0, "100px");
 		flexTable.getRowFormatter().setVerticalAlign(1,
 				HasVerticalAlignment.ALIGN_TOP);
 
@@ -101,10 +115,15 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 				TaskBO.PLANNING, TaskBO.WORK, TaskBO.REVIEW, TaskBO.DONE }));
 
 		flexTable.setWidget(2, 1, boxStatus);
+		flexTable.getCellFormatter().setWidth(2, 1, "500px");
+		boxStatus.setWidth("50%");
 
 		lblStatusMsg = new Label(DESC_STATUS);
 		lblStatusMsg.setStyleName("small-font");
 		flexTable.setWidget(2, 2, lblStatusMsg);
+		flexTable.getCellFormatter().setVerticalAlignment(2, 2, HasVerticalAlignment.ALIGN_TOP);
+		flexTable.getCellFormatter().setVerticalAlignment(1, 2, HasVerticalAlignment.ALIGN_TOP);
+		flexTable.getCellFormatter().setVerticalAlignment(0, 2, HasVerticalAlignment.ALIGN_TOP);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.setSpacing(5);
