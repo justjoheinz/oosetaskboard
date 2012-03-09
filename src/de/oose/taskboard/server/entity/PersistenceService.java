@@ -13,4 +13,6 @@ public interface PersistenceService {
 
 	List<Task> getTasks();
 
+	List<Task> getTasks(String status);
+
 }

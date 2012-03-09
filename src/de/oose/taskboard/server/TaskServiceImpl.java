@@ -35,12 +35,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public List<TaskBO> getTasks() {
 		List<Task> tasks = ps.getTasks();
-		List<TaskBO> taskBOs = new ArrayList<TaskBO>();
-		for (Task t : tasks) {
-			TaskBO bo = mapper.map(t, TaskBO.class);
-			taskBOs.add(bo);
-		}
-		return taskBOs;
+		return map(tasks);
 	}
 
 	@Override
@@ -63,6 +58,23 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public void deleteTask(TaskBO taskBO) {
 		ps.deleteTask(taskBO.getId());
+	}
+
+	@Override
+	public List<TaskBO> getTasks(String status) {
+		List<Task> tasks = ps.getTasks(status);
+		return map(tasks);
+		
+	}
+	
+	private List<TaskBO> map(List<Task> tasks) {
+		if (tasks == null) return null;
+		List<TaskBO> taskBOs = new ArrayList<TaskBO>(tasks.size());
+		for (Task t : tasks) {
+			TaskBO bo = mapper.map(t, TaskBO.class);
+			taskBOs.add(bo);
+		}
+		return taskBOs;
 	}
 	
 }

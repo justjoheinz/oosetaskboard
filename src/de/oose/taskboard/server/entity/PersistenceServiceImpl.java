@@ -11,14 +11,17 @@ import com.google.inject.persist.Transactional;
 
 import de.oose.taskboard.shared.bo.TaskBO;
 
-
 public class PersistenceServiceImpl implements PersistenceService {
-	
+
 	@Inject
 	private EntityManager em;
-	
-	/* (non-Javadoc)
-	 * @see de.oose.taskboard.server.PersistenceService#createTask(java.lang.String, java.lang.String, java.lang.String)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.oose.taskboard.server.PersistenceService#createTask(java.lang.String,
+	 * java.lang.String, java.lang.String)
 	 */
 	@Override
 	@Transactional
@@ -30,17 +33,18 @@ public class PersistenceServiceImpl implements PersistenceService {
 		em.persist(task);
 		return task;
 	}
-	
+
 	@Override
 	@Transactional
 	public void deleteTask(int id) {
 		Task task = em.find(Task.class, id);
 		em.remove(task);
 	}
-	
+
 	@Override
 	@Transactional
-	public Task updateTask(int id, String title, String description, String status) {
+	public Task updateTask(int id, String title, String description,
+			String status) {
 		Task task = em.find(Task.class, id);
 		task.setTitle(title);
 		task.setDescription(description);
@@ -48,7 +52,7 @@ public class PersistenceServiceImpl implements PersistenceService {
 		em.persist(task);
 		return task;
 	}
-	
+
 	@Override
 	public List<Task> getTasks() {
 		Query query = em.createQuery("from Task");
@@ -56,5 +60,12 @@ public class PersistenceServiceImpl implements PersistenceService {
 		return tasks;
 	}
 
+	@Override
+	public List<Task> getTasks(String status) {
+		Query query = em.createQuery("from Tasks t where t.status = '" + status
+				+ "'");
+		List<Task> tasks = query.getResultList();
+		return tasks;
+	}
 
 }

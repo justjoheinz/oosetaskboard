@@ -16,4 +16,6 @@ public interface TaskServiceAsync {
 
 	void deleteTask(TaskBO taskBO, AsyncCallback<Void> callback);
 
+	void getTasks(String status, AsyncCallback<List<TaskBO>> callback);
+
 }
