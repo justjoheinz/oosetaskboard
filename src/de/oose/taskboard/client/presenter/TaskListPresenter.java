@@ -53,7 +53,7 @@ public class TaskListPresenter implements Presenter {
 		Map<String, TaskCellList> cellListMap = display.getFilteredCellLists();
 		for (Map.Entry<String, TaskListProvider> entry: taskListProviders.entrySet()) {
 			TaskCellList cellList = cellListMap.get(entry.getKey());
-			entry.getValue().onRangeChanged(cellList);
+			entry.getValue().onRangeChanged(cellList); //TODO this is very effective but somehow looks quite brute force
 		}
 	}
 
