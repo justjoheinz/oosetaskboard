@@ -1,7 +1,6 @@
 package de.oose.taskboard.client.view;
 
 import java.util.Arrays;
-import java.util.List;
 
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -19,7 +18,9 @@ import com.google.gwt.user.client.ui.ValueListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.oose.taskboard.shared.bo.TaskBO;
+import de.oose.taskboard.shared.validation.ValidationError;
 import de.oose.taskboard.shared.validation.ValidationResult;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 
 /**
  * The view to add new task or edit an exisiting one.
@@ -36,6 +37,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 	private Label lblWindowLabel;
 	private Label lblDescriptionMsg;
 	private Label lblTitleMsg;
+	private Button btnDelete;
 
 	public EditTaskView() {
 		setWidth("800");
@@ -99,6 +101,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.setSpacing(5);
 		add(horizontalPanel);
+		horizontalPanel.setWidth("");
 
 		btnConfirmation = new Button();
 		horizontalPanel.add(btnConfirmation);
@@ -107,6 +110,11 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 		btnCancel = new Button();
 		horizontalPanel.add(btnCancel);
 		btnCancel.setText("Cancel");
+		
+		btnDelete = new Button("");
+		btnDelete.setText("Delete");
+		horizontalPanel.add(btnDelete);
+		horizontalPanel.setCellHorizontalAlignment(btnDelete, HasHorizontalAlignment.ALIGN_RIGHT);
 		
 		init();
 	}
@@ -120,6 +128,10 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 	
 	public Button getCancelButton() {
 		return btnCancel;
+	}
+	
+	public Button getDeleteButton() {
+		return btnDelete;
 	}
 
 	
@@ -191,10 +203,11 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 
 
 	@Override
-	public void displayErrors(List<ValidationResult<TaskBO>> result) {
+	public void displayErrors(ValidationResult<TaskBO> result) {
 		lblDescriptionMsg.setText("");
 		lblTitleMsg.setText("");
-		for (ValidationResult<TaskBO> v : result) {
+		if (result.isOk()) return;
+		for (ValidationError<TaskBO> v : result) {
 			if ("title".equals(v.getField())) {
 				lblTitleMsg.setText(v.getMessage());
 				lblTitleMsg.setStyleName("serverResponseLabelError", true);

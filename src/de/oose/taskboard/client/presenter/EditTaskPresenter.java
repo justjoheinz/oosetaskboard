@@ -1,7 +1,5 @@
 package de.oose.taskboard.client.presenter;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -103,7 +101,7 @@ public class EditTaskPresenter implements Presenter {
 	private void validate() {
 		display.getConfirmationButton().setEnabled(false);
 		if (display.getValue() != null) {
-			List<ValidationResult<TaskBO>> result = display.getValue()
+			ValidationResult<TaskBO> result = display.getValue()
 					.validate();
 			display.displayErrors(result);
 			if (result.isEmpty()) {

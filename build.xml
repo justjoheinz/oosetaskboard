@@ -85,15 +85,17 @@
 		
 	<target name="tomcat_check" description="Checks if the tomcat needs to be installed">
 		 <available file="{tomcat.home}" type="dir" property="tomcat.installed"/>
-		<property name="tomcat.installed" value="false"/>
-		<echo>Tomcat to installed in ${tomcat.home}: ${tomcat.installed}</echo>
+		<!-- <property name="tomcat.installed" value="false"/> -->
+		<echo>Tomcat installed in ${tomcat.home}: ${tomcat.installed}</echo>
 	</target>	
 	
 	<target name="tomcat_install" description="Download and unzip the tomcat" depends="tomcat_check" unless="tomcat.installed">
 		<echo>Downloading Tomcat</echo>
+		<mkdir dir="${tomcat.install.dir}"/>
 		<get dest="${tomcat.install.dir}/tomcat.zip" src="${tomcat.download.url}"/>
 		<echo>Installing Tomcat</echo>
 		<unzip dest="${tomcat.install.dir}" src="${tomcat.install.dir}/tomcat.zip" overwrite="true"/>
+		<property name="tomcat.installed" value="true"/>
 	</target>
 	
 	<path id="tomcat.class.path">
