@@ -101,19 +101,20 @@ public class TaskListPresenter implements Presenter {
 			final int from = range.getStart();
 			final int length = range.getLength();
 			taskService.getTasks(statusFilter, from, length,
-					new AsyncCallback<List<TaskBO>>() {
+					new DefaultAsyncCallback<List<TaskBO>>() {
 
 						@Override
 						public void onSuccess(List<TaskBO> result) {
 							updateRowData(from, result);
 						}
+					});
+			taskService.getTaskCount(statusFilter, new DefaultAsyncCallback<Integer>() {
 
 						@Override
-						public void onFailure(Throwable caught) {
-							Window.alert(caught.getMessage());
+						public void onSuccess(Integer result) {
+							updateRowCount(result, true);
 						}
 					});
-
 		}
 	}
 }

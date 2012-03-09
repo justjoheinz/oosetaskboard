@@ -80,8 +80,11 @@ public class PersistenceServiceImpl implements PersistenceService {
 	
 	@Override
 	public int getTaskCount(String status) {
-		Query query = em.createQuery("select count(*) from Task t");
-		return query.getFirstResult();
+		//TODO this should work, but it does not
+		//Query query = em.createQuery("select count(*) from Task t where t.status = '" + status + "'");
+		//return query.getFirstResult();
+		//TODO hence we do it brute force - again
+		return getTasks(status).size();
 	}
 
 	private Query createTaskQuery(String status) {

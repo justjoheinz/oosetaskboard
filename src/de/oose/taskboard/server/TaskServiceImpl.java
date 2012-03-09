@@ -72,7 +72,7 @@ public class TaskServiceImpl implements TaskService {
 		return map(tasks);
 	}
 	
-	public int getTaskCount(String status) {
+	public Integer getTaskCount(String status) {
 		return ps.getTaskCount(status);
 	}
 	
