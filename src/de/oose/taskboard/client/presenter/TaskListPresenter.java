@@ -49,6 +49,12 @@ public class TaskListPresenter implements Presenter {
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(display.asWidget());
+		//update the data in the cells
+		Map<String, TaskCellList> cellListMap = display.getFilteredCellLists();
+		for (Map.Entry<String, TaskListProvider> entry: taskListProviders.entrySet()) {
+			TaskCellList cellList = cellListMap.get(entry.getKey());
+			entry.getValue().onRangeChanged(cellList);
+		}
 	}
 
 	public void bind() {
