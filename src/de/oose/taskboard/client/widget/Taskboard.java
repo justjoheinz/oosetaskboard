@@ -66,11 +66,11 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 		decoratorPanel.setWidget(clPlanning);
 		clPlanning.setSize("200px", "300px");
 		// Create paging controls.
-		SimplePager pager = new SimplePager();
+		SimplePager planningPager = new SimplePager();
 		clPlanning.setPageSize(5);
-		pager.setDisplay(clPlanning);
-		vPPlanning.add(pager);
-		vPPlanning.setCellHorizontalAlignment(pager, HasHorizontalAlignment.ALIGN_CENTER);
+		planningPager.setDisplay(clPlanning);
+		vPPlanning.add(planningPager);
+		vPPlanning.setCellHorizontalAlignment(planningPager, HasHorizontalAlignment.ALIGN_CENTER);
 
 
 		vPWork = new VerticalPanel();
@@ -84,12 +84,14 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 		vPWork.add(decoratorPanel_1);
 
 		clWork = new TaskCellList();
+		clWork.setPageSize(5);
 		filteredCellLists.put(TaskBO.WORK,clWork);
 		clWork.setSelectionModel(selectionModel);
 		decoratorPanel_1.setWidget(clWork);
 		clWork.setSize("200px", "300px");
 		
 		workPager = new SimplePager();
+		workPager.setDisplay(clWork);
 		vPWork.add(workPager);
 		vPWork.setCellHorizontalAlignment(workPager, HasHorizontalAlignment.ALIGN_CENTER);
 
@@ -104,6 +106,7 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 		vpReview.add(decoratorPanel_3);
 
 		clReview = new TaskCellList();
+		clReview.setPageSize(5);
 		filteredCellLists.put(TaskBO.REVIEW,clReview);
 		clReview.setSelectionModel(selectionModel);
 		decoratorPanel_3.setWidget(clReview);
@@ -111,6 +114,7 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 		
 		reviewPager = new SimplePager();
 		vpReview.add(reviewPager);
+		reviewPager.setDisplay(clReview);
 		vpReview.setCellHorizontalAlignment(reviewPager, HasHorizontalAlignment.ALIGN_CENTER);
 
 		vPDone = new VerticalPanel();
@@ -124,6 +128,7 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 		vPDone.add(decoratorPanel_2);
 
 		clDone = new TaskCellList();
+		clDone.setPageSize(5);
 		filteredCellLists.put(TaskBO.DONE,clDone);
 		clDone.setSelectionModel(selectionModel);
 		decoratorPanel_2.setWidget(clDone);
@@ -131,6 +136,7 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 		
 		donePager = new SimplePager();
 		vPDone.add(donePager);
+		donePager.setDisplay(clDone);
 		vPDone.setCellHorizontalAlignment(donePager, HasHorizontalAlignment.ALIGN_CENTER);
 		
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {

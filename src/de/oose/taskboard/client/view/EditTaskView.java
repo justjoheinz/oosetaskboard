@@ -21,6 +21,7 @@ import de.oose.taskboard.shared.bo.TaskBO;
 import de.oose.taskboard.shared.validation.Validatable;
 import de.oose.taskboard.shared.validation.ValidationError;
 import de.oose.taskboard.shared.validation.ValidationResult;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 
 /**
  * The view to add new task or edit an exisiting one.
@@ -52,6 +53,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 		task = null;
 
 		lblWindowLabel = new Label("New Task");
+		lblWindowLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		lblWindowLabel.setStyleName("bigFont");
 		add(lblWindowLabel);
 

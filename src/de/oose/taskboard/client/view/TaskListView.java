@@ -28,6 +28,7 @@ import de.oose.taskboard.client.widget.TaskCellList;
 import de.oose.taskboard.client.widget.Taskboard;
 import de.oose.taskboard.shared.bo.TaskBO;
 import de.oose.taskboard.shared.validation.ValidationError;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 
 /**
  * Sample implementation of {@link TaskView}.
