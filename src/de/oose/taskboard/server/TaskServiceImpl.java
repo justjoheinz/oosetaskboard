@@ -35,7 +35,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public List<TaskBO> getTasks() {
 		List<Task> tasks = ps.getTasks();
-		List<TaskBO> taskBOs = new ArrayList<TaskBO>();
+		List<TaskBO> taskBOs = new ArrayList<TaskBO>(tasks.size());
 		for (Task t : tasks) {
 			TaskBO bo = mapper.map(t, TaskBO.class);
 			taskBOs.add(bo);
