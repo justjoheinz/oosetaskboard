@@ -18,6 +18,7 @@
 	<!-- the tomcat zip contains a toplevel directory, where everything is installed - so this must be adapted to each new tomcat version -->
 	<property name="tomcat.subdir" value="apache-tomcat-7.0.26"/>
 	<property name="tomcat.home" value="${tomcat.install.dir}/${tomcat.subdir}" />
+	<property name="tomcat.file" value="apache-tomcat-7.0.26.zip"/>
 
 	<import file="gwt.compile.ant.xml" />
 
@@ -33,10 +34,7 @@
 	</target>
 
 	<target name="clean" depends="tomcat-stop">
-		<delete includeemptydirs="true">
-			<excludesfile name="WEB-INF/lib/*"/>
-			<fileset dir="${build.dir}" includes="**/*"/>
-		</delete>	
+		<delete dir="${build.dir}" />
 		<delete dir="${dist.dir}" />
 		<delete dir="${tomcat.install.dir}"/>
 	</target>
@@ -94,11 +92,8 @@
 	<target name="tomcat-install" depends="tomcat-check-installed" unless="tomcat.installed"
 		description="Download and install tomcat server">
 		<mkdir dir="${tomcat.install.dir}"/>
-		<echo>Downloading Tomcat</echo>
-		<mkdir dir="${tomcat.install.dir}"/>
-		<get dest="${tomcat.install.dir}/tomcat.zip" src="${tomcat.download.url}"/>
 		<echo>Installing Tomcat</echo>
-		<unzip dest="${tomcat.install.dir}" src="${tomcat.install.dir}/tomcat.zip" overwrite="true"/>
+		<unzip dest="${tomcat.install.dir}" src="${tomcat.file}" overwrite="true"/>
 		<property name="tomcat.installed" value="true"/>
 	</target>
 	
