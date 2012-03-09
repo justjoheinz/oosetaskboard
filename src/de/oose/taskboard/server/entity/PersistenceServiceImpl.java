@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.persist.Transactional;
 
@@ -14,10 +15,9 @@ public class PersistenceServiceImpl implements PersistenceService {
 
 	@Inject
 	private EntityManager em;
-//	
-//	@Inject 
-//	private Logger logger;
 
+	static final Logger LOG = LoggerFactory.getLogger(PersistenceServiceImpl.class);
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -33,6 +33,7 @@ public class PersistenceServiceImpl implements PersistenceService {
 		task.setDescription(description);
 		task.setStatus(status);
 		em.persist(task);
+		LOG.info("Created task '{}' with status '{}'",title,status);
 		return task;
 	}
 
@@ -40,6 +41,7 @@ public class PersistenceServiceImpl implements PersistenceService {
 	@Transactional
 	public void deleteTask(int id) {
 		Task task = em.find(Task.class, id);
+		LOG.info("deleted task {}",id);
 		em.remove(task);
 	}
 
@@ -52,6 +54,7 @@ public class PersistenceServiceImpl implements PersistenceService {
 		task.setDescription(description);
 		task.setStatus(status);
 		em.persist(task);
+		LOG.info("Updated task {} with title '{}'",id,title);
 		return task;
 	}
 
@@ -59,6 +62,7 @@ public class PersistenceServiceImpl implements PersistenceService {
 	public List<Task> getTasks() {
 		Query query = em.createQuery("from Task");
 		List<Task> tasks = query.getResultList();
+		LOG.info("found {} tasks",tasks.size());
 		return tasks;
 	}
 
@@ -66,6 +70,7 @@ public class PersistenceServiceImpl implements PersistenceService {
 	public List<Task> getTasks(String status) {
 		Query query = createTaskQuery(status);
 		List<Task> tasks = query.getResultList();
+		LOG.info("found {} tasks with status {}",tasks.size(),status);
 		return tasks;
 	}
 
@@ -75,6 +80,7 @@ public class PersistenceServiceImpl implements PersistenceService {
 		query.setFirstResult(start);
 		query.setMaxResults(count);
 		List<Task> tasks = query.getResultList();
+		LOG.info("found {} tasks with status {}, from {}, up to {}",new Object[]{tasks.size(),status,start,count});
 		return tasks;
 	}
 	
@@ -84,11 +90,15 @@ public class PersistenceServiceImpl implements PersistenceService {
 		//Query query = em.createQuery("select count(*) from Task t where t.status = '" + status + "'");
 		//return query.getFirstResult();
 		//TODO hence we do it brute force - again
-		return getTasks(status).size();
+		int count = getTasks(status).size();
+		LOG.info("There are {} tasks with status {}",count,status);
+		return count;
 	}
 
 	private Query createTaskQuery(String status) {
-		return em.createQuery("from Task t where t.status = '" + status + "'");
+		String query = "from Task t where t.status = '" + status + "'";
+		LOG.trace("Query is '{}'",query);
+		return em.createQuery(query);
 	}
 
 }

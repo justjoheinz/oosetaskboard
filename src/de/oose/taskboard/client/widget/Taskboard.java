@@ -113,6 +113,7 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 		clReview.setSize("200px", "300px");
 		
 		reviewPager = new SimplePager();
+		reviewPager.setDisplay(clReview);
 		vpReview.add(reviewPager);
 		reviewPager.setDisplay(clReview);
 		vpReview.setCellHorizontalAlignment(reviewPager, HasHorizontalAlignment.ALIGN_CENTER);
@@ -135,6 +136,7 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 		clDone.setSize("200px", "300px");
 		
 		donePager = new SimplePager();
+		donePager.setDisplay(clDone);
 		vPDone.add(donePager);
 		donePager.setDisplay(clDone);
 		vPDone.setCellHorizontalAlignment(donePager, HasHorizontalAlignment.ALIGN_CENTER);
