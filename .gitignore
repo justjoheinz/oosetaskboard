@@ -3,4 +3,6 @@
 /dist
 war/
 tomcat/
-
+taskdb.*
+#mac stuff
+.DS_Store
