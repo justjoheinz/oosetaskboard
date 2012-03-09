@@ -34,6 +34,9 @@ import de.oose.taskboard.client.view.TaskListView;
 @Singleton
 public class AppController implements Presenter, ValueChangeHandler<String> {
 
+	private static final String HISTORY_EDIT = "edit";
+	private static final String HISTORY_TASKLIST = "taskList";
+	private static final String HISTORY_UPDATE = "update";
 	@Inject
 	private HandlerManager eventBus;
 	@Inject
@@ -61,7 +64,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 			@Override
 			public void onEditTask(EditTaskEvent event) {
-				History.newItem("edit", false); 
+				History.newItem(HISTORY_EDIT, false); 
 
 				if (event.getTaskBO() != null) {
 					editTaskPresenter.setTask(event.getTaskBO());
@@ -85,7 +88,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 			@Override
 			public void onUpdateTaskList(UpdateTasksEvent event) {
-				History.newItem("update", false);
+				History.newItem(HISTORY_UPDATE, false);
 				TaskListView taskListView = GWT
 						.create(de.oose.taskboard.client.view.TaskListView.class);
 				// Presenter presenter = new TaskListPresenter(taskListView,
@@ -99,13 +102,13 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			
 			@Override
 			public void onDeleteTask(DeleteTaskEvent event) {
-				History.newItem("taskList");
+				History.newItem(HISTORY_TASKLIST);
 			}
 		});
 	}
 
 	private void doEditTaskCancelled() {
-		History.newItem("taskList");
+		History.newItem(HISTORY_TASKLIST);
 	}
 
 	// Methode die aufgerufen wird, wenn im Browser "Back", "Forward" geklickt
@@ -116,7 +119,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 		if (token != null) {
 
-			if (token.equals("taskList")) {
+			if (token.equals(HISTORY_TASKLIST)) {
 				TaskListView taskListView = GWT
 						.create(de.oose.taskboard.client.view.TaskListView.class);
 				// presenter = new TaskListPresenter(taskListView, taskService,
@@ -141,7 +144,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		this.container = container;
 
 		if ("".equals(History.getToken())) {
-			History.newItem("taskList");
+			History.newItem(HISTORY_TASKLIST);
 		} else {
 			History.fireCurrentHistoryState();
 		}
