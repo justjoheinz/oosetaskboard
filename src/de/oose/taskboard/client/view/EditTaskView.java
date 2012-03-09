@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.ValueListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.oose.taskboard.shared.bo.TaskBO;
+import de.oose.taskboard.shared.validation.Validatable;
 import de.oose.taskboard.shared.validation.ValidationError;
 import de.oose.taskboard.shared.validation.ValidationResult;
 
@@ -28,7 +29,7 @@ import de.oose.taskboard.shared.validation.ValidationResult;
  * 
  */
 public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
-		HasErrors<TaskBO> {
+		HasErrors {
 	private static final String ERROR_STYLE = "serverResponseLabelError";
 	private static final String DESC_TITLE = "The title of the task";
 	private static final String DESC_DESCRIPTION = "A short description of this task";
@@ -201,7 +202,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 	}
 
 	@Override
-	public void displayErrors(ValidationResult<TaskBO> result) {
+	public void displayErrors(ValidationResult<? extends Validatable> result) {
 		lblDescriptionMsg.setText(DESC_DESCRIPTION);
 		lblTitleMsg.setText(DESC_TITLE);
 		lblStatusMsg.setText(DESC_STATUS);
@@ -211,7 +212,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 
 		if (result.isOk())
 			return;
-		for (ValidationError<TaskBO> v : result) {
+		for (ValidationError<? extends Validatable> v : result) {
 			if ("title".equals(v.getField())) {
 				lblTitleMsg.setText(v.getMessage());
 				lblTitleMsg.setStyleName(ERROR_STYLE, true);

@@ -14,9 +14,9 @@ public class PersistenceServiceImpl implements PersistenceService {
 
 	@Inject
 	private EntityManager em;
-	
-	@Inject 
-	private Logger logger;
+//	
+//	@Inject 
+//	private Logger logger;
 
 	/*
 	 * (non-Javadoc)

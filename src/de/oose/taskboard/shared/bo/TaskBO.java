@@ -4,10 +4,11 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 
+import de.oose.taskboard.shared.validation.Validatable;
 import de.oose.taskboard.shared.validation.ValidationError;
 import de.oose.taskboard.shared.validation.ValidationResult;
 
-public class TaskBO implements Serializable {
+public class TaskBO implements Serializable, Validatable {
 
 	private int id;
 	@NotNull

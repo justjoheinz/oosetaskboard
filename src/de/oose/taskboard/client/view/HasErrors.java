@@ -1,10 +1,10 @@
 package de.oose.taskboard.client.view;
 
-import de.oose.taskboard.shared.bo.TaskBO;
+import de.oose.taskboard.shared.validation.Validatable;
 import de.oose.taskboard.shared.validation.ValidationResult;
 
-public interface HasErrors<T> {
+public interface HasErrors {
 	
-	void displayErrors (ValidationResult<TaskBO> result);
+	void displayErrors (ValidationResult<? extends Validatable> result);
 
 }
