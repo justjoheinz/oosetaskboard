@@ -70,6 +70,7 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 		clPlanning.setSize("200px", "300px");
 		// Create paging controls.
 		SimplePager pager = new SimplePager();
+		clPlanning.setPageSize(5);
 		pager.setDisplay(clPlanning);
 		add(pager);
 
