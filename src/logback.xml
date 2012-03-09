@@ -5,8 +5,17 @@
 			</Pattern>
 		</layout>
 	</appender>
-	<logger name="de.oose" level="TRACE" />
-	<root level="info">
+	<!-- This is the place where you specify which log level the application uses -->
+	<logger name="de.oose" level="DEBUG" />
+	<!--  If you want to see more for you specific applicatio you can adapt this to your package or class -->
+	<logger name="de.oose.problematic-package" level="TRACE" />
+	<root level="INFO">
 		<appender-ref ref="STDOUT" />
 	</root>
+	<!-- 
+	Log Levels: WARN/ERROR fpor all real errors
+				INFO: for important actions
+				DEBUG: for each and every step
+				TRACE for even more steps
+	 -->
 </configuration>
