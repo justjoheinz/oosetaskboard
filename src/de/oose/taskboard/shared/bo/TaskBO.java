@@ -4,10 +4,11 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 
+import de.oose.taskboard.shared.validation.Validatable;
 import de.oose.taskboard.shared.validation.ValidationError;
 import de.oose.taskboard.shared.validation.ValidationResult;
 
-public class TaskBO implements Serializable {
+public class TaskBO implements Serializable, Validatable {
 
 	private int id;
 	@NotNull
@@ -73,6 +74,14 @@ public class TaskBO implements Serializable {
 		if (description == null || description.length() < 10) {
 			result.add(new ValidationError<TaskBO>(this, "description",
 					"Die Beschreibung braucht zumindest 10 Buchstaben."));
+		}
+		if (status == null || status.isEmpty()) {
+			result.add(new ValidationError<TaskBO>(this, "status",
+					"Der Status ist leer."));
+		} else if (!PLANNING.equals(status) && !WORK.equals(status)
+				&& !DONE.equals(status) && !REVIEW.equals(status)) {
+			result.add(new ValidationError<TaskBO>(this, "status",
+					"Es wurde kein gültiger Status gesetzt."));
 		}
 		return result;
 	}

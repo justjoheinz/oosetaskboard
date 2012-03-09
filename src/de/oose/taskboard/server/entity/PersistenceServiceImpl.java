@@ -1,20 +1,22 @@
 package de.oose.taskboard.server.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.google.inject.persist.Transactional;
+import org.slf4j.Logger;
 
-import de.oose.taskboard.shared.bo.TaskBO;
+import com.google.inject.persist.Transactional;
 
 public class PersistenceServiceImpl implements PersistenceService {
 
 	@Inject
 	private EntityManager em;
+//	
+//	@Inject 
+//	private Logger logger;
 
 	/*
 	 * (non-Javadoc)
