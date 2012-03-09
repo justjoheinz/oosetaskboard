@@ -77,6 +77,12 @@ public class PersistenceServiceImpl implements PersistenceService {
 		List<Task> tasks = query.getResultList();
 		return tasks;
 	}
+	
+	@Override
+	public int getTaskCount(String status) {
+		Query query = em.createQuery("select count(*) from Task t");
+		return query.getFirstResult();
+	}
 
 	private Query createTaskQuery(String status) {
 		return em.createQuery("from Task t where t.status = '" + status + "'");

@@ -72,6 +72,10 @@ public class TaskServiceImpl implements TaskService {
 		return map(tasks);
 	}
 	
+	public int getTaskCount(String status) {
+		return ps.getTaskCount(status);
+	}
+	
 	private List<TaskBO> map(List<Task> tasks) {
 		if (tasks == null) return null;
 		List<TaskBO> taskBOs = new ArrayList<TaskBO>(tasks.size());
