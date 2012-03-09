@@ -18,8 +18,6 @@ public class TaskGinModule extends AbstractGinModule {
 		bind(AppController.class);
 		bind(EditTaskPresenter.class);
 		bind(TaskListPresenter.class);
-		bind(EditTaskPresenter.Display.class).to(EditTaskView.class);
-		bind(TaskListPresenter.Display.class).to(TaskListView.class);
 	}
 	
 	@Provides @Singleton

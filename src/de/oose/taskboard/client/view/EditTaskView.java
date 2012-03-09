@@ -1,8 +1,8 @@
 package de.oose.taskboard.client.view;
 
 import java.util.Arrays;
+import java.util.List;
 
-import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.text.shared.AbstractRenderer;
@@ -18,15 +18,15 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ValueListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.oose.taskboard.client.presenter.EditTaskPresenter.Display;
 import de.oose.taskboard.shared.bo.TaskBO;
+import de.oose.taskboard.shared.validation.ValidationResult;
 
 /**
  * The view to add new task or edit an exisiting one.
  * @author markusklink
  *
  */
-public class EditTaskView extends VerticalPanel implements Display, HasValue<TaskBO> {
+public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, HasErrors<TaskBO> {
 	private TextBox boxTitle;
 	private TextArea areaDescription;
 	private Button btnConfirmation;
@@ -34,6 +34,8 @@ public class EditTaskView extends VerticalPanel implements Display, HasValue<Tas
 	private ValueListBox<String> boxStatus;
 	private TaskBO task;
 	private Label lblWindowLabel;
+	private Label lblDescriptionMsg;
+	private Label lblTitleMsg;
 
 	public EditTaskView() {
 		setWidth("800");
@@ -58,9 +60,9 @@ public class EditTaskView extends VerticalPanel implements Display, HasValue<Tas
 		boxTitle = new TextBox();
 		flexTable.setWidget(0, 1, boxTitle);
 		
-		Label lblTheTitleOf = new Label("The title of the task");
-		lblTheTitleOf.setStyleName("small-font");
-		flexTable.setWidget(0, 2, lblTheTitleOf);
+		lblTitleMsg = new Label("The title of the task");
+		lblTitleMsg.setStyleName("small-font");
+		flexTable.setWidget(0, 2, lblTitleMsg);
 
 		Label lblNewLabel_2 = new Label("Description");
 		flexTable.setWidget(1, 0, lblNewLabel_2);
@@ -68,9 +70,9 @@ public class EditTaskView extends VerticalPanel implements Display, HasValue<Tas
 		areaDescription = new TextArea();
 		flexTable.setWidget(1, 1, areaDescription);
 		
-		Label lblNewLabel_3 = new Label("A short description of this task");
-		lblNewLabel_3.setStyleName("small-font");
-		flexTable.setWidget(1, 2, lblNewLabel_3);
+		lblDescriptionMsg = new Label("A short description of this task");
+		lblDescriptionMsg.setStyleName("small-font");
+		flexTable.setWidget(1, 2, lblDescriptionMsg);
 
 		Label lblStatus = new Label("Status");
 		flexTable.setWidget(2, 0, lblStatus);
@@ -109,13 +111,14 @@ public class EditTaskView extends VerticalPanel implements Display, HasValue<Tas
 		init();
 	}
 
-	@Override
-	public HasClickHandlers getConfirmationButton() {
+
+	
+	public Button getConfirmationButton() {
 		return btnConfirmation;
 	}
 
-	@Override
-	public HasClickHandlers getCancelButton() {
+	
+	public Button getCancelButton() {
 		return btnCancel;
 	}
 
@@ -174,4 +177,32 @@ public class EditTaskView extends VerticalPanel implements Display, HasValue<Tas
 		}
 	}
 
+	
+	public TextBox getTitleField() {
+		return boxTitle;
+	}
+
+
+	
+	public TextArea getDescriptionField() {
+		return areaDescription;
+	}
+
+
+
+	@Override
+	public void displayErrors(List<ValidationResult<TaskBO>> result) {
+		lblDescriptionMsg.setText("");
+		lblTitleMsg.setText("");
+		for (ValidationResult<TaskBO> v : result) {
+			if ("title".equals(v.getField())) {
+				lblTitleMsg.setText(v.getMessage());
+				lblTitleMsg.setStyleName("serverResponseLabelError", true);
+			}
+			if ("description".equals(v.getField())) {
+				lblDescriptionMsg.setText(v.getMessage());
+				lblDescriptionMsg.setStyleName("serverResponseLabelError", true);
+			}
+		}
+	}
 }

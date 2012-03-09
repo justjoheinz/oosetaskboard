@@ -5,40 +5,33 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Widget;
 
 import de.oose.taskboard.client.event.EditTaskEvent;
 import de.oose.taskboard.client.service.TaskServiceAsync;
+import de.oose.taskboard.client.view.TaskListView;
 import de.oose.taskboard.shared.bo.TaskBO;
 
 @Singleton
 public class TaskListPresenter implements Presenter {
 
-	private final Display display;
+	private final TaskListView display;
 	private List<TaskBO> tasks;
 	private final HandlerManager eventBus;
 	private final TaskServiceAsync taskService;
 
-	public interface Display {
-		public void setTaskList(List<TaskBO> tasks);
-		public HasClickHandlers getTaskButton();
-		public HasClickHandlers getDeleteButton();
-		public HasSelectionHandlers<TaskBO> getTaskboard();
-		public Widget asWidget();
-	}
+	
 	
 	@Inject
-	public TaskListPresenter(Display display, TaskServiceAsync taskServie, HandlerManager eventBus) {
+	public TaskListPresenter(TaskListView display, TaskServiceAsync taskServie, HandlerManager eventBus) {
 		this.display = display;
 		this.eventBus = eventBus;
 		this.taskService = taskServie; 

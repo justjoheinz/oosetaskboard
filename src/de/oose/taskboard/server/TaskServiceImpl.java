@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 import org.dozer.Mapper;
 
@@ -47,6 +46,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	@Transactional
 	public TaskBO addTask(TaskBO taskBO) {
+		taskBO.validate();
 		Task task = ps.createTask(taskBO.getTitle(), taskBO.getDescription(), taskBO.getStatus());
 		taskBO = mapper.map(task, TaskBO.class);
 		return taskBO;
@@ -54,6 +54,7 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public TaskBO updateTask(TaskBO taskBO) {
+		taskBO.validate();
 		Task task = ps.updateTask(taskBO.getId(), taskBO.getTitle(), taskBO.getDescription(), taskBO.getStatus());
 		taskBO = mapper.map(task, TaskBO.class);
 		return taskBO;
@@ -64,4 +65,5 @@ public class TaskServiceImpl implements TaskService {
 		ps.deleteTask(taskBO.getId());
 		
 	}
+	
 }
