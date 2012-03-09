@@ -92,9 +92,11 @@
 		description="Download and install tomcat server">
 		<mkdir dir="${tomcat.install.dir}"/>
 		<echo>Downloading Tomcat</echo>
+		<mkdir dir="${tomcat.install.dir}"/>
 		<get dest="${tomcat.install.dir}/tomcat.zip" src="${tomcat.download.url}"/>
 		<echo>Installing Tomcat</echo>
 		<unzip dest="${tomcat.install.dir}" src="${tomcat.install.dir}/tomcat.zip" overwrite="true"/>
+		<property name="tomcat.installed" value="true"/>
 	</target>
 	
 	<path id="tomcat.class.path">

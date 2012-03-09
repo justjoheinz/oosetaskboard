@@ -1,7 +1,5 @@
 package de.oose.taskboard.client.presenter;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -16,6 +14,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 
 import de.oose.taskboard.client.event.EditTaskCancelledEvent;
 import de.oose.taskboard.client.event.UpdateTasksEvent;
+import de.oose.taskboard.client.presenter.Presenter;
 import de.oose.taskboard.client.service.TaskServiceAsync;
 import de.oose.taskboard.client.view.EditTaskView;
 import de.oose.taskboard.shared.bo.TaskBO;
@@ -28,7 +27,6 @@ public class EditTaskPresenter implements Presenter {
 	private final HandlerManager eventBus;
 	private final TaskServiceAsync taskService;
 
-	
 
 	@Inject
 	public EditTaskPresenter(EditTaskView display, TaskServiceAsync taskService,
@@ -103,7 +101,7 @@ public class EditTaskPresenter implements Presenter {
 	private void validate() {
 		display.getConfirmationButton().setEnabled(false);
 		if (display.getValue() != null) {
-			List<ValidationResult<TaskBO>> result = display.getValue()
+			ValidationResult<TaskBO> result = display.getValue()
 					.validate();
 			display.displayErrors(result);
 			if (result.isEmpty()) {

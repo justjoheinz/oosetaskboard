@@ -1,11 +1,10 @@
 package de.oose.taskboard.shared.bo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import de.oose.taskboard.shared.validation.ValidationError;
 import de.oose.taskboard.shared.validation.ValidationResult;
 
 public class TaskBO implements Serializable {
@@ -65,14 +64,14 @@ public class TaskBO implements Serializable {
 		this.status = status;
 	}
 
-	public List<ValidationResult<TaskBO>> validate() {
-		List<ValidationResult<TaskBO>> result = new ArrayList<ValidationResult<TaskBO>>();
+	public ValidationResult<TaskBO> validate() {
+		ValidationResult<TaskBO> result = new ValidationResult<TaskBO>();
 		if (title == null || title.length() < 5) {
-			result.add(new ValidationResult<TaskBO>(this, "title",
+			result.add(new ValidationError<TaskBO>(this, "title",
 					"Der Titel braucht zumindest 5 Buchstaben."));
 		}
 		if (description == null || description.length() < 10) {
-			result.add(new ValidationResult<TaskBO>(this, "description",
+			result.add(new ValidationError<TaskBO>(this, "description",
 					"Die Beschreibung braucht zumindest 10 Buchstaben."));
 		}
 		return result;
