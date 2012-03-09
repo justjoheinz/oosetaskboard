@@ -59,12 +59,16 @@
 		<dependency org="com.google.gwt" name="gwt-dev"
 			rev="${com.google.gwt.version}" conf="master->default(*)" />
 
-
+		<!-- logging framework -->
+		<dependency org="ch.qos.logback" name="logback-classic" rev="${logback.version}" />
 
 		<!-- override transitive dependencies with correct versions of google gwt 
 			and guice -->
 		<override org="com.google.gwt" rev="${com.google.gwt.version}" />
 		<override org="com.google.inject" rev="${com.google.guice.version}" />
 		<override org="com.google.inject.extensions" rev="${com.google.guice.version}" />
+		<!-- override sl4j versions with the latest -->
+		<override org="org.slf4j" rev="${slf4j.version}"/>
+		
 	</dependencies>
 </ivy-module>
