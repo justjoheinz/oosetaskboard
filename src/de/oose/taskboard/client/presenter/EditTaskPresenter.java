@@ -16,6 +16,7 @@ import de.oose.taskboard.client.event.DeleteTaskEvent;
 import de.oose.taskboard.client.event.EditTaskCancelledEvent;
 import de.oose.taskboard.client.event.UpdateTasksEvent;
 import de.oose.taskboard.client.service.TaskServiceAsync;
+import de.oose.taskboard.client.util.DefaultAsyncCallback;
 import de.oose.taskboard.client.view.EditTaskView;
 import de.oose.taskboard.shared.bo.TaskBO;
 import de.oose.taskboard.shared.validation.ValidationResult;
@@ -112,16 +113,11 @@ public class EditTaskPresenter implements Presenter {
 	public void saveTask() {
 		TaskBO taskBO = display.getValue();
 
-		taskService.addTask(taskBO, new AsyncCallback<TaskBO>() {
+		taskService.addTask(taskBO, new DefaultAsyncCallback<TaskBO>() {
 
 			@Override
 			public void onSuccess(TaskBO result) {
 				eventBus.fireEvent(new UpdateTasksEvent(result));
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert(caught.getMessage());
 			}
 		});
 	}
@@ -129,13 +125,7 @@ public class EditTaskPresenter implements Presenter {
 	public void updateTask(){
 		TaskBO taskBO = display.getValue();
 		
-		taskService.updateTask(taskBO, new AsyncCallback<TaskBO>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert(caught.getMessage());
-			}
-
+		taskService.updateTask(taskBO, new DefaultAsyncCallback<TaskBO>() {
 			@Override
 			public void onSuccess(TaskBO result) {
 				eventBus.fireEvent(new UpdateTasksEvent(result));
