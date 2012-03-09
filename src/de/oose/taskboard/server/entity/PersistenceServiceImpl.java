@@ -79,7 +79,7 @@ public class PersistenceServiceImpl implements PersistenceService {
 	}
 
 	private Query createTaskQuery(String status) {
-		return em.createQuery("from Tasks t where t.status = '" + status + "'");
+		return em.createQuery("from Task t where t.status = '" + status + "'");
 	}
 
 }

@@ -1,11 +1,15 @@
 package de.oose.taskboard.client.widget;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -36,6 +40,7 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 	private Label lblNewLabel_2;
 	private Label lblNewLabel_3;
 	private SingleSelectionModel<TaskBO> selectionModel;
+	private Map<String,TaskCellList> filteredCellLists = new HashMap<String, TaskCellList>();
 
 	public Taskboard() {
 		
@@ -57,11 +62,17 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 		vPPlanning.add(decoratorPanel);
 		decoratorPanel.setSize("210px", "310px");
 
-		clPlanning = new TaskCellList(TaskBO.PLANNING);
+		clPlanning = new TaskCellList();
+		filteredCellLists.put(TaskBO.PLANNING,clPlanning);
 		clPlanning.setSelectionModel(selectionModel);
 
 		decoratorPanel.setWidget(clPlanning);
 		clPlanning.setSize("200px", "300px");
+		// Create paging controls.
+		SimplePager pager = new SimplePager();
+		pager.setDisplay(clPlanning);
+		add(pager);
+
 
 		vPWork = new VerticalPanel();
 		add(vPWork);
@@ -73,7 +84,8 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 		decoratorPanel_1 = new DecoratorPanel();
 		vPWork.add(decoratorPanel_1);
 
-		clWork = new TaskCellList(TaskBO.WORK);
+		clWork = new TaskCellList();
+		filteredCellLists.put(TaskBO.WORK,clWork);
 		clWork.setSelectionModel(selectionModel);
 		decoratorPanel_1.setWidget(clWork);
 		clWork.setSize("200px", "300px");
@@ -88,7 +100,8 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 		decoratorPanel_3 = new DecoratorPanel();
 		vpReview.add(decoratorPanel_3);
 
-		clReview = new TaskCellList(TaskBO.REVIEW);
+		clReview = new TaskCellList();
+		filteredCellLists.put(TaskBO.REVIEW,clReview);
 		clReview.setSelectionModel(selectionModel);
 		decoratorPanel_3.setWidget(clReview);
 		clReview.setSize("200px", "300px");
@@ -103,7 +116,8 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 		decoratorPanel_2 = new DecoratorPanel();
 		vPDone.add(decoratorPanel_2);
 
-		clDone = new TaskCellList(TaskBO.DONE);
+		clDone = new TaskCellList();
+		filteredCellLists.put(TaskBO.DONE,clDone);
 		clDone.setSelectionModel(selectionModel);
 		decoratorPanel_2.setWidget(clDone);
 		clDone.setSize("200px", "300px");
@@ -119,17 +133,14 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 
 	}
 
-	public void setTaskList(List<TaskBO> tasks) {
-		clPlanning.setFilteredRowData(tasks);
-		clWork.setFilteredRowData(tasks);
-		clDone.setFilteredRowData(tasks);
-		clReview.setFilteredRowData(tasks);
-	}
-
 	@Override
 	public HandlerRegistration addSelectionHandler(
 			SelectionHandler<TaskBO> handler) {
 		 return addHandler(handler, SelectionEvent.getType());
+	}
+
+	public Map<String, TaskCellList> getFilteredCellLists() {
+		return Collections.unmodifiableMap(filteredCellLists);
 	}
 
 }
