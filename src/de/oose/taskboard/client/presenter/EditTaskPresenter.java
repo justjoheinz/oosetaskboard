@@ -12,9 +12,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+import de.oose.taskboard.client.event.DeleteTaskEvent;
 import de.oose.taskboard.client.event.EditTaskCancelledEvent;
 import de.oose.taskboard.client.event.UpdateTasksEvent;
-import de.oose.taskboard.client.presenter.Presenter;
 import de.oose.taskboard.client.service.TaskServiceAsync;
 import de.oose.taskboard.client.view.EditTaskView;
 import de.oose.taskboard.shared.bo.TaskBO;
@@ -52,9 +52,15 @@ public class EditTaskPresenter implements Presenter {
 	public void bind() {
 		display.getConfirmationButton().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				if(display.getState().equals("New")){
 				saveTask();
+				}
+				else{
+					updateTask();
+				}
 			}
 		});
+
 
 		display.getCancelButton().addClickHandler(new ClickHandler() {
 
@@ -74,8 +80,35 @@ public class EditTaskPresenter implements Presenter {
 		
 		display.getTitleField().addKeyUpHandler(keyValidationHandler);
 		display.getDescriptionField().addKeyUpHandler(keyValidationHandler);
+		
+		display.getDeleteButton().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				deleteTask();
+				
+			}
+		});
 	}
+	
+	public void deleteTask() {
+		TaskBO taskBO = display.getValue();
+		taskService.deleteTask(taskBO, new AsyncCallback<Void>() {
 
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				eventBus.fireEvent(new DeleteTaskEvent());
+				
+			}
+		});
+	}
+	
 	public void saveTask() {
 		TaskBO taskBO = display.getValue();
 
@@ -89,6 +122,24 @@ public class EditTaskPresenter implements Presenter {
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert(caught.getMessage());
+			}
+		});
+	}
+	
+	public void updateTask(){
+		TaskBO taskBO = display.getValue();
+		
+		taskService.updateTask(taskBO, new AsyncCallback<TaskBO>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert(caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(TaskBO result) {
+				eventBus.fireEvent(new UpdateTasksEvent(result));
+				
 			}
 		});
 	}
