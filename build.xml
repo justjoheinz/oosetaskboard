@@ -33,7 +33,10 @@
 	</target>
 
 	<target name="clean" depends="tomcat-stop">
-		<delete dir="${build.dir}" />
+		<delete includeemptydirs="true">
+			<excludesfile name="WEB-INF/lib/*"/>
+			<fileset dir="${build.dir}" includes="**/*"/>
+		</delete>	
 		<delete dir="${dist.dir}" />
 		<delete dir="${tomcat.install.dir}"/>
 	</target>
