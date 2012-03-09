@@ -9,7 +9,7 @@
 	<logger name="de.oose" level="DEBUG" />
 	<!--  If you want to see more for you specific applicatio you can adapt this to your package or class -->
 	<logger name="de.oose.problematic-package" level="TRACE" />
-	<root level="INFO">
+	<root level="WARN">
 		<appender-ref ref="STDOUT" />
 	</root>
 	<!-- 
