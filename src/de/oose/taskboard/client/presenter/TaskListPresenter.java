@@ -49,6 +49,12 @@ public class TaskListPresenter implements Presenter {
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(display.asWidget());
+		//update the data in the cells
+		Map<String, TaskCellList> cellListMap = display.getFilteredCellLists();
+		for (Map.Entry<String, TaskListProvider> entry: taskListProviders.entrySet()) {
+			TaskCellList cellList = cellListMap.get(entry.getKey());
+			entry.getValue().onRangeChanged(cellList); //TODO this is very effective but somehow looks quite brute force
+		}
 	}
 
 	public void bind() {
@@ -95,19 +101,20 @@ public class TaskListPresenter implements Presenter {
 			final int from = range.getStart();
 			final int length = range.getLength();
 			taskService.getTasks(statusFilter, from, length,
-					new AsyncCallback<List<TaskBO>>() {
+					new DefaultAsyncCallback<List<TaskBO>>() {
 
 						@Override
 						public void onSuccess(List<TaskBO> result) {
 							updateRowData(from, result);
 						}
+					});
+			taskService.getTaskCount(statusFilter, new DefaultAsyncCallback<Integer>() {
 
 						@Override
-						public void onFailure(Throwable caught) {
-							Window.alert(caught.getMessage());
+						public void onSuccess(Integer result) {
+							updateRowCount(result, true);
 						}
 					});
-
 		}
 	}
 }
