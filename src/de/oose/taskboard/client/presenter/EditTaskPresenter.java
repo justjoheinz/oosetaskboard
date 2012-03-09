@@ -1,11 +1,24 @@
 package de.oose.taskboard.client.presenter;
 
-import src.de.oose.taskboard.client.event.EditTaskCancelledEvent;
-import src.de.oose.taskboard.client.event.UpdateTasksEvent;
-import src.de.oose.taskboard.client.service.TaskServiceAsync;
-import src.de.oose.taskboard.client.view.EditTaskView;
-import src.de.oose.taskboard.shared.bo.TaskBO;
-import src.de.oose.taskboard.shared.validation.ValidationResult;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HasWidgets;
+
+import de.oose.taskboard.client.event.EditTaskCancelledEvent;
+import de.oose.taskboard.client.event.UpdateTasksEvent;
+import de.oose.taskboard.client.presenter.Presenter;
+import de.oose.taskboard.client.service.TaskServiceAsync;
+import de.oose.taskboard.client.view.EditTaskView;
+import de.oose.taskboard.shared.bo.TaskBO;
+import de.oose.taskboard.shared.validation.ValidationResult;
 
 @Singleton
 public class EditTaskPresenter implements Presenter {
@@ -14,7 +27,6 @@ public class EditTaskPresenter implements Presenter {
 	private final HandlerManager eventBus;
 	private final TaskServiceAsync taskService;
 
-	
 
 	@Inject
 	public EditTaskPresenter(EditTaskView display, TaskServiceAsync taskService,
