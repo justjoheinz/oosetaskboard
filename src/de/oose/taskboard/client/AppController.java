@@ -10,6 +10,8 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+import de.oose.taskboard.client.event.DeleteTaskEvent;
+import de.oose.taskboard.client.event.DeleteTaskEventHandler;
 import de.oose.taskboard.client.event.EditTaskCancelledEvent;
 import de.oose.taskboard.client.event.EditTaskCancelledEventHandler;
 import de.oose.taskboard.client.event.EditTaskEvent;
@@ -90,6 +92,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				// taskService, eventBus);
 				taskListPresenter.go(container);
 				// presenter.go(container);
+			}
+		});
+		
+		eventBus.addHandler(DeleteTaskEvent.TYPE, new DeleteTaskEventHandler() {
+			
+			@Override
+			public void onDeleteTask(DeleteTaskEvent event) {
+				History.newItem("taskList");
 			}
 		});
 	}

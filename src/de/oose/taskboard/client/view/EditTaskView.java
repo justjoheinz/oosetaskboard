@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ValueListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.oose.taskboard.client.view.HasErrors;
 import de.oose.taskboard.shared.bo.TaskBO;
 import de.oose.taskboard.shared.validation.ValidationError;
 import de.oose.taskboard.shared.validation.ValidationResult;
@@ -28,6 +27,9 @@ import de.oose.taskboard.shared.validation.ValidationResult;
  *
  */
 public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, HasErrors<TaskBO> {
+	private static final String DESC_TITLE = "The title of the task";
+	private static final String DESC_DESCRIPTION = "A short description of this task";
+	private static final String DESC_STATUS = "The current state of this task";
 	private TextBox boxTitle;
 	private TextArea areaDescription;
 	private Button btnConfirmation;
@@ -38,6 +40,8 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 	private Label lblDescriptionMsg;
 	private Label lblTitleMsg;
 	private Button btnDelete;
+	private String state;
+	private Label lblStatusMsg;
 
 	public EditTaskView() {
 		setWidth("800");
@@ -62,7 +66,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 		boxTitle = new TextBox();
 		flexTable.setWidget(0, 1, boxTitle);
 		
-		lblTitleMsg = new Label("The title of the task");
+		lblTitleMsg = new Label(DESC_TITLE);
 		lblTitleMsg.setStyleName("small-font");
 		flexTable.setWidget(0, 2, lblTitleMsg);
 
@@ -72,7 +76,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 		areaDescription = new TextArea();
 		flexTable.setWidget(1, 1, areaDescription);
 		
-		lblDescriptionMsg = new Label("A short description of this task");
+		lblDescriptionMsg = new Label(DESC_DESCRIPTION);
 		lblDescriptionMsg.setStyleName("small-font");
 		flexTable.setWidget(1, 2, lblDescriptionMsg);
 
@@ -94,9 +98,9 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 		
 		flexTable.setWidget(2, 1, boxStatus);
 		
-		Label lblNewLabel_4 = new Label("The current state of this task");
-		lblNewLabel_4.setStyleName("small-font");
-		flexTable.setWidget(2, 2, lblNewLabel_4);
+		lblStatusMsg = new Label(DESC_STATUS);
+		lblStatusMsg.setStyleName("small-font");
+		flexTable.setWidget(2, 2, lblStatusMsg);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.setSpacing(5);
@@ -178,6 +182,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 			boxStatus.setValue("PLANNING");
 			btnConfirmation.setText("New Task");
 			lblWindowLabel.setText("New Task");
+			state = "New";
 		}
 		else {
 			areaDescription.setText(task.getDescription());
@@ -185,6 +190,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 			boxStatus.setValue(task.getStatus());
 			btnConfirmation.setText("Confirm");
 			lblWindowLabel.setText("Edit Task");
+			state = "Edit";
 		}
 	}
 
@@ -203,8 +209,10 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 
 	@Override
 	public void displayErrors(ValidationResult<TaskBO> result) {
-		lblDescriptionMsg.setText("");
-		lblTitleMsg.setText("");
+		lblDescriptionMsg.setText(DESC_DESCRIPTION);
+		lblTitleMsg.setText(DESC_TITLE);
+		lblStatusMsg.setText(DESC_STATUS);
+		
 		if (result.isOk()) return;
 		for (ValidationError<TaskBO> v : result) {
 			if ("title".equals(v.getField())) {
@@ -216,5 +224,9 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 				lblDescriptionMsg.setStyleName("serverResponseLabelError", true);
 			}
 		}
+	}
+	
+	public String getState(){
+		return state;
 	}
 }

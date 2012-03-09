@@ -63,7 +63,6 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public void deleteTask(TaskBO taskBO) {
 		ps.deleteTask(taskBO.getId());
-		
 	}
 	
 }
