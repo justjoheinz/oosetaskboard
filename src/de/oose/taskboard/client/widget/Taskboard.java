@@ -9,6 +9,7 @@ import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -67,6 +68,11 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 
 		decoratorPanel.setWidget(clPlanning);
 		clPlanning.setSize("200px", "300px");
+		// Create paging controls.
+		SimplePager pager = new SimplePager();
+		pager.setDisplay(clPlanning);
+		add(pager);
+
 
 		vPWork = new VerticalPanel();
 		add(vPWork);

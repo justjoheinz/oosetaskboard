@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -34,13 +35,13 @@ public class TaskListPresenter implements Presenter {
 	private final HandlerManager eventBus;
 	private final TaskServiceAsync taskService;
 	private Map<String, TaskListProvider> taskListProviders = new HashMap<String, TaskListProvider>();
-	
-	
+
 	@Inject
-	public TaskListPresenter(TaskListView display, TaskServiceAsync taskServie, HandlerManager eventBus) {
+	public TaskListPresenter(TaskListView display, TaskServiceAsync taskServie,
+			HandlerManager eventBus) {
 		this.display = display;
 		this.eventBus = eventBus;
-		this.taskService = taskServie; 
+		this.taskService = taskServie;
 		bind();
 	}
 
@@ -52,58 +53,61 @@ public class TaskListPresenter implements Presenter {
 
 	public void bind() {
 		display.getTaskButton().addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new EditTaskEvent(null));	
+				eventBus.fireEvent(new EditTaskEvent(null));
 			}
 		});
-		
-		display.getTaskboard().addSelectionHandler(new SelectionHandler<TaskBO>() {
-			
-			@Override
-			public void onSelection(SelectionEvent<TaskBO> event) {
-				eventBus.fireEvent(new EditTaskEvent(event.getSelectedItem()));
-			}
-		});
-		
-		 Map<String, TaskCellList> cellListMap = display.getFilteredCellLists();
-		 for (Map.Entry<String, TaskCellList> cellListEntry:cellListMap.entrySet()) {
-			 String filter = cellListEntry.getKey();
-			 TaskCellList taskCellList = cellListEntry.getValue();
-			 TaskListProvider provider = new TaskListProvider(filter);
-			 taskListProviders.put(filter, provider);
-			 provider.addDataDisplay(taskCellList);
-		 }
+
+		display.getTaskboard().addSelectionHandler(
+				new SelectionHandler<TaskBO>() {
+
+					@Override
+					public void onSelection(SelectionEvent<TaskBO> event) {
+						eventBus.fireEvent(new EditTaskEvent(event
+								.getSelectedItem()));
+					}
+				});
+
+		Map<String, TaskCellList> cellListMap = display.getFilteredCellLists();
+		for (Map.Entry<String, TaskCellList> cellListEntry : cellListMap
+				.entrySet()) {
+			String filter = cellListEntry.getKey();
+			TaskCellList taskCellList = cellListEntry.getValue();
+			TaskListProvider provider = new TaskListProvider(filter);
+			taskListProviders.put(filter, provider);
+			provider.addDataDisplay(taskCellList);
+		}
 	}
-	
+
 	private class TaskListProvider extends AsyncDataProvider<TaskBO> {
 		private String statusFilter;
-	
+
 		public TaskListProvider(String statusFilter) {
 			super();
 			this.statusFilter = statusFilter;
 		}
 
-
 		@Override
 		protected void onRangeChanged(HasData<TaskBO> display) {
-			   final Range range = display.getVisibleRange();
-			   final int from = range.getStart();
-			   final int length = range.getLength();
-			   taskService.getTasks(statusFilter, from, length, new AsyncCallback<List<TaskBO>>() {
-					
-					@Override
-					public void onSuccess(List<TaskBO> result) {
-						updateRowData(from, result);
-					}
-					
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert(caught.getMessage());
-					}
-				});
-			
+			final Range range = display.getVisibleRange();
+			final int from = range.getStart();
+			final int length = range.getLength();
+			taskService.getTasks(statusFilter, from, length,
+					new AsyncCallback<List<TaskBO>>() {
+
+						@Override
+						public void onSuccess(List<TaskBO> result) {
+							updateRowData(from, result);
+						}
+
+						@Override
+						public void onFailure(Throwable caught) {
+							Window.alert(caught.getMessage());
+						}
+					});
+
 		}
 	}
 }
