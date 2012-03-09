@@ -220,6 +220,10 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 				lblDescriptionMsg.setText(v.getMessage());
 				lblDescriptionMsg.setStyleName(ERROR_STYLE, true);
 			}
+			if ("status".equals(v.getField())) {
+				lblDescriptionMsg.setText(v.getMessage());
+				lblDescriptionMsg.setStyleName(ERROR_STYLE, true);
+			}
 		}
 	}
 
