@@ -5,18 +5,16 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 import de.oose.taskboard.client.event.EditTaskEvent;
 import de.oose.taskboard.client.service.TaskServiceAsync;
+import de.oose.taskboard.client.util.DefaultAsyncCallback;
 import de.oose.taskboard.client.view.TaskListView;
 import de.oose.taskboard.shared.bo.TaskBO;
 
@@ -47,16 +45,10 @@ public class TaskListPresenter implements Presenter {
 	}
 
 	private void fetchTasks() {
-		taskService.getTasks(new AsyncCallback<List<TaskBO>>() {
-			
+		taskService.getTasks(new DefaultAsyncCallback<List<TaskBO>>() {
 			@Override
 			public void onSuccess(List<TaskBO> result) {
 				display.setTaskList(result);
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert(caught.getMessage());
 			}
 		});
 	}

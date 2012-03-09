@@ -28,15 +28,14 @@ public class EditTaskPresenter implements Presenter {
 	private final HandlerManager eventBus;
 	private final TaskServiceAsync taskService;
 
-
 	@Inject
-	public EditTaskPresenter(EditTaskView display, TaskServiceAsync taskService,
-			HandlerManager eventBus) {
+	public EditTaskPresenter(EditTaskView display,
+			TaskServiceAsync taskService, HandlerManager eventBus) {
 		this(display, taskService, eventBus, null);
 	}
-	
-	public EditTaskPresenter(EditTaskView display, TaskServiceAsync taskService,
-			HandlerManager eventBus, TaskBO taskBO) {
+
+	public EditTaskPresenter(EditTaskView display,
+			TaskServiceAsync taskService, HandlerManager eventBus, TaskBO taskBO) {
 		this.display = display;
 		this.eventBus = eventBus;
 		this.taskService = taskService;
@@ -53,15 +52,13 @@ public class EditTaskPresenter implements Presenter {
 	public void bind() {
 		display.getConfirmationButton().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				if(display.getState().equals("New")){
-				saveTask();
-				}
-				else{
+				if (display.getState().equals("New")) {
+					saveTask();
+				} else {
 					updateTask();
 				}
 			}
 		});
-
 
 		display.getCancelButton().addClickHandler(new ClickHandler() {
 
@@ -78,38 +75,30 @@ public class EditTaskPresenter implements Presenter {
 				validate();
 			}
 		};
-		
+
 		display.getTitleField().addKeyUpHandler(keyValidationHandler);
 		display.getDescriptionField().addKeyUpHandler(keyValidationHandler);
-		
+
 		display.getDeleteButton().addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				deleteTask();
-				
+
 			}
 		});
 	}
-	
+
 	public void deleteTask() {
 		TaskBO taskBO = display.getValue();
-		taskService.deleteTask(taskBO, new AsyncCallback<Void>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
-
+		taskService.deleteTask(taskBO, new DefaultAsyncCallback<Void>() {
 			@Override
 			public void onSuccess(Void result) {
 				eventBus.fireEvent(new DeleteTaskEvent());
-				
 			}
 		});
 	}
-	
+
 	public void saveTask() {
 		TaskBO taskBO = display.getValue();
 
@@ -121,15 +110,15 @@ public class EditTaskPresenter implements Presenter {
 			}
 		});
 	}
-	
-	public void updateTask(){
+
+	public void updateTask() {
 		TaskBO taskBO = display.getValue();
-		
+
 		taskService.updateTask(taskBO, new DefaultAsyncCallback<TaskBO>() {
 			@Override
 			public void onSuccess(TaskBO result) {
 				eventBus.fireEvent(new UpdateTasksEvent(result));
-				
+
 			}
 		});
 	}
@@ -142,8 +131,7 @@ public class EditTaskPresenter implements Presenter {
 	private void validate() {
 		display.getConfirmationButton().setEnabled(false);
 		if (display.getValue() != null) {
-			ValidationResult<TaskBO> result = display.getValue()
-					.validate();
+			ValidationResult<TaskBO> result = display.getValue().validate();
 			display.displayErrors(result);
 			if (result.isEmpty()) {
 				display.getConfirmationButton().setEnabled(true);
