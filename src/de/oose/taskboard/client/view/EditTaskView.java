@@ -23,10 +23,13 @@ import de.oose.taskboard.shared.validation.ValidationResult;
 
 /**
  * The view to add new task or edit an exisiting one.
+ * 
  * @author markusklink
- *
+ * 
  */
-public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, HasErrors<TaskBO> {
+public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
+		HasErrors<TaskBO> {
+	private static final String ERROR_STYLE = "serverResponseLabelError";
 	private static final String DESC_TITLE = "The title of the task";
 	private static final String DESC_DESCRIPTION = "A short description of this task";
 	private static final String DESC_STATUS = "The current state of this task";
@@ -65,7 +68,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 
 		boxTitle = new TextBox();
 		flexTable.setWidget(0, 1, boxTitle);
-		
+
 		lblTitleMsg = new Label(DESC_TITLE);
 		lblTitleMsg.setStyleName("small-font");
 		flexTable.setWidget(0, 2, lblTitleMsg);
@@ -75,7 +78,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 
 		areaDescription = new TextArea();
 		flexTable.setWidget(1, 1, areaDescription);
-		
+
 		lblDescriptionMsg = new Label(DESC_DESCRIPTION);
 		lblDescriptionMsg.setStyleName("small-font");
 		flexTable.setWidget(1, 2, lblDescriptionMsg);
@@ -95,9 +98,9 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 		boxStatus.setValue(TaskBO.PLANNING);
 		boxStatus.setAcceptableValues(Arrays.asList(new String[] {
 				TaskBO.PLANNING, TaskBO.WORK, TaskBO.REVIEW, TaskBO.DONE }));
-		
+
 		flexTable.setWidget(2, 1, boxStatus);
-		
+
 		lblStatusMsg = new Label(DESC_STATUS);
 		lblStatusMsg.setStyleName("small-font");
 		flexTable.setWidget(2, 2, lblStatusMsg);
@@ -114,30 +117,25 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 		btnCancel = new Button();
 		horizontalPanel.add(btnCancel);
 		btnCancel.setText("Cancel");
-		
+
 		btnDelete = new Button("");
 		btnDelete.setText("Delete");
 		horizontalPanel.add(btnDelete);
-		
+
 		init();
 	}
 
-
-	
 	public Button getConfirmationButton() {
 		return btnConfirmation;
 	}
 
-	
 	public Button getCancelButton() {
 		return btnCancel;
 	}
-	
+
 	public Button getDeleteButton() {
 		return btnDelete;
 	}
-
-	
 
 	@Override
 	public HandlerRegistration addValueChangeHandler(
@@ -170,9 +168,10 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 	public void setValue(TaskBO value, boolean fireEvents) {
 		setValue(value);
 	}
-	
+
 	/**
-	 * initialize the UI elements with the default values or the values of the active task.
+	 * initialize the UI elements with the default values or the values of the
+	 * active task.
 	 */
 	private void init() {
 		if (task == null) {
@@ -183,8 +182,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 			btnConfirmation.setText("New Task");
 			lblWindowLabel.setText("New Task");
 			state = "New";
-		}
-		else {
+		} else {
 			areaDescription.setText(task.getDescription());
 			boxTitle.setText(task.getTitle());
 			boxStatus.setValue(task.getStatus());
@@ -194,39 +192,38 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>, Has
 		}
 	}
 
-	
 	public TextBox getTitleField() {
 		return boxTitle;
 	}
 
-
-	
 	public TextArea getDescriptionField() {
 		return areaDescription;
 	}
-
-
 
 	@Override
 	public void displayErrors(ValidationResult<TaskBO> result) {
 		lblDescriptionMsg.setText(DESC_DESCRIPTION);
 		lblTitleMsg.setText(DESC_TITLE);
 		lblStatusMsg.setText(DESC_STATUS);
-		
-		if (result.isOk()) return;
+		lblDescriptionMsg.removeStyleName(ERROR_STYLE);
+		lblTitleMsg.removeStyleName(ERROR_STYLE);
+		lblStatusMsg.removeStyleName(ERROR_STYLE);
+
+		if (result.isOk())
+			return;
 		for (ValidationError<TaskBO> v : result) {
 			if ("title".equals(v.getField())) {
 				lblTitleMsg.setText(v.getMessage());
-				lblTitleMsg.setStyleName("serverResponseLabelError", true);
+				lblTitleMsg.setStyleName(ERROR_STYLE, true);
 			}
 			if ("description".equals(v.getField())) {
 				lblDescriptionMsg.setText(v.getMessage());
-				lblDescriptionMsg.setStyleName("serverResponseLabelError", true);
+				lblDescriptionMsg.setStyleName(ERROR_STYLE, true);
 			}
 		}
 	}
-	
-	public String getState(){
+
+	public String getState() {
 		return state;
 	}
 }
