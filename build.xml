@@ -11,6 +11,14 @@
 	<property name="build.server.resources.dir" location="war/WEB-INF/classes/server_resources" />
 	<property name="lib.dir" location="war/WEB-INF/lib" />
 	<property name="gwt.client.dir" location="de/oose/taskboard/client" />
+	<!-- some properties for the tomcat -->
+	<!-- replace the tomcat download url with whatever you amy find appropriate -->
+	<property name="tomcat.download.url" value="http://mirror.softaculous.com/apache/tomcat/tomcat-7/v7.0.26/bin/apache-tomcat-7.0.26.zip"/>
+	<property name="tomcat.install.dir" value="tomcat"/>
+	<!-- the tomcat zip contains a toplevel directory, where everything is installed - so this must be adapted to each new tomcat version -->
+	<property name="tomcat.subdir" value="apache-tomcat-7.0.26"/>
+	<property name="tomcat.home" value="${tomcat.install.dir}/${tomcat.subdir}" />
+	<property name="tomcat.file" value="apache-tomcat-7.0.26.zip"/>
 
 	<import file="gwt.compile.ant.xml" />
 
@@ -25,9 +33,10 @@
 		<mkdir dir="${dist.dir}" />
 	</target>
 
-	<target name="clean">
+	<target name="clean" depends="tomcat-stop">
 		<delete dir="${build.dir}" />
 		<delete dir="${dist.dir}" />
+		<delete dir="${tomcat.install.dir}"/>
 	</target>
 
 	<!-- Compile the java source code using javac -->
@@ -74,5 +83,60 @@
 				<exclude name="**/gwt-user.jar" />
 			</webinf>
 		</war>
+	</target>
+		
+	<target name="tomcat-check-installed" description="Checks if the tomcat needs to be installed">
+		 <available file="{tomcat.home}" type="dir" property="tomcat.installed"/>
+	</target>	
+	
+	<target name="tomcat-install" depends="tomcat-check-installed" unless="tomcat.installed"
+		description="Download and install tomcat server">
+		<mkdir dir="${tomcat.install.dir}"/>
+		<echo>Installing Tomcat</echo>
+		<unzip dest="${tomcat.install.dir}" src="${tomcat.file}" overwrite="true"/>
+		<property name="tomcat.installed" value="true"/>
+	</target>
+	
+	<path id="tomcat.class.path">
+		<fileset dir="${tomcat.home}/lib">
+			<include name="**/*.jar"/>
+			<include name="**/*.zip"/>
+		</fileset>
+		<pathelement location="${tomcat.home}/bin/bootstrap.jar"/>
+		<pathelement location="${tomcat.home}/bin/tomcat-juli.jar"/>
+	</path>
+
+	<target name="deploy" depends="war,tomcat-install"
+		description="Builds the webapp and deploys it in the local tomcat">
+		<sequential>
+			<antcall target="tomcat-stop"/>
+			<delete dir="${tomcat.home}/webapps/${dist.context}" failonerror="false"/>
+			<copy file="${dist.dir}/${war.name}" todir="${tomcat.home}/webapps"/>
+			<antcall target="tomcat-start"/>
+		</sequential>
+	</target>
+
+	<target name="tomcat-start" depends="tomcat-install"
+		description="Starts the local tomcat, if neccesary the task installs it and deploys the webapp">
+		<java classname="org.apache.catalina.startup.Bootstrap" fork="true"
+			classpathref="tomcat.class.path">
+			<jvmarg value="-Dcatalina.home=${tomcat.home}"/>
+		</java>
+	</target>
+
+	<target name="tomcat-stop" depends="tomcat-check-status" if="tomcat.started"
+		description="Checks if the tomcat is running and if it is it get's stopped">
+		<java classname="org.apache.catalina.startup.Bootstrap" fork="true"
+			classpathref="tomcat.class.path">
+			<jvmarg value="-Dcatalina.home=${tomcat.home}"/>
+			<arg line="stop"/>
+		</java>
+		<sleep seconds="5"/>
+	</target>
+
+	<target name="tomcat-check-status">
+		<condition property="tomcat.started">
+			<socket server="localhost" port="8080"/>
+		</condition>
 	</target>
 </project>

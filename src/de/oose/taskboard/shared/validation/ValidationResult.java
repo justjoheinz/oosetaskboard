@@ -1,34 +1,29 @@
 package de.oose.taskboard.shared.validation;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 
-public class ValidationResult<T> implements Serializable {
-	
-	private T target;
-	private String field;
-	private String message;
-	
-	public ValidationResult(T target, String field, String message) {
+public class ValidationResult<T>  extends ArrayList<ValidationError<T>>{
+
+	public ValidationResult() {
 		super();
-		this.target = target;
-		this.field = field;
-		this.message = message;
 	}
 
-	public T getTarget() {
-		return target;
+	public ValidationResult(Collection<? extends ValidationError<T>> arg0) {
+		super(arg0);
 	}
 
-	public String getField() {
-		return field;
-	}
-
-	public String getMessage() {
-		return message;
+	public ValidationResult(int arg0) {
+		super(arg0);
 	}
 	
+	public boolean hasErrors() {
+		return !isOk();
+	}
 	
-	
-	
+	public boolean isOk() {
+		return isEmpty();
+	}
 
+	
 }

@@ -2,8 +2,9 @@
 /builddir
 /dist
 war/
+tomcat/
+taskdb.*
 .gwt/
-
 
 #mac stuff
 .DS_Store

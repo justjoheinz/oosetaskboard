@@ -14,9 +14,7 @@ import de.oose.taskboard.shared.bo.TaskBO;
 
 public class TaskCellList extends CellList<TaskBO> {
 
-	private String filter = null;
-
-	public TaskCellList(String filter) {
+	public TaskCellList() {
 		super(new AbstractCell<TaskBO>() {
 			@Override
 			public void render(Context context, TaskBO value, SafeHtmlBuilder sb) {
@@ -32,26 +30,6 @@ public class TaskCellList extends CellList<TaskBO> {
 				sb.appendHtmlConstant("</p></div>");
 			}
 		});
-		this.filter = filter;
 		setEmptyListWidget(new Label("nothing"));
 	}
-
-	private List<TaskBO> filter(List<TaskBO> original) {
-		if (original == null)
-			return null;
-		List<TaskBO> result = new ArrayList<TaskBO>();
-		for (TaskBO task : original) {
-			if (filter.equalsIgnoreCase(task.getStatus())) {
-				result.add(task);
-			}
-		}
-		return result;
-	}
-
-	public void setFilteredRowData(List<TaskBO> original) {
-		List<TaskBO> filtered = filter(original);
-		setRowCount(filtered.size());
-		setRowData(filtered);
-	}
-
 }

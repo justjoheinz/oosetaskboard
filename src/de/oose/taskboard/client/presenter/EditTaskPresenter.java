@@ -1,7 +1,5 @@
 package de.oose.taskboard.client.presenter;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -14,9 +12,11 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+import de.oose.taskboard.client.event.DeleteTaskEvent;
 import de.oose.taskboard.client.event.EditTaskCancelledEvent;
 import de.oose.taskboard.client.event.UpdateTasksEvent;
 import de.oose.taskboard.client.service.TaskServiceAsync;
+import de.oose.taskboard.client.util.DefaultAsyncCallback;
 import de.oose.taskboard.client.view.EditTaskView;
 import de.oose.taskboard.shared.bo.TaskBO;
 import de.oose.taskboard.shared.validation.ValidationResult;
@@ -28,16 +28,14 @@ public class EditTaskPresenter implements Presenter {
 	private final HandlerManager eventBus;
 	private final TaskServiceAsync taskService;
 
-	
-
 	@Inject
-	public EditTaskPresenter(EditTaskView display, TaskServiceAsync taskService,
-			HandlerManager eventBus) {
+	public EditTaskPresenter(EditTaskView display,
+			TaskServiceAsync taskService, HandlerManager eventBus) {
 		this(display, taskService, eventBus, null);
 	}
-	
-	public EditTaskPresenter(EditTaskView display, TaskServiceAsync taskService,
-			HandlerManager eventBus, TaskBO taskBO) {
+
+	public EditTaskPresenter(EditTaskView display,
+			TaskServiceAsync taskService, HandlerManager eventBus, TaskBO taskBO) {
 		this.display = display;
 		this.eventBus = eventBus;
 		this.taskService = taskService;
@@ -54,10 +52,9 @@ public class EditTaskPresenter implements Presenter {
 	public void bind() {
 		display.getConfirmationButton().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				if(display.getState().equals("New")){
-				saveTask();
-				}
-				else{
+				if (display.getState().equals("New")) {
+					saveTask();
+				} else {
 					updateTask();
 				}
 			}
@@ -78,42 +75,50 @@ public class EditTaskPresenter implements Presenter {
 				validate();
 			}
 		};
-		
+
 		display.getTitleField().addKeyUpHandler(keyValidationHandler);
 		display.getDescriptionField().addKeyUpHandler(keyValidationHandler);
+
+		display.getDeleteButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				deleteTask();
+
+			}
+		});
+	}
+
+	public void deleteTask() {
+		TaskBO taskBO = display.getValue();
+		taskService.deleteTask(taskBO, new DefaultAsyncCallback<Void>() {
+			@Override
+			public void onSuccess(Void result) {
+				eventBus.fireEvent(new DeleteTaskEvent());
+			}
+		});
 	}
 
 	public void saveTask() {
 		TaskBO taskBO = display.getValue();
 
-		taskService.addTask(taskBO, new AsyncCallback<TaskBO>() {
+		taskService.addTask(taskBO, new DefaultAsyncCallback<TaskBO>() {
 
 			@Override
 			public void onSuccess(TaskBO result) {
 				eventBus.fireEvent(new UpdateTasksEvent(result));
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert(caught.getMessage());
 			}
 		});
 	}
-	
-	public void updateTask(){
+
+	public void updateTask() {
 		TaskBO taskBO = display.getValue();
-		
-		taskService.updateTask(taskBO, new AsyncCallback<TaskBO>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert(caught.getMessage());
-			}
-
+		taskService.updateTask(taskBO, new DefaultAsyncCallback<TaskBO>() {
 			@Override
 			public void onSuccess(TaskBO result) {
 				eventBus.fireEvent(new UpdateTasksEvent(result));
-				
+
 			}
 		});
 	}
@@ -126,8 +131,8 @@ public class EditTaskPresenter implements Presenter {
 	private void validate() {
 		display.getConfirmationButton().setEnabled(false);
 		if (display.getValue() != null) {
-			List<ValidationResult<TaskBO>> result = display.getValue()
-					.validate();
+			ValidationResult<TaskBO> result = display.getValue().validate();
+			display.displayErrors(result);
 			if (result.isEmpty()) {
 				display.getConfirmationButton().setEnabled(true);
 			}
