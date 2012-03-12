@@ -8,3 +8,4 @@ taskdb.*
 
 #mac stuff
 .DS_Store
+/.classpath
