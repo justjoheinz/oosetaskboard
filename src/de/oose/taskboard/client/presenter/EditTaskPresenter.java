@@ -19,6 +19,7 @@ import de.oose.taskboard.client.service.TaskServiceAsync;
 import de.oose.taskboard.client.util.DefaultAsyncCallback;
 import de.oose.taskboard.client.view.EditTaskView;
 import de.oose.taskboard.shared.bo.TaskBO;
+import de.oose.taskboard.shared.enums.TaskState;
 import de.oose.taskboard.shared.validation.ValidationResult;
 
 @Singleton
@@ -52,7 +53,7 @@ public class EditTaskPresenter implements Presenter {
 	public void bind() {
 		display.getConfirmationButton().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				if (display.getState().equals("New")) {
+				if (TaskState.NEW.equals(display.getState())) {
 					saveTask();
 				} else {
 					updateTask();
