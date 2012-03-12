@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.ValueListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.oose.taskboard.shared.bo.TaskBO;
+import de.oose.taskboard.shared.enums.TaskState;
 import de.oose.taskboard.shared.validation.Validatable;
 import de.oose.taskboard.shared.validation.ValidationError;
 import de.oose.taskboard.shared.validation.ValidationResult;
@@ -35,6 +36,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 	private static final String DESC_TITLE = "The title of the task";
 	private static final String DESC_DESCRIPTION = "A short description of this task";
 	private static final String DESC_STATUS = "The current state of this task";
+	private TaskState state; 
 	private TextBox boxTitle;
 	private TextArea areaDescription;
 	private Button btnConfirmation;
@@ -45,7 +47,6 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 	private Label lblDescriptionMsg;
 	private Label lblTitleMsg;
 	private Button btnDelete;
-	private String state;
 	private Label lblStatusMsg;
 
 	public EditTaskView() {
@@ -203,14 +204,14 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 			boxStatus.setValue("PLANNING");
 			btnConfirmation.setText("New Task");
 			lblWindowLabel.setText("New Task");
-			state = "New";
+			state = TaskState.NEW;
 		} else {
 			areaDescription.setText(task.getDescription());
 			boxTitle.setText(task.getTitle());
 			boxStatus.setValue(task.getStatus());
 			btnConfirmation.setText("Confirm");
 			lblWindowLabel.setText("Edit Task");
-			state = "Edit";
+			state = TaskState.EDIT;
 		}
 	}
 
@@ -249,7 +250,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 		}
 	}
 
-	public String getState() {
+	public TaskState getState() {
 		return state;
 	}
 }
