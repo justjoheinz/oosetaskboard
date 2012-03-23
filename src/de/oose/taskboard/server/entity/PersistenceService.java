@@ -12,10 +12,6 @@ public interface PersistenceService {
 
 	Task updateTask(int id, String title, String description, String status, TaskVisibility visibility);
 
-	List<Task> getTasks();
-
-	List<Task> getTasks(String status);
-
 	List<Task> getTasks(String status, int start, int count);
 
 	int getTaskCount(String status);

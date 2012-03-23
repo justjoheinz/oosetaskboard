@@ -64,16 +64,9 @@ public class PersistenceServiceImpl implements PersistenceService {
 		return task;
 	}
 
-	@Override
-	public List<Task> getTasks() {
-		Query query = em.createQuery("from Task");
-		List<Task> tasks = query.getResultList();
-		LOG.info("found {} tasks", tasks.size());
-		return tasks;
-	}
 
-	@Override
-	public List<Task> getTasks(String status) {
+	
+	private List<Task> getTasks(String status) {
 		Query query = createTaskQuery(status);
 		List<Task> tasks = query.getResultList();
 		LOG.info("found {} tasks with status {}", tasks.size(), status);

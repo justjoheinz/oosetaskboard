@@ -32,11 +32,7 @@ public class TaskServiceImpl implements TaskService {
 
 	}
 
-	@Override
-	public List<TaskBO> getTasks() {
-		List<Task> tasks = ps.getTasks();
-		return map(tasks);
-	}
+	
 
 	@Override
 	@Transactional
@@ -58,13 +54,6 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public void deleteTask(TaskBO taskBO) {
 		ps.deleteTask(taskBO.getId());
-	}
-
-	@Override
-	public List<TaskBO> getTasks(String status) {
-		List<Task> tasks = ps.getTasks(status);
-		return map(tasks);
-		
 	}
 	
 	public List<TaskBO> getTasks(String status, int start, int count) {
