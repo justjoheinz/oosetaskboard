@@ -1,6 +1,5 @@
 package de.oose.taskboard.client.view;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -9,6 +8,7 @@ import com.google.gwt.text.shared.AbstractRenderer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -24,8 +24,6 @@ import de.oose.taskboard.shared.enums.TaskVisibility;
 import de.oose.taskboard.shared.validation.Validatable;
 import de.oose.taskboard.shared.validation.ValidationError;
 import de.oose.taskboard.shared.validation.ValidationResult;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.text.shared.Renderer;
 
 /**
  * The view to add new task or edit an exisiting one.

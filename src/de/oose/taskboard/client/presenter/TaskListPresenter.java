@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -16,7 +15,6 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
-import com.google.inject.servlet.SessionScoped;
 
 import de.oose.taskboard.client.event.EditTaskEvent;
 import de.oose.taskboard.client.event.LoginEvent;

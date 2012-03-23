@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 
-import de.oose.taskboard.server.entity.User;
 import de.oose.taskboard.shared.enums.TaskVisibility;
 import de.oose.taskboard.shared.validation.Validatable;
 import de.oose.taskboard.shared.validation.ValidationError;

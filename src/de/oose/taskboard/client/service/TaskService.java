@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-import de.oose.taskboard.server.entity.Task;
 import de.oose.taskboard.shared.bo.TaskBO;
 
 @RemoteServiceRelativePath("GWT.rpc")
