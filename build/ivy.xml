@@ -10,6 +10,7 @@
 		<conf name="gwt" visibility="public" />
 		<conf name="default" visibility="public" extends="master" />
 		<conf name="master" visibility="public" />
+		<conf name="test" visibility="public"/>
 	</configurations>
 	<dependencies>
 		<!-- Dozer DTO mapping dependencies -->
@@ -62,6 +63,9 @@
 		<!-- logging framework -->
 		<dependency org="ch.qos.logback" name="logback-classic" rev="${logback.version}" />
 
+		<!-- Those dependencies are our test stuff -->
+		<dependency org="org.seleniumhq.selenium" name="selenium-java" rev="${selenium.version}" conf="test->default(*)"/>
+
 		<!-- override transitive dependencies with correct versions of google gwt 
 			and guice -->
 		<override org="com.google.gwt" rev="${com.google.gwt.version}" />
@@ -69,6 +73,7 @@
 		<override org="com.google.inject.extensions" rev="${com.google.guice.version}" />
 		<!-- override sl4j versions with the latest -->
 		<override org="org.slf4j" rev="${slf4j.version}"/>
+		
 		
 	</dependencies>
 </ivy-module>
