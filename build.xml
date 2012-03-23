@@ -20,6 +20,9 @@
 	<property name="tomcat.home" value="${tomcat.install.dir}/${tomcat.subdir}" />
 	<property name="tomcat.file" value="apache-tomcat-7.0.26.zip"/>
 
+	<!-- grab the test properties shared by this build and the ivy build --> 
+	<property file="build/test.properties" />
+
 	<import file="gwt.compile.ant.xml" />
 
 	<path id="project.classpath">
@@ -139,4 +142,45 @@
 			<socket server="localhost" port="8080"/>
 		</condition>
 	</target>
+	
+	<!-- the targets below this point deal with all the test stuff -->
+	
+	<target name="test-execute" depends ="test-compile">
+		<java classname="${test.main.class}">
+			<classpath>
+				<pathelement path="${test.compile.dir}"/>
+				<path refid="project.test.classpath"/>
+			</classpath>
+		</java>
+	</target>
+	
+	<!-- Compile the java source code using javac -->
+	<target name="test-compile" depends="test-prepare">
+		<echo>Compiling the test classes in ${test.src.dir} to ${test.compile.dir}</echo>
+		<javac srcdir="${test.src.dir}" destdir="${test.compile.dir}" includeantruntime="false" sourcepath="">
+			<classpath refid="project.test.classpath" />
+		</javac>
+		<!-- copy the logback configuration -->
+		<copy file="${test.src.dir}/logback.xml" todir="${test.compile.dir}"/>
+	</target>
+
+	<!-- clean up after yourself - if needed -->
+	<target name="test-clean" depends="test-prepare">
+		<delete dir="${test.compile.dir}" />
+		<delete file="${test.build.dir}/${test.target.jar}"/>
+	</target>
+	
+	<target name="test-prepare">
+		<!-- in theory this should exist - but we wnat to get sure -->
+		<mkdir dir="${test.dir}"/>
+		<!-- create the test compile -->
+		<mkdir dir="${test.compile.dir}"/>
+	</target>
+
+	<path id="project.test.classpath">
+		<fileset dir="${test.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
 </project>
