@@ -25,6 +25,8 @@ import de.oose.taskboard.client.widget.TaskCellList;
 import de.oose.taskboard.client.widget.Taskboard;
 import de.oose.taskboard.shared.bo.TaskBO;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 
 /**
  * Sample implementation of {@link TaskView}.
@@ -35,6 +37,7 @@ public class TaskListView extends VerticalPanel {
 
 	private Button btnTask;
 	private Label lblUser;
+	private Button btnLogout;
 
 	public String getUser() {
 		return lblUser.getText();
@@ -48,9 +51,22 @@ public class TaskListView extends VerticalPanel {
 	public TaskListView() {
 		setSpacing(5);
 		setSize("800", "600");
+		
+		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		horizontalPanel.setSpacing(5);
+		add(horizontalPanel);
+		horizontalPanel.setWidth("100%");
+		setCellWidth(horizontalPanel, "100%");
 
-		lblUser = new Label("New label");
-		add(lblUser);
+		lblUser = new Label("userlabel");
+		horizontalPanel.add(lblUser);
+		horizontalPanel.setCellWidth(lblUser, "20%");
+		
+		btnLogout = new Button("New button");
+		btnLogout.setText("Logout");
+		horizontalPanel.add(btnLogout);
+		horizontalPanel.setCellWidth(btnLogout, "100%");
+		horizontalPanel.setCellHorizontalAlignment(btnLogout, HasHorizontalAlignment.ALIGN_RIGHT);
 
 		taskboard = new Taskboard();
 		add(taskboard);
@@ -63,6 +79,10 @@ public class TaskListView extends VerticalPanel {
 
 	public Button getTaskButton() {
 		return btnTask;
+	}
+
+	public Button getBtnLogout() {
+		return btnLogout;
 	}
 
 	public HasSelectionHandlers<TaskBO> getTaskboard() {

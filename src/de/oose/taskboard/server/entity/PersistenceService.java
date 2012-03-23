@@ -19,5 +19,6 @@ public interface PersistenceService {
 	List<Task> getTasks(String status, int start, int count);
 
 	int getTaskCount(String status);
-
+	
+	List<Task> getPrivateTasks(int userId);
 }

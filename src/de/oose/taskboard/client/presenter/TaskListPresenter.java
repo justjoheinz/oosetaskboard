@@ -19,6 +19,7 @@ import com.google.gwt.view.client.Range;
 import com.google.inject.servlet.SessionScoped;
 
 import de.oose.taskboard.client.event.EditTaskEvent;
+import de.oose.taskboard.client.event.LoginEvent;
 import de.oose.taskboard.client.service.TaskServiceAsync;
 import de.oose.taskboard.client.util.DefaultAsyncCallback;
 import de.oose.taskboard.client.view.TaskListView;
@@ -36,11 +37,11 @@ public class TaskListPresenter implements Presenter {
 	private UserBO user;
 
 	@Inject
-	public TaskListPresenter(TaskListView display, TaskServiceAsync taskServie,
+	public TaskListPresenter(TaskListView display, TaskServiceAsync taskService,
 			HandlerManager eventBus) {
 		this.display = display;
 		this.eventBus = eventBus;
-		this.taskService = taskServie;
+		this.taskService = taskService;
 		bind();
 	}
 
@@ -74,6 +75,14 @@ public class TaskListPresenter implements Presenter {
 								.getSelectedItem()));
 					}
 				});
+		
+		display.getBtnLogout().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				eventBus.fireEvent(new LoginEvent(null));	
+			}
+		});
 
 		Map<String, TaskCellList> cellListMap = display.getFilteredCellLists();
 		for (Map.Entry<String, TaskCellList> cellListEntry : cellListMap

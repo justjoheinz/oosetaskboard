@@ -16,12 +16,17 @@ import de.oose.taskboard.client.event.EditTaskCancelledEvent;
 import de.oose.taskboard.client.event.EditTaskCancelledEventHandler;
 import de.oose.taskboard.client.event.EditTaskEvent;
 import de.oose.taskboard.client.event.EditTaskHandler;
+import de.oose.taskboard.client.event.LoginEvent;
+import de.oose.taskboard.client.event.LoginHandler;
 import de.oose.taskboard.client.event.UpdateTasksEvent;
 import de.oose.taskboard.client.event.UpdateTasksHandler;
 import de.oose.taskboard.client.presenter.EditTaskPresenter;
+import de.oose.taskboard.client.presenter.LoginPresenter;
 import de.oose.taskboard.client.presenter.Presenter;
 import de.oose.taskboard.client.presenter.TaskListPresenter;
+import de.oose.taskboard.client.service.LoginServiceAsync;
 import de.oose.taskboard.client.service.TaskServiceAsync;
+import de.oose.taskboard.client.view.LoginView;
 import de.oose.taskboard.client.view.TaskListView;
 import de.oose.taskboard.shared.bo.UserBO;
 
@@ -38,10 +43,13 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private static final String HISTORY_EDIT = "edit";
 	private static final String HISTORY_TASKLIST = "taskList";
 	private static final String HISTORY_UPDATE = "update";
+	private static final String HISTORY_LOGIN = "login";
 	@Inject
 	private HandlerManager eventBus;
 	@Inject
 	private TaskServiceAsync taskService;
+	@Inject
+	private LoginServiceAsync loginService;
 
 	private HasWidgets container;
 
@@ -49,8 +57,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private EditTaskPresenter editTaskPresenter;
 	@Inject
 	private TaskListPresenter taskListPresenter;
-	
-	//TODO remove
+	@Inject
+	private LoginPresenter loginPresenter;
+
+	// TODO remove
 	private UserBO user;
 
 	@Inject
@@ -61,10 +71,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		user.setName("Markus Klink");
 		bind();
 	}
-	
+
 	@Inject
 	public void init() {
-		
+
 	}
 
 	private void bind() {
@@ -73,7 +83,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 			@Override
 			public void onEditTask(EditTaskEvent event) {
-				History.newItem(HISTORY_EDIT, false); 
+				History.newItem(HISTORY_EDIT, false);
 
 				if (event.getTaskBO() != null) {
 					editTaskPresenter.setTask(event.getTaskBO());
@@ -106,12 +116,25 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				// presenter.go(container);
 			}
 		});
-		
+
 		eventBus.addHandler(DeleteTaskEvent.TYPE, new DeleteTaskEventHandler() {
-			
+
 			@Override
 			public void onDeleteTask(DeleteTaskEvent event) {
 				History.newItem(HISTORY_TASKLIST);
+			}
+		});
+
+		eventBus.addHandler(LoginEvent.TYPE, new LoginHandler() {
+
+			@Override
+			public void onLogin(LoginEvent event) {
+				user = event.getAccount();
+				if (user == null) {
+					History.newItem(HISTORY_LOGIN);
+				} else {
+					History.newItem(HISTORY_TASKLIST);
+				}
 			}
 		});
 	}
@@ -127,6 +150,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		String token = event.getValue();
 
 		if (token != null) {
+			if (token.equals(HISTORY_LOGIN)) {
+				LoginView loginView = GWT.create(LoginView.class);
+				loginPresenter.go(container);
+			}
 
 			if (token.equals(HISTORY_TASKLIST)) {
 				TaskListView taskListView = GWT
@@ -154,7 +181,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		this.container = container;
 
 		if ("".equals(History.getToken())) {
-			History.newItem(HISTORY_TASKLIST);
+			History.newItem(HISTORY_LOGIN);
 		} else {
 			History.fireCurrentHistoryState();
 		}

@@ -18,8 +18,9 @@ public class PersistenceServiceImpl implements PersistenceService {
 	@Inject
 	private EntityManager em;
 
-	static final Logger LOG = LoggerFactory.getLogger(PersistenceServiceImpl.class);
-	
+	static final Logger LOG = LoggerFactory
+			.getLogger(PersistenceServiceImpl.class);
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -29,14 +30,15 @@ public class PersistenceServiceImpl implements PersistenceService {
 	 */
 	@Override
 	@Transactional
-	public Task createTask(String title, String description, String status, TaskVisibility visibility) {
+	public Task createTask(String title, String description, String status,
+			TaskVisibility visibility) {
 		Task task = new Task();
 		task.setTitle(title);
 		task.setDescription(description);
 		task.setStatus(status);
 		task.setVisibility(visibility);
 		em.persist(task);
-		LOG.info("Created task '{}' with status '{}'",title,status);
+		LOG.info("Created task '{}' with status '{}'", title, status);
 		return task;
 	}
 
@@ -44,7 +46,7 @@ public class PersistenceServiceImpl implements PersistenceService {
 	@Transactional
 	public void deleteTask(int id) {
 		Task task = em.find(Task.class, id);
-		LOG.info("deleted task {}",id);
+		LOG.info("deleted task {}", id);
 		em.remove(task);
 	}
 
@@ -58,7 +60,7 @@ public class PersistenceServiceImpl implements PersistenceService {
 		task.setStatus(status);
 		task.setVisibility(visibility);
 		em.persist(task);
-		LOG.info("Updated task {} with title '{}'",id,title);
+		LOG.info("Updated task {} with title '{}'", id, title);
 		return task;
 	}
 
@@ -66,7 +68,7 @@ public class PersistenceServiceImpl implements PersistenceService {
 	public List<Task> getTasks() {
 		Query query = em.createQuery("from Task");
 		List<Task> tasks = query.getResultList();
-		LOG.info("found {} tasks",tasks.size());
+		LOG.info("found {} tasks", tasks.size());
 		return tasks;
 	}
 
@@ -74,7 +76,7 @@ public class PersistenceServiceImpl implements PersistenceService {
 	public List<Task> getTasks(String status) {
 		Query query = createTaskQuery(status);
 		List<Task> tasks = query.getResultList();
-		LOG.info("found {} tasks with status {}",tasks.size(),status);
+		LOG.info("found {} tasks with status {}", tasks.size(), status);
 		return tasks;
 	}
 
@@ -84,25 +86,36 @@ public class PersistenceServiceImpl implements PersistenceService {
 		query.setFirstResult(start);
 		query.setMaxResults(count);
 		List<Task> tasks = query.getResultList();
-		LOG.info("found {} tasks with status {}, from {}, up to {}",new Object[]{tasks.size(),status,start,count});
+		LOG.info("found {} tasks with status {}, from {}, up to {}",
+				new Object[] { tasks.size(), status, start, count });
 		return tasks;
 	}
-	
+
 	@Override
 	public int getTaskCount(String status) {
-		//TODO this should work, but it does not
-		//Query query = em.createQuery("select count(*) from Task t where t.status = '" + status + "'");
-		//return query.getFirstResult();
-		//TODO hence we do it brute force - again
+		// TODO this should work, but it does not
+		// Query query =
+		// em.createQuery("select count(*) from Task t where t.status = '" +
+		// status + "'");
+		// return query.getFirstResult();
+		// TODO hence we do it brute force - again
 		int count = getTasks(status).size();
-		LOG.info("There are {} tasks with status {}",count,status);
+		LOG.info("There are {} tasks with status {}", count, status);
 		return count;
 	}
 
 	private Query createTaskQuery(String status) {
 		String query = "from Task t where t.status = '" + status + "'";
-		LOG.trace("Query is '{}'",query);
+		LOG.trace("Query is '{}'", query);
 		return em.createQuery(query);
 	}
 
+	@Override
+	public List<Task> getPrivateTasks(int userId) {
+		String queryText = "from Task t where t.visibility = '"
+				+ TaskVisibility.PRIVATE + "' and t.user=" + userId;
+		Query query = em.createQuery(queryText, Task.class);
+		return query.getResultList();
+	}
+	
 }
