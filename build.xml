@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="GWT Ant Build" basedir="." default="war">
+<project name="GWT Ant Build" basedir="." default="deploy">
 
 	<property name="gwt.module.name" value="de.oose.taskboard.OoseTaskboard" />
 	<property name="jar.name" value="taskboard.jar" />
