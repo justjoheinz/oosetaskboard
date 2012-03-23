@@ -1,0 +1,21 @@
+<configuration>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n
+			</Pattern>
+		</layout>
+	</appender>
+	<!-- This is the place where you specify which log level the application uses -->
+	<logger name="de.oose" level="DEBUG" />
+	<!--  If you want to see more for you specific application you can adapt this to your package or class -->
+	<logger name="de.oose.problematic-package" level="TRACE" />
+	<root level="WARN">
+		<appender-ref ref="STDOUT" />
+	</root>
+	<!-- 
+	Log Levels: WARN/ERROR for all real errors
+				INFO: for important actions
+				DEBUG: for each and every step
+				TRACE for even more steps
+	 -->
+</configuration>

@@ -18,6 +18,7 @@
 
 
 	<property file="build.properties" />
+	<property file="test.properties" />
 
 	<!--  Ivy -->
 	<property name="ivy.install.version" value="2.2.0" />
@@ -72,6 +73,19 @@
 			<fileset dir="locallibs" />
 		</copy> -->
 		<antcall target="refresh" />
+	</target>
+
+	<target name="prepare-test-dirs">
+		<!--  ensure that the test dir itself is there - should be -->
+		<mkdir dir="../${test.dir}"/>
+		<!--  now create the target dirs for ivy -->
+		<mkdir dir="../${test.target.dir}"/>
+		<mkdir dir="../${test.lib.dir}"/>
+	</target>
+
+	<target name="download-test-libs" depends="init-ivy, prepare-test-dirs" description="Retrieve required artifacts for testing and copy them into the test.lib.dir.">
+		<ivy:retrieve pattern="../${test.lib.dir}/[artifact]-[revision](-[classifier]).[ext]" type="bundle,jar" sync="true" conf="test" />
+		<!-- <antcall target="refresh" /> -->
 	</target>
 
 	<target name="refresh" if="eclipse.running" description="Refresh the workspace when running under eclipse">
