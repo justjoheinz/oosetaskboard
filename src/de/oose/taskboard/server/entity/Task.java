@@ -6,6 +6,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
@@ -17,6 +18,7 @@ public class Task {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String title;
+	@Lob // in order to allow long descriptions
 	private String description;
 	private String status;
 	@Enumerated
