@@ -38,7 +38,7 @@ public class TaskBoardSeleniumTest {
 		LOGGER.info("executing the tests");
 		//execute the tests
 		for (SeleniumTest test: tests) {
-			LOGGER.debug("Executing the {} test", test.getClass().getName());
+			LOGGER.debug("Executing {}", test.getClass().getName());
 			test.perform(driver);
 		}
 
