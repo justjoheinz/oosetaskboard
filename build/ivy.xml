@@ -61,10 +61,11 @@
 			rev="${com.google.gwt.version}" conf="master->default(*)" />
 
 		<!-- logging framework -->
-		<dependency org="ch.qos.logback" name="logback-classic" rev="${logback.version}" />
+		<dependency org="ch.qos.logback" name="logback-classic" rev="${logback.version}" conf="master->default(*);test->default(*)" />
 
 		<!-- Those dependencies are our test stuff -->
 		<dependency org="org.seleniumhq.selenium" name="selenium-java" rev="${selenium.version}" conf="test->default(*)"/>
+		<dependency org="org.hamcrest" name="hamcrest-all" rev="${hamcrest.version}" conf="test->default(*)"/>
 
 		<!-- override transitive dependencies with correct versions of google gwt 
 			and guice -->

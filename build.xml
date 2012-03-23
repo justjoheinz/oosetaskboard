@@ -145,8 +145,13 @@
 	
 	<!-- the targets below this point deal with all the test stuff -->
 	
-	<target name="test-execute" depends ="test-jar">
-		<java jar="${test.target.dir}/${test.target.jar}" classpathref="project.test.classpath" fork="true"/>
+	<target name="test-execute" depends ="test-compile">
+		<java classname="${test.main.class}">
+			<classpath>
+				<pathelement path="${test.compile.dir}"/>
+				<path refid="project.test.classpath"/>
+			</classpath>
+		</java>
 	</target>
 	
 	<!-- Compile the java source code using javac -->
@@ -155,12 +160,6 @@
 		<javac srcdir="${test.src.dir}" destdir="${test.compile.dir}" includeantruntime="false" sourcepath="">
 			<classpath refid="project.test.classpath" />
 		</javac>
-	</target>
-
-	<!-- build a jar from the compiled stuff -->
-	<target name="test-jar" depends="test-compile">
-		<jar jarfile="${test.target.dir}/${test.target.jar}" basedir="${test.compile.dir}/"
-			manifest="${test.src.dir}/META-INF/MANIFEST.MF"/>
 	</target>
 
 	<!-- clean up after yourself - if needed -->
