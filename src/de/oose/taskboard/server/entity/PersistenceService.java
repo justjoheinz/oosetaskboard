@@ -2,13 +2,15 @@ package de.oose.taskboard.server.entity;
 
 import java.util.List;
 
+import de.oose.taskboard.shared.enums.TaskVisibility;
+
 public interface PersistenceService {
 
-	Task createTask(String title, String description, String status);
+	Task createTask(String title, String description, String status, TaskVisibility visibility);
 
 	void deleteTask(int id);
 
-	Task updateTask(int id, String title, String description, String status);
+	Task updateTask(int id, String title, String description, String status, TaskVisibility visibility);
 
 	List<Task> getTasks();
 

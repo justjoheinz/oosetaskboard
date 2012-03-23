@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 
+import de.oose.taskboard.server.entity.User;
+import de.oose.taskboard.shared.enums.TaskVisibility;
 import de.oose.taskboard.shared.validation.Validatable;
 import de.oose.taskboard.shared.validation.ValidationError;
 import de.oose.taskboard.shared.validation.ValidationResult;
@@ -16,6 +18,10 @@ public class TaskBO implements Serializable, Validatable {
 	private String description;
 	@NotNull
 	private String status;
+	private long version;
+	private UserBO user;
+	
+	private TaskVisibility visibility;
 
 	public static final String WORK = "WORK";
 	public static final String PLANNING = "PLANNING";
@@ -64,6 +70,15 @@ public class TaskBO implements Serializable, Validatable {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+
+	public TaskVisibility getVisibility() {
+		return visibility;
+	}
+
+	public void setVisibility(TaskVisibility visibility) {
+		this.visibility = visibility;
+	}
 
 	public ValidationResult<TaskBO> validate() {
 		ValidationResult<TaskBO> result = new ValidationResult<TaskBO>();
@@ -85,5 +100,23 @@ public class TaskBO implements Serializable, Validatable {
 		}
 		return result;
 	}
+
+	public long getVersion() {
+		return version;
+	}
+
+	public void setVersion(long version) {
+		this.version = version;
+	}
+
+	public UserBO getUser() {
+		return user;
+	}
+
+	public void setUser(UserBO user) {
+		this.user = user;
+	}
+	
+	
 
 }

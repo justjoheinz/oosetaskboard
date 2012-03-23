@@ -12,29 +12,28 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
+import com.google.gwt.view.client.Range;
+import com.google.inject.servlet.SessionScoped;
 
 import de.oose.taskboard.client.event.EditTaskEvent;
-import de.oose.taskboard.client.service.TaskService;
 import de.oose.taskboard.client.service.TaskServiceAsync;
 import de.oose.taskboard.client.util.DefaultAsyncCallback;
 import de.oose.taskboard.client.view.TaskListView;
 import de.oose.taskboard.client.widget.TaskCellList;
 import de.oose.taskboard.shared.bo.TaskBO;
-import com.google.gwt.view.client.Range;
+import de.oose.taskboard.shared.bo.UserBO;
 
-@Singleton
+
 public class TaskListPresenter implements Presenter {
 
 	private final TaskListView display;
 	private final HandlerManager eventBus;
 	private final TaskServiceAsync taskService;
 	private Map<String, TaskListProvider> taskListProviders = new HashMap<String, TaskListProvider>();
+	private UserBO user;
 
 	@Inject
 	public TaskListPresenter(TaskListView display, TaskServiceAsync taskServie,
@@ -117,4 +116,15 @@ public class TaskListPresenter implements Presenter {
 					});
 		}
 	}
+
+	public UserBO getUser() {
+		return user;
+	}
+
+	public void setUser(UserBO user) {
+		this.user = user;
+		display.setUser(user.getName());
+	}
+	
+	
 }

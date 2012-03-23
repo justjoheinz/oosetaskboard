@@ -42,7 +42,7 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional
 	public TaskBO addTask(TaskBO taskBO) {
 		taskBO.validate();
-		Task task = ps.createTask(taskBO.getTitle(), taskBO.getDescription(), taskBO.getStatus());
+		Task task = ps.createTask(taskBO.getTitle(), taskBO.getDescription(), taskBO.getStatus(), taskBO.getVisibility());
 		taskBO = mapper.map(task, TaskBO.class);
 		return taskBO;
 	}
@@ -50,7 +50,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public TaskBO updateTask(TaskBO taskBO) {
 		taskBO.validate();
-		Task task = ps.updateTask(taskBO.getId(), taskBO.getTitle(), taskBO.getDescription(), taskBO.getStatus());
+		Task task = ps.updateTask(taskBO.getId(), taskBO.getTitle(), taskBO.getDescription(), taskBO.getStatus(), taskBO.getVisibility());
 		taskBO = mapper.map(task, TaskBO.class);
 		return taskBO;
 	}
