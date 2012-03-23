@@ -5,6 +5,7 @@ war/
 tomcat/
 taskdb.*
 .gwt/
+test/build/
 
 #mac stuff
 .DS_Store
