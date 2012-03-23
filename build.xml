@@ -160,6 +160,8 @@
 		<javac srcdir="${test.src.dir}" destdir="${test.compile.dir}" includeantruntime="false" sourcepath="">
 			<classpath refid="project.test.classpath" />
 		</javac>
+		<!-- copy the logback configuration -->
+		<copy file="${test.src.dir}/logback.xml" todir="${test.compile.dir}"/>
 	</target>
 
 	<!-- clean up after yourself - if needed -->
