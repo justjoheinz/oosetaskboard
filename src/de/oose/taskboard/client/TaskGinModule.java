@@ -8,8 +8,6 @@ import com.google.inject.Provides;
 
 import de.oose.taskboard.client.presenter.EditTaskPresenter;
 import de.oose.taskboard.client.presenter.TaskListPresenter;
-import de.oose.taskboard.client.view.EditTaskView;
-import de.oose.taskboard.client.view.TaskListView;
 
 public class TaskGinModule extends AbstractGinModule {
 

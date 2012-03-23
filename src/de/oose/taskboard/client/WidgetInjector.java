@@ -1,6 +1,5 @@
 package de.oose.taskboard.client;
 
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 
