@@ -15,43 +15,52 @@
  */
 package de.oose.taskboard.client.view;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.oose.taskboard.client.widget.TaskCellList;
 import de.oose.taskboard.client.widget.Taskboard;
 import de.oose.taskboard.shared.bo.TaskBO;
-import de.oose.taskboard.shared.validation.ValidationError;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.Label;
 
 /**
  * Sample implementation of {@link TaskView}.
  */
-public class TaskListView extends VerticalPanel   {
-	
+public class TaskListView extends VerticalPanel {
+
 	private Taskboard taskboard;
-	
+
 	private Button btnTask;
+	private Label lblUser;
+
+	public String getUser() {
+		return lblUser.getText();
+	}
+
+	public void setUser(String lblUser) {
+		this.lblUser.setText(lblUser);
+		
+	}
 
 	public TaskListView() {
 		setSpacing(5);
 		setSize("800", "600");
 
-		taskboard =  new Taskboard();
+		lblUser = new Label("New label");
+		add(lblUser);
+
+		taskboard = new Taskboard();
 		add(taskboard);
-		
-				btnTask = new Button("New button");
-				add(btnTask);
-				btnTask.setText("New Task");
+
+		btnTask = new Button("New button");
+		add(btnTask);
+		btnTask.setText("New Task");
 
 	}
-	
+
 	public Button getTaskButton() {
 		return btnTask;
 	}
