@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.persist.Transactional;
 
+import de.oose.taskboard.shared.enums.TaskVisibility;
+
 public class PersistenceServiceImpl implements PersistenceService {
 
 	@Inject
@@ -27,11 +29,12 @@ public class PersistenceServiceImpl implements PersistenceService {
 	 */
 	@Override
 	@Transactional
-	public Task createTask(String title, String description, String status) {
+	public Task createTask(String title, String description, String status, TaskVisibility visibility) {
 		Task task = new Task();
 		task.setTitle(title);
 		task.setDescription(description);
 		task.setStatus(status);
+		task.setVisibility(visibility);
 		em.persist(task);
 		LOG.info("Created task '{}' with status '{}'",title,status);
 		return task;
@@ -48,11 +51,12 @@ public class PersistenceServiceImpl implements PersistenceService {
 	@Override
 	@Transactional
 	public Task updateTask(int id, String title, String description,
-			String status) {
+			String status, TaskVisibility visibility) {
 		Task task = em.find(Task.class, id);
 		task.setTitle(title);
 		task.setDescription(description);
 		task.setStatus(status);
+		task.setVisibility(visibility);
 		em.persist(task);
 		LOG.info("Updated task {} with title '{}'",id,title);
 		return task;

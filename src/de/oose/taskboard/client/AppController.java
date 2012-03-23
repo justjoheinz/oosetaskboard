@@ -23,6 +23,7 @@ import de.oose.taskboard.client.presenter.Presenter;
 import de.oose.taskboard.client.presenter.TaskListPresenter;
 import de.oose.taskboard.client.service.TaskServiceAsync;
 import de.oose.taskboard.client.view.TaskListView;
+import de.oose.taskboard.shared.bo.UserBO;
 
 /**
  * The main class of the application, responsible for reacting to events and
@@ -48,18 +49,26 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private EditTaskPresenter editTaskPresenter;
 	@Inject
 	private TaskListPresenter taskListPresenter;
+	
+	//TODO remove
+	private UserBO user;
 
 	@Inject
 	public AppController(TaskServiceAsync taskService, HandlerManager eventBus) {
 		this.taskService = taskService;
 		this.eventBus = eventBus;
+		user = new UserBO();
+		user.setName("Markus Klink");
 		bind();
-
+	}
+	
+	@Inject
+	public void init() {
+		
 	}
 
 	private void bind() {
 		History.addValueChangeHandler(this);
-
 		eventBus.addHandler(EditTaskEvent.TYPE, new EditTaskHandler() {
 
 			@Override
@@ -124,6 +133,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 						.create(de.oose.taskboard.client.view.TaskListView.class);
 				// presenter = new TaskListPresenter(taskListView, taskService,
 				// eventBus);
+				taskListPresenter.setUser(user);
 				taskListPresenter.go(container);
 			}
 

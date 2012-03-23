@@ -1,5 +1,6 @@
 package de.oose.taskboard.client.view;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -19,10 +20,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.oose.taskboard.shared.bo.TaskBO;
 import de.oose.taskboard.shared.enums.TaskState;
+import de.oose.taskboard.shared.enums.TaskVisibility;
 import de.oose.taskboard.shared.validation.Validatable;
 import de.oose.taskboard.shared.validation.ValidationError;
 import de.oose.taskboard.shared.validation.ValidationResult;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.text.shared.Renderer;
 
 /**
  * The view to add new task or edit an exisiting one.
@@ -48,6 +51,9 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 	private Label lblTitleMsg;
 	private Button btnDelete;
 	private Label lblStatusMsg;
+	private Label lblVisibility;
+	private ValueListBox<TaskVisibility> boxVisibility;
+	private Label lblTheVisibilityOf;
 
 	public EditTaskView() {
 		setSize("800px", "400px");
@@ -127,6 +133,27 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 		flexTable.getCellFormatter().setVerticalAlignment(2, 2, HasVerticalAlignment.ALIGN_TOP);
 		flexTable.getCellFormatter().setVerticalAlignment(1, 2, HasVerticalAlignment.ALIGN_TOP);
 		flexTable.getCellFormatter().setVerticalAlignment(0, 2, HasVerticalAlignment.ALIGN_TOP);
+		
+		lblVisibility = new Label("Visibility");
+		lblVisibility.setWordWrap(false);
+		lblVisibility.setStyleName("bold");
+		flexTable.setWidget(3, 0, lblVisibility);
+		
+		boxVisibility = new ValueListBox<TaskVisibility>(new AbstractRenderer<TaskVisibility>() {
+
+			@Override
+			public String render(TaskVisibility object) {
+				return (object == null ? TaskVisibility.PRIVATE.toString() :object.toString());
+			}	
+		});
+		boxVisibility.setValue(TaskVisibility.PRIVATE);
+		boxVisibility.setAcceptableValues(Arrays.asList(TaskVisibility.values()));
+		flexTable.setWidget(3, 1, boxVisibility);
+		boxVisibility.setWidth("50%");
+		
+		lblTheVisibilityOf = new Label("The visibility of this task");
+		lblTheVisibilityOf.setStyleName("small-font");
+		flexTable.setWidget(3, 2, lblTheVisibilityOf);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.setSpacing(5);
@@ -175,6 +202,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 		task.setDescription(areaDescription.getText());
 		task.setTitle(boxTitle.getText());
 		task.setStatus(boxStatus.getValue());
+		task.setVisibility(boxVisibility.getValue());
 		return task;
 	}
 
@@ -205,6 +233,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 			btnConfirmation.setText("New Task");
 			lblWindowLabel.setText("New Task");
 			state = TaskState.NEW;
+			boxVisibility.setValue(TaskVisibility.PRIVATE);
 		} else {
 			areaDescription.setText(task.getDescription());
 			boxTitle.setText(task.getTitle());
@@ -212,6 +241,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 			btnConfirmation.setText("Confirm");
 			lblWindowLabel.setText("Edit Task");
 			state = TaskState.EDIT;
+			boxVisibility.setValue(task.getVisibility());
 		}
 	}
 
@@ -253,4 +283,5 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 	public TaskState getState() {
 		return state;
 	}
+	
 }
