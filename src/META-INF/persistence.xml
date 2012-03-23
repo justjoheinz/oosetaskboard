@@ -14,7 +14,6 @@
 
 	<persistence-unit name="taskboardHsql"
 		transaction-type="RESOURCE_LOCAL">
-		<jar-file>lib/taskboard.jar</jar-file>
 		<properties>
 			<property name="hibernate.archive.autodetection" value="class" />
 			<property name="hibernate.format_sql" value="true" />
