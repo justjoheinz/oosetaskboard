@@ -24,8 +24,10 @@ import de.oose.taskboard.client.presenter.EditTaskPresenter;
 import de.oose.taskboard.client.presenter.LoginPresenter;
 import de.oose.taskboard.client.presenter.Presenter;
 import de.oose.taskboard.client.presenter.TaskListPresenter;
+import de.oose.taskboard.client.service.LoginService;
 import de.oose.taskboard.client.service.LoginServiceAsync;
 import de.oose.taskboard.client.service.TaskServiceAsync;
+import de.oose.taskboard.client.view.EditTaskView;
 import de.oose.taskboard.client.view.LoginView;
 import de.oose.taskboard.client.view.TaskListView;
 import de.oose.taskboard.shared.bo.UserBO;
@@ -44,21 +46,20 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private static final String HISTORY_TASKLIST = "taskList";
 	private static final String HISTORY_UPDATE = "update";
 	private static final String HISTORY_LOGIN = "login";
-	@Inject
+
 	private HandlerManager eventBus;
-	@Inject
+
 	private TaskServiceAsync taskService;
-	@Inject
-	private LoginServiceAsync loginService;
+
+	private LoginServiceAsync loginService = GWT.create(LoginService.class);
 
 	private HasWidgets container;
 
-	@Inject
-	private EditTaskPresenter editTaskPresenter;
-	@Inject
-	private TaskListPresenter taskListPresenter;
-	@Inject
-	private LoginPresenter loginPresenter;
+	private EditTaskPresenter editTaskPresenter = null;;
+
+	private TaskListPresenter taskListPresenter = null;;
+
+	private LoginPresenter loginPresenter = null;
 
 	// TODO remove
 	private UserBO user;
@@ -67,8 +68,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	public AppController(TaskServiceAsync taskService, HandlerManager eventBus) {
 		this.taskService = taskService;
 		this.eventBus = eventBus;
-		user = new UserBO();
-		user.setName("Markus Klink");
 		bind();
 	}
 
@@ -79,15 +78,19 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 	private void bind() {
 		History.addValueChangeHandler(this);
+
 		eventBus.addHandler(EditTaskEvent.TYPE, new EditTaskHandler() {
 
 			@Override
 			public void onEditTask(EditTaskEvent event) {
 				History.newItem(HISTORY_EDIT, false);
-
+				EditTaskView editTaskView = GWT.create(EditTaskView.class);
+				editTaskPresenter = new EditTaskPresenter(editTaskView, taskService, eventBus);
 				if (event.getTaskBO() != null) {
+					editTaskPresenter.setUserBO(user);
 					editTaskPresenter.setTask(event.getTaskBO());
 				} else {
+					editTaskPresenter.setUserBO(user);
 					editTaskPresenter.setTask(null);
 				}
 				editTaskPresenter.go(container);
@@ -109,7 +112,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			public void onUpdateTaskList(UpdateTasksEvent event) {
 				History.newItem(HISTORY_UPDATE, false);
 				TaskListView taskListView = GWT
-						.create(de.oose.taskboard.client.view.TaskListView.class);
+						.create(TaskListView.class);
 				// Presenter presenter = new TaskListPresenter(taskListView,
 				// taskService, eventBus);
 				taskListPresenter.go(container);
@@ -152,14 +155,16 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		if (token != null) {
 			if (token.equals(HISTORY_LOGIN)) {
 				LoginView loginView = GWT.create(LoginView.class);
+				loginPresenter = new LoginPresenter(loginView, loginService,
+						eventBus);
 				loginPresenter.go(container);
 			}
 
 			if (token.equals(HISTORY_TASKLIST)) {
 				TaskListView taskListView = GWT
-						.create(de.oose.taskboard.client.view.TaskListView.class);
-				// presenter = new TaskListPresenter(taskListView, taskService,
-				// eventBus);
+						.create(TaskListView.class);
+				taskListPresenter = new TaskListPresenter(taskListView,
+						taskService, eventBus);
 				taskListPresenter.setUser(user);
 				taskListPresenter.go(container);
 			}

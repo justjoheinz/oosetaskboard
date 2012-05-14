@@ -14,6 +14,7 @@ import com.google.inject.persist.Transactional;
 import de.oose.taskboard.client.service.LoginService;
 import de.oose.taskboard.server.entity.User;
 import de.oose.taskboard.shared.bo.UserBO;
+import de.oose.taskboard.shared.errors.LoginException;
 
 public class LoginServiceImpl implements LoginService {
 
@@ -41,11 +42,11 @@ public class LoginServiceImpl implements LoginService {
 				UserBO userBO = mapper.map(newAccount, UserBO.class);
 				return userBO;
 			} else {
-				throw new RuntimeException("User already exists.");
+				throw new LoginException("User already exists.");
 			}
 		} else {
 			if (userList.isEmpty()) {
-				throw new RuntimeException("User unknown");
+				throw new LoginException("User unknown");
 			}
 			User loginAccount = userList.get(0);
 			UserBO userBO = mapper.map(loginAccount, UserBO.class);

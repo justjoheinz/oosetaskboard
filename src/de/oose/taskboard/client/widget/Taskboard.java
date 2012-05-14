@@ -55,7 +55,7 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 
 		DecoratorPanel decoratorPanel = new DecoratorPanel();
 		vPPlanning.add(decoratorPanel);
-		decoratorPanel.setSize("210px", "310px");
+		decoratorPanel.setSize("200px", "300px");
 
 		clPlanning = new TaskCellList();
 		filteredCellLists.put(TaskBO.PLANNING,clPlanning);
@@ -80,6 +80,7 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 
 		DecoratorPanel decoratorPanel_1 = new DecoratorPanel();
 		vPWork.add(decoratorPanel_1);
+		decoratorPanel_1.setSize("200px", "300px");
 
 		clWork = new TaskCellList();
 		clWork.setPageSize(5);
@@ -102,6 +103,7 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 
 		DecoratorPanel decoratorPanel_3 = new DecoratorPanel();
 		vpReview.add(decoratorPanel_3);
+		decoratorPanel_3.setSize("200px", "300px");
 
 		clReview = new TaskCellList();
 		clReview.setPageSize(5);
@@ -125,6 +127,7 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 
 		decoratorPanel_2 = new DecoratorPanel();
 		vPDone.add(decoratorPanel_2);
+		decoratorPanel_2.setSize("200px", "300px");
 
 		clDone = new TaskCellList();
 		clDone.setPageSize(5);

@@ -17,6 +17,7 @@ import de.oose.taskboard.client.service.TaskServiceAsync;
 import de.oose.taskboard.client.util.DefaultAsyncCallback;
 import de.oose.taskboard.client.view.EditTaskView;
 import de.oose.taskboard.shared.bo.TaskBO;
+import de.oose.taskboard.shared.bo.UserBO;
 import de.oose.taskboard.shared.enums.TaskState;
 import de.oose.taskboard.shared.validation.ValidationResult;
 
@@ -26,6 +27,8 @@ public class EditTaskPresenter implements Presenter {
 	private final EditTaskView display;
 	private final HandlerManager eventBus;
 	private final TaskServiceAsync taskService;
+
+	private UserBO userBO;
 
 	@Inject
 	public EditTaskPresenter(EditTaskView display,
@@ -101,7 +104,7 @@ public class EditTaskPresenter implements Presenter {
 	public void saveTask() {
 		TaskBO taskBO = display.getValue();
 
-		taskService.addTask(taskBO, new DefaultAsyncCallback<TaskBO>() {
+		taskService.addTask(userBO, taskBO, new DefaultAsyncCallback<TaskBO>() {
 
 			@Override
 			public void onSuccess(TaskBO result) {
@@ -137,4 +140,13 @@ public class EditTaskPresenter implements Presenter {
 			}
 		}
 	}
+
+	public UserBO getUserBO() {
+		return userBO;
+	}
+
+	public void setUserBO(UserBO userBO) {
+		this.userBO = userBO;
+	}
+
 }

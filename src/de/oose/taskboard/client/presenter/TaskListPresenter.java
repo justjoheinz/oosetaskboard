@@ -106,7 +106,7 @@ public class TaskListPresenter implements Presenter {
 			final Range range = display.getVisibleRange();
 			final int from = range.getStart();
 			final int length = range.getLength();
-			taskService.getTasks(statusFilter, from, length,
+			taskService.getTasks(user, statusFilter, from, length,
 					new DefaultAsyncCallback<List<TaskBO>>() {
 
 						@Override
@@ -114,7 +114,7 @@ public class TaskListPresenter implements Presenter {
 							updateRowData(from, result);
 						}
 					});
-			taskService.getTaskCount(statusFilter, new DefaultAsyncCallback<Integer>() {
+			taskService.getTaskCount(user,statusFilter, new DefaultAsyncCallback<Integer>() {
 
 						@Override
 						public void onSuccess(Integer result) {

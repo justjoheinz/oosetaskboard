@@ -1,5 +1,6 @@
 package de.oose.taskboard.server.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -30,13 +31,17 @@ public class PersistenceServiceImpl implements PersistenceService {
 	 */
 	@Override
 	@Transactional
-	public Task createTask(String title, String description, String status,
+	public Task createTask(int userId, String title, String description, String status,
 			TaskVisibility visibility) {
+		
+		User user = em.find(User.class, userId);
 		Task task = new Task();
 		task.setTitle(title);
 		task.setDescription(description);
 		task.setStatus(status);
 		task.setVisibility(visibility);
+		task.setUser(user);
+		user.getTasks().add(task);
 		em.persist(task);
 		LOG.info("Created task '{}' with status '{}'", title, status);
 		return task;
@@ -64,43 +69,31 @@ public class PersistenceServiceImpl implements PersistenceService {
 		return task;
 	}
 
-
-	
 	private List<Task> getTasks(String status) {
-		Query query = createTaskQuery(status);
-		List<Task> tasks = query.getResultList();
-		LOG.info("found {} tasks with status {}", tasks.size(), status);
-		return tasks;
+		LOG.info("querying tasks with status {}", status);
+		return execQuery(status);
 	}
 
 	@Override
 	public List<Task> getTasks(String status, int start, int count) {
-		Query query = createTaskQuery(status);
-		query.setFirstResult(start);
-		query.setMaxResults(count);
-		List<Task> tasks = query.getResultList();
-		LOG.info("found {} tasks with status {}, from {}, up to {}",
-				new Object[] { tasks.size(), status, start, count });
-		return tasks;
+		LOG.info("querying tasks with status {}, from {}, up to {}",
+				new Object[] { status, start, count });
+		return execQuery(status, start, count);
 	}
 
 	@Override
-	public int getTaskCount(String status) {
-		// TODO this should work, but it does not
-		// Query query =
-		// em.createQuery("select count(*) from Task t where t.status = '" +
-		// status + "'");
-		// return query.getFirstResult();
-		// TODO hence we do it brute force - again
-		int count = getTasks(status).size();
+	public int getTaskCount(int userId, String status) {
+		List<Task> tasks = getTasks(status);
+		List<Task> result = new ArrayList<Task>();
+		if (tasks == null) return 0;
+		for (Task task : tasks) {
+			if (task.getUser().getId() == userId || task.getVisibility().equals(TaskVisibility.PUBLIC)) {
+				result.add(task);
+			}
+		}
+		int count = result.size();
 		LOG.info("There are {} tasks with status {}", count, status);
 		return count;
-	}
-
-	private Query createTaskQuery(String status) {
-		String query = "from Task t where t.status = '" + status + "'";
-		LOG.trace("Query is '{}'", query);
-		return em.createQuery(query);
 	}
 
 	@Override
@@ -110,5 +103,23 @@ public class PersistenceServiceImpl implements PersistenceService {
 		Query query = em.createQuery(queryText, Task.class);
 		return query.getResultList();
 	}
-	
+
+	private Query createTaskQuery(String status) {
+		String query = "from Task t where t.status = '" + status + "'";
+		LOG.trace("Query is '{}'", query);
+		return em.createQuery(query);
+	}
+
+	private List<Task> execQuery(String status) {
+		Query query = createTaskQuery(status);
+		return query.getResultList();
+	}
+
+	private List<Task> execQuery(String status, int start, int count) {
+		Query query = createTaskQuery(status);
+		query.setFirstResult(start);
+		query.setMaxResults(count);
+		return query.getResultList();
+	}
+
 }

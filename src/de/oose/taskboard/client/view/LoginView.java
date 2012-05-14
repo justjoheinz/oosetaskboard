@@ -34,7 +34,7 @@ public class LoginView extends DialogBox {
 		boxCreate = new SimpleCheckBox();
 		flexTable.setWidget(1, 0, boxCreate);
 		boxCreate.setWidth("50%");
-		
+		 
 		Label lblNewLabel = new Label("create new account");
 		flexTable.setWidget(1, 1, lblNewLabel);
 		lblNewLabel.setWidth("50%");

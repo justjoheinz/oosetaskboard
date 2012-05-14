@@ -14,6 +14,8 @@ import de.oose.taskboard.client.service.TaskService;
 import de.oose.taskboard.server.entity.PersistenceService;
 import de.oose.taskboard.server.entity.Task;
 import de.oose.taskboard.shared.bo.TaskBO;
+import de.oose.taskboard.shared.bo.UserBO;
+import de.oose.taskboard.shared.enums.TaskVisibility;
 
 
 public class TaskServiceImpl implements TaskService {
@@ -32,13 +34,11 @@ public class TaskServiceImpl implements TaskService {
 
 	}
 
-	
-
 	@Override
 	@Transactional
-	public TaskBO addTask(TaskBO taskBO) {
+	public TaskBO addTask(UserBO userBO, TaskBO taskBO) {
 		taskBO.validate();
-		Task task = ps.createTask(taskBO.getTitle(), taskBO.getDescription(), taskBO.getStatus(), taskBO.getVisibility());
+		Task task = ps.createTask(userBO.getId(), taskBO.getTitle(), taskBO.getDescription(), taskBO.getStatus(), taskBO.getVisibility());
 		taskBO = mapper.map(task, TaskBO.class);
 		return taskBO;
 	}
@@ -56,13 +56,19 @@ public class TaskServiceImpl implements TaskService {
 		ps.deleteTask(taskBO.getId());
 	}
 	
-	public List<TaskBO> getTasks(String status, int start, int count) {
+	public List<TaskBO> getTasks(UserBO user, String status, int start, int count) {
 		List<Task> tasks = ps.getTasks(status, start, count);
-		return map(tasks);
+		List<Task> result = new ArrayList<Task>();
+		for (Task task : tasks) {
+			if (task.getUser().getId() == user.getId() || task.getVisibility().equals(TaskVisibility.PUBLIC)) {
+				result.add(task);
+			}
+		}
+		return map(result);
 	}
 	
-	public Integer getTaskCount(String status) {
-		return ps.getTaskCount(status);
+	public Integer getTaskCount(UserBO user, String status) {
+		return ps.getTaskCount(user.getId(), status);
 	}
 	
 	private List<TaskBO> map(List<Task> tasks) {

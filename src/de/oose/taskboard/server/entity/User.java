@@ -13,19 +13,28 @@ import javax.persistence.Version;
 
 @Entity
 public class User {
-	
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
+
 	private String name;
 	@Version
 	private long version;
-	
-	@OneToMany(mappedBy="user", cascade=CascadeType.PERSIST)
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
 	private List<Task> tasks = new ArrayList<Task>();
-	
+
 	public User() {
-		
+
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -51,7 +60,5 @@ public class User {
 	public void setTasks(List<Task> tasks) {
 		this.tasks = tasks;
 	}
-	
-	
 
 }
