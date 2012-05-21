@@ -2,7 +2,7 @@ package de.oose.taskboard.shared.validation;
 
 import java.io.Serializable;
 
-public class ValidationError<T> implements Serializable {
+public class ValidationError<T extends Serializable> implements Serializable {
 	
 	private T target;
 	private String field;
@@ -26,9 +26,4 @@ public class ValidationError<T> implements Serializable {
 	public String getMessage() {
 		return message;
 	}
-	
-	
-	
-	
-
 }

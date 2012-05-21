@@ -37,8 +37,7 @@ public class Taskboard extends HorizontalPanel implements HasSelectionHandlers<T
 	private SimplePager reviewPager;
 	private SimplePager donePager;
 
-	public Taskboard() {
-		
+	public Taskboard() {		
 		setSpacing(5);
 		setSize("100%", "100%");
 		

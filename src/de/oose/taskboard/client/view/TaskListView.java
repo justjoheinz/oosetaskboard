@@ -19,60 +19,51 @@ import java.util.Map;
 
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.oose.taskboard.client.widget.LogoutHelper;
 import de.oose.taskboard.client.widget.TaskCellList;
 import de.oose.taskboard.client.widget.Taskboard;
 import de.oose.taskboard.shared.bo.TaskBO;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 
 /**
  * Sample implementation of {@link TaskView}.
  */
-public class TaskListView extends VerticalPanel {
+public class TaskListView extends VerticalPanel implements Logoutable {
 
 	private Taskboard taskboard;
 
 	private Button btnTask;
-	private Label lblUser;
-	private Button btnLogout;
+	private LogoutHelper logoutHelper;
+	private HorizontalPanel horizontalPanel;
 
-	public String getUser() {
-		return lblUser.getText();
-	}
 
+	/* (non-Javadoc)
+	 * @see de.oose.taskboard.client.view.Logoutable#setUser(java.lang.String)
+	 */
+	@Override
 	public void setUser(String lblUser) {
-		this.lblUser.setText(lblUser);
-		
+		logoutHelper.setUser(lblUser);
 	}
 
 	public TaskListView() {
+		
+		logoutHelper = new LogoutHelper();
 		setSpacing(5);
 		setSize("800", "600");
 		
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		horizontalPanel.setSpacing(5);
-		add(horizontalPanel);
-		horizontalPanel.setWidth("100%");
-		setCellWidth(horizontalPanel, "100%");
-
-		lblUser = new Label("userlabel");
-		horizontalPanel.add(lblUser);
-		horizontalPanel.setCellWidth(lblUser, "20%");
+		add(logoutHelper);
 		
-		btnLogout = new Button("New button");
-		btnLogout.setText("Logout");
-		horizontalPanel.add(btnLogout);
-		horizontalPanel.setCellWidth(btnLogout, "100%");
-		horizontalPanel.setCellHorizontalAlignment(btnLogout, HasHorizontalAlignment.ALIGN_RIGHT);
-
 		taskboard = new Taskboard();
 		add(taskboard);
+		
+		horizontalPanel = new HorizontalPanel();
+		horizontalPanel.setSpacing(5);
+		add(horizontalPanel);
 
 		btnTask = new Button("New button");
-		add(btnTask);
+		horizontalPanel.add(btnTask);
 		btnTask.setText("New Task");
 
 	}
@@ -81,8 +72,12 @@ public class TaskListView extends VerticalPanel {
 		return btnTask;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.oose.taskboard.client.view.Logoutable#getBtnLogout()
+	 */
+	@Override
 	public Button getBtnLogout() {
-		return btnLogout;
+		return logoutHelper.getLogoutButton();
 	}
 
 	public HasSelectionHandlers<TaskBO> getTaskboard() {

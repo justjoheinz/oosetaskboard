@@ -1,8 +1,5 @@
 package de.oose.taskboard.client;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -39,7 +36,6 @@ import de.oose.taskboard.shared.bo.UserBO;
  * @author markusklink
  * 
  */
-@Singleton
 public class AppController implements Presenter, ValueChangeHandler<String> {
 
 	private static final String HISTORY_EDIT = "edit";
@@ -64,14 +60,12 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	// TODO remove
 	private UserBO user;
 
-	@Inject
 	public AppController(TaskServiceAsync taskService, HandlerManager eventBus) {
 		this.taskService = taskService;
 		this.eventBus = eventBus;
 		bind();
 	}
 
-	@Inject
 	public void init() {
 
 	}
@@ -85,14 +79,8 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			public void onEditTask(EditTaskEvent event) {
 				History.newItem(HISTORY_EDIT, false);
 				EditTaskView editTaskView = GWT.create(EditTaskView.class);
-				editTaskPresenter = new EditTaskPresenter(editTaskView, taskService, eventBus);
-				if (event.getTaskBO() != null) {
-					editTaskPresenter.setUserBO(user);
-					editTaskPresenter.setTask(event.getTaskBO());
-				} else {
-					editTaskPresenter.setUserBO(user);
-					editTaskPresenter.setTask(null);
-				}
+				editTaskPresenter = new EditTaskPresenter(editTaskView,
+						taskService, eventBus, user, event.getTaskBO());
 				editTaskPresenter.go(container);
 			}
 		});
@@ -110,13 +98,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 			@Override
 			public void onUpdateTaskList(UpdateTasksEvent event) {
-				History.newItem(HISTORY_UPDATE, false);
-				TaskListView taskListView = GWT
-						.create(TaskListView.class);
-				// Presenter presenter = new TaskListPresenter(taskListView,
-				// taskService, eventBus);
-				taskListPresenter.go(container);
-				// presenter.go(container);
+				History.newItem(HISTORY_TASKLIST);
 			}
 		});
 
@@ -155,28 +137,22 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		if (token != null) {
 			if (token.equals(HISTORY_LOGIN)) {
 				LoginView loginView = GWT.create(LoginView.class);
-				loginPresenter = new LoginPresenter(loginView, loginService,
-						eventBus);
-				loginPresenter.go(container);
+				Presenter presenter = new LoginPresenter(loginView,
+						loginService, eventBus);
+				presenter.go(container);
 			}
 
 			if (token.equals(HISTORY_TASKLIST)) {
-				TaskListView taskListView = GWT
-						.create(TaskListView.class);
-				taskListPresenter = new TaskListPresenter(taskListView,
-						taskService, eventBus);
-				taskListPresenter.setUser(user);
-				taskListPresenter.go(container);
+				TaskListView taskListView = GWT.create(TaskListView.class);
+				TaskListPresenter presenter = new TaskListPresenter(
+						taskListView, taskService, eventBus, user);
+				presenter.go(container);
 			}
-
-			// if (presenter != null) {
-			// presenter.go(container);
-			// }
 		}
 
 	}
 
-	// setzen des Initialzustandes f�r die History. Damit wird die Startview
+	// setzen des Initialzustandes für die History. Damit wird die Startview
 	// gesetzt
 	// oder, falls ein Historyeintrag gesetzt ist, entsprechend an die richtige
 	// View

@@ -22,7 +22,7 @@ public class TaskCellList extends CellList<TaskBO> {
 	static class TaskCell extends AbstractCell<TaskBO> {
 
 		interface Templates extends SafeHtmlTemplates {
-			@SafeHtmlTemplates.Template("<div style=\"{0}\"><p><b>{1}</b></p><p>{2}</p></div>")
+			@SafeHtmlTemplates.Template("<div style='{0}'><p class='tasktitle'><b>{1}</b></p><p class='taskdesc'>{2}</p></div>")
 			SafeHtml cell(String style, SafeHtml title, SafeHtml description);
 		}
 
@@ -37,7 +37,7 @@ public class TaskCellList extends CellList<TaskBO> {
 			SafeHtml desc = SafeHtmlUtils.fromString(value.getDescription());
 			String style;
 			if (value.getVisibility().equals(TaskVisibility.PRIVATE)) {
-				style = "background-color: #D3D3D3";
+				style = "background-color: #D3D3D3;";
 			} else
 				style = "";
 			SafeHtml html = templates.cell(style, title, desc);

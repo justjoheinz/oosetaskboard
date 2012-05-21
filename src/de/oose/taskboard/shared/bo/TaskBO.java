@@ -9,6 +9,7 @@ import de.oose.taskboard.shared.validation.Validatable;
 import de.oose.taskboard.shared.validation.ValidationError;
 import de.oose.taskboard.shared.validation.ValidationResult;
 
+@SuppressWarnings("serial")
 public class TaskBO implements Serializable, Validatable {
 
 	private int id;
@@ -83,11 +84,11 @@ public class TaskBO implements Serializable, Validatable {
 		ValidationResult<TaskBO> result = new ValidationResult<TaskBO>();
 		if (title == null || title.length() < 5) {
 			result.add(new ValidationError<TaskBO>(this, "title",
-					"Der Titel braucht zumindest 5 Buchstaben."));
+					"At least 5 letters are required."));
 		}
 		if (description == null || description.length() < 10) {
 			result.add(new ValidationError<TaskBO>(this, "description",
-					"Die Beschreibung braucht zumindest 10 Buchstaben."));
+					"At least 10 letters are required"));
 		}
 		if (status == null || status.isEmpty()) {
 			result.add(new ValidationError<TaskBO>(this, "status",

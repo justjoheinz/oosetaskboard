@@ -25,7 +25,6 @@ import de.oose.taskboard.client.widget.TaskCellList;
 import de.oose.taskboard.shared.bo.TaskBO;
 import de.oose.taskboard.shared.bo.UserBO;
 
-
 public class TaskListPresenter implements Presenter {
 
 	private final TaskListView display;
@@ -35,11 +34,13 @@ public class TaskListPresenter implements Presenter {
 	private UserBO user;
 
 	@Inject
-	public TaskListPresenter(TaskListView display, TaskServiceAsync taskService,
-			HandlerManager eventBus) {
+	public TaskListPresenter(TaskListView display,
+			TaskServiceAsync taskService, HandlerManager eventBus, UserBO user) {
 		this.display = display;
 		this.eventBus = eventBus;
 		this.taskService = taskService;
+		this.user = user;
+		display.setUser(user.getName());
 		bind();
 	}
 
@@ -47,11 +48,15 @@ public class TaskListPresenter implements Presenter {
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(display.asWidget());
-		//update the data in the cells
+		// update the data in the cells
 		Map<String, TaskCellList> cellListMap = display.getFilteredCellLists();
-		for (Map.Entry<String, TaskListProvider> entry: taskListProviders.entrySet()) {
+		for (Map.Entry<String, TaskListProvider> entry : taskListProviders
+				.entrySet()) {
 			TaskCellList cellList = cellListMap.get(entry.getKey());
-			entry.getValue().onRangeChanged(cellList); //TODO this is very effective but somehow looks quite brute force
+			entry.getValue().onRangeChanged(cellList); // TODO this is very
+														// effective but somehow
+														// looks quite brute
+														// force
 		}
 	}
 
@@ -73,12 +78,12 @@ public class TaskListPresenter implements Presenter {
 								.getSelectedItem()));
 					}
 				});
-		
+
 		display.getBtnLogout().addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new LoginEvent(null));	
+				eventBus.fireEvent(new LoginEvent(null));
 			}
 		});
 
@@ -114,7 +119,8 @@ public class TaskListPresenter implements Presenter {
 							updateRowData(from, result);
 						}
 					});
-			taskService.getTaskCount(user,statusFilter, new DefaultAsyncCallback<Integer>() {
+			taskService.getTaskCount(user, statusFilter,
+					new DefaultAsyncCallback<Integer>() {
 
 						@Override
 						public void onSuccess(Integer result) {
@@ -124,14 +130,4 @@ public class TaskListPresenter implements Presenter {
 		}
 	}
 
-	public UserBO getUser() {
-		return user;
-	}
-
-	public void setUser(UserBO user) {
-		this.user = user;
-		display.setUser(user.getName());
-	}
-	
-	
 }

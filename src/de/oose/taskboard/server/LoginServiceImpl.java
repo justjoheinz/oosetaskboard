@@ -15,6 +15,9 @@ import de.oose.taskboard.client.service.LoginService;
 import de.oose.taskboard.server.entity.User;
 import de.oose.taskboard.shared.bo.UserBO;
 import de.oose.taskboard.shared.errors.LoginException;
+import de.oose.taskboard.shared.validation.ValidationError;
+import de.oose.taskboard.shared.validation.ValidationException;
+import de.oose.taskboard.shared.validation.ValidationResult;
 
 public class LoginServiceImpl implements LoginService {
 
@@ -28,7 +31,7 @@ public class LoginServiceImpl implements LoginService {
 	@Transactional
 	public UserBO getAccount(String name, boolean create) {
 		if (StringUtils.isEmpty(name)) {
-			throw new RuntimeException("The account name cannot be empty.");
+			throw new LoginException("The account name cannot be empty.");
 		}
 		Query query = em.createQuery("from User u where u.name = '" + name
 				+ "'", User.class);
@@ -43,6 +46,9 @@ public class LoginServiceImpl implements LoginService {
 				return userBO;
 			} else {
 				throw new LoginException("User already exists.");
+//				ValidationResult<String> result = new ValidationResult<String>();
+//				result.add(new ValidationError<String>(null, null, "User already exists."));
+//				throw new ValidationException(result);
 			}
 		} else {
 			if (userList.isEmpty()) {

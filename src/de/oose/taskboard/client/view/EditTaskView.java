@@ -1,5 +1,6 @@
 package de.oose.taskboard.client.view;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -18,6 +19,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ValueListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.oose.taskboard.client.widget.LogoutHelper;
 import de.oose.taskboard.shared.bo.TaskBO;
 import de.oose.taskboard.shared.enums.TaskState;
 import de.oose.taskboard.shared.enums.TaskVisibility;
@@ -32,7 +34,7 @@ import de.oose.taskboard.shared.validation.ValidationResult;
  * 
  */
 public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
-		HasErrors {
+		HasErrors, Logoutable {
 	private static final String ERROR_STYLE = "serverResponseLabelError";
 	private static final String DESC_TITLE = "The title of the task";
 	private static final String DESC_DESCRIPTION = "A short description of this task";
@@ -52,15 +54,25 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 	private Label lblVisibility;
 	private ValueListBox<TaskVisibility> boxVisibility;
 	private Label lblTheVisibilityOf;
+	private LogoutHelper logoutHelper;
+	private HorizontalPanel horizontalPanel_1;
 
 	public EditTaskView() {
-		setSize("800px", "400px");
+		setSize("800", "600");
+		setSpacing(5);
 		task = null;
+		
+		logoutHelper = new LogoutHelper();
+		add(logoutHelper);
+		
+		horizontalPanel_1 = new HorizontalPanel();
+		horizontalPanel_1.setSpacing(5);
+		add(horizontalPanel_1);
 
 		lblWindowLabel = new Label("New Task");
+		horizontalPanel_1.add(lblWindowLabel);
 		lblWindowLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		lblWindowLabel.setStyleName("bigFont");
-		add(lblWindowLabel);
 
 		DecoratorPanel decoratorPanel = new DecoratorPanel();
 		add(decoratorPanel);
@@ -252,7 +264,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 	}
 
 	@Override
-	public void displayErrors(ValidationResult<? extends Validatable> result) {
+	public void displayErrors(ValidationResult<? extends Serializable> result) {
 		lblDescriptionMsg.setText(DESC_DESCRIPTION);
 		lblTitleMsg.setText(DESC_TITLE);
 		lblStatusMsg.setText(DESC_STATUS);
@@ -262,7 +274,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 
 		if (result.isOk())
 			return;
-		for (ValidationError<? extends Validatable> v : result) {
+		for (ValidationError<? extends Serializable> v : result) {
 			if ("title".equals(v.getField())) {
 				lblTitleMsg.setText(v.getMessage());
 				lblTitleMsg.setStyleName(ERROR_STYLE, true);
@@ -280,6 +292,18 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 
 	public TaskState getState() {
 		return state;
+	}
+
+
+	@Override
+	public void setUser(String user) {
+		logoutHelper.setUser(user);
+		
+	}
+
+	@Override
+	public Button getBtnLogout() {
+		return logoutHelper.getLogoutButton();
 	}
 	
 }

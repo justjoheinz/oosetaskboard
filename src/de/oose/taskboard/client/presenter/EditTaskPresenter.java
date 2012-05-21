@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 
 import de.oose.taskboard.client.event.DeleteTaskEvent;
 import de.oose.taskboard.client.event.EditTaskCancelledEvent;
+import de.oose.taskboard.client.event.LoginEvent;
 import de.oose.taskboard.client.event.UpdateTasksEvent;
 import de.oose.taskboard.client.service.TaskServiceAsync;
 import de.oose.taskboard.client.util.DefaultAsyncCallback;
@@ -32,15 +33,18 @@ public class EditTaskPresenter implements Presenter {
 
 	@Inject
 	public EditTaskPresenter(EditTaskView display,
-			TaskServiceAsync taskService, HandlerManager eventBus) {
-		this(display, taskService, eventBus, null);
+			TaskServiceAsync taskService, HandlerManager eventBus, UserBO user) {
+		this(display, taskService, eventBus, user, null);
+		display.getDeleteButton().setEnabled(false);
 	}
 
 	public EditTaskPresenter(EditTaskView display,
-			TaskServiceAsync taskService, HandlerManager eventBus, TaskBO taskBO) {
+			TaskServiceAsync taskService, HandlerManager eventBus,
+			UserBO userBO, TaskBO taskBO) {
 		this.display = display;
 		this.eventBus = eventBus;
 		this.taskService = taskService;
+		setUserBO(userBO);
 		setTask(taskBO);
 		bind();
 	}
@@ -89,6 +93,15 @@ public class EditTaskPresenter implements Presenter {
 
 			}
 		});
+
+		display.getBtnLogout().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				eventBus.fireEvent(new LoginEvent(null));
+
+			}
+		});
 	}
 
 	public void deleteTask() {
@@ -127,6 +140,10 @@ public class EditTaskPresenter implements Presenter {
 
 	public void setTask(TaskBO task) {
 		display.setValue(task);
+		if (task == null)
+			display.getDeleteButton().setEnabled(false);
+		else
+			display.getDeleteButton().setEnabled(true);
 		validate();
 	}
 
@@ -147,6 +164,7 @@ public class EditTaskPresenter implements Presenter {
 
 	public void setUserBO(UserBO userBO) {
 		this.userBO = userBO;
+		display.setUser(userBO.getName());
 	}
 
 }
