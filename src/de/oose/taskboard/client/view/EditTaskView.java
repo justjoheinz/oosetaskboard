@@ -306,4 +306,10 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 		return logoutHelper.getLogoutButton();
 	}
 	
+	@Override
+	protected void onLoad() {
+		super.onLoad();
+		getTitleField().setFocus(true);
+	}
+	
 }
