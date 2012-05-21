@@ -1,5 +1,9 @@
 /** Add css rules here for your application. */
 /** Example rules used by the template application (remove for your app) */
+body,table td,select {
+	background-color: white;
+}
+
 h1 {
 	font-size: 2em;
 	font-weight: bold;
@@ -41,4 +45,21 @@ h1 {
 
 .bold {
 	font-weight: bold;
+}
+
+.wordWrap {
+	width: 100%;
+	word-wrap: break-word;
+}
+
+.tasktitle {
+	word-wrap: break-word;
+	font-size: small;
+	margin: 4px;
+}
+
+.taskdesc {
+	word-wrap: break-word;
+	font-size: x-small;
+	margin: 4px;
 }

@@ -12,6 +12,15 @@
     <!-- Consider inlining CSS to reduce the number of requested files -->
     <!--                                                               -->
     <link type="text/css" rel="stylesheet" href="OoseTaskboard.css">
+    <style type="text/css">
+    div#container
+	{
+ 	margin-left: auto;
+ 	margin-right: auto;
+ 	margin-top: 8em;
+ 	width:800px;
+	}
+    </style>
 
     <!--                                           -->
     <!-- Any title is fine                         -->
@@ -31,11 +40,13 @@
   <!-- you can leave the body empty if you want  -->
   <!-- to create a completely dynamic UI.        -->
   <!--                                           -->
-  <body>
-
+  <body style="background-image: url(/images/tile.jpg); background-repeat: repeat; background-color: white;">
     <!-- OPTIONAL: include this if you want history support -->
     <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
+   
+    <div id="container" align="center">
     
+    </div>
     <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
     <noscript>
       <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
