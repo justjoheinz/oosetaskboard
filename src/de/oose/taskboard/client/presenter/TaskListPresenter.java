@@ -60,7 +60,7 @@ public class TaskListPresenter implements Presenter {
 		}
 	}
 
-	public void bind() {
+	private void bind() {
 		display.getTaskButton().addClickHandler(new ClickHandler() {
 
 			@Override

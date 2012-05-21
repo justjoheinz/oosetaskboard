@@ -40,7 +40,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 	private static final String HISTORY_EDIT = "edit";
 	private static final String HISTORY_TASKLIST = "taskList";
-	private static final String HISTORY_UPDATE = "update";
 	private static final String HISTORY_LOGIN = "login";
 
 	private HandlerManager eventBus;
@@ -51,11 +50,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 	private HasWidgets container;
 
-	private EditTaskPresenter editTaskPresenter = null;;
-
-	private TaskListPresenter taskListPresenter = null;;
-
-	private LoginPresenter loginPresenter = null;
+	private EditTaskPresenter editTaskPresenter = null;
 
 	// TODO remove
 	private UserBO user;

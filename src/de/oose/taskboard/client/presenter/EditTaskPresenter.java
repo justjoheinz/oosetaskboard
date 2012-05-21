@@ -55,7 +55,7 @@ public class EditTaskPresenter implements Presenter {
 		container.add(display.asWidget());
 	}
 
-	public void bind() {
+	private void bind() {
 		display.getConfirmationButton().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if (TaskState.NEW.equals(display.getState())) {
