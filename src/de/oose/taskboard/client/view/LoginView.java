@@ -2,6 +2,8 @@ package de.oose.taskboard.client.view;
 
 import java.io.Serializable;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -16,7 +18,7 @@ public class LoginView extends DialogBox implements HasErrors {
 	private SimpleCheckBox boxCreate;
 	private Button btnOK;
 	private Button btnCancel;
-	private TextBox textBox;
+	private final TextBox textBox = new TextBox();
 	private Label lblError;
 
 	public LoginView() {
@@ -34,7 +36,6 @@ public class LoginView extends DialogBox implements HasErrors {
 		flexTable.setWidget(0, 0, lblAccount);
 		lblAccount.setWidth("50%");
 
-		textBox = new TextBox();
 		flexTable.setWidget(0, 1, textBox);
 		textBox.setWidth("100%");
 
@@ -91,10 +92,6 @@ public class LoginView extends DialogBox implements HasErrors {
 		return textBox;
 	}
 
-	public void setTextBox(TextBox textBox) {
-		this.textBox = textBox;
-	}
-
 	@Override
 	public void displayErrors(ValidationResult<? extends Serializable> result) {
 		if (result.hasErrors()) {
@@ -108,5 +105,18 @@ public class LoginView extends DialogBox implements HasErrors {
 		}
 
 	}
-
+	
+	@Override
+	protected void onLoad() {
+		super.onLoad();
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			
+			@Override
+			public void execute() {
+				textBox.setFocus(true);
+				
+			}
+		});
+	}
+	
 }
