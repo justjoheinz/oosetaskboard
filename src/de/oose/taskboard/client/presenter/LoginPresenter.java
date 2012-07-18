@@ -3,8 +3,6 @@ package de.oose.taskboard.client.presenter;
 
 import java.util.Date;
 
-import javax.inject.Inject;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -33,7 +31,6 @@ public class LoginPresenter implements Presenter {
 		display.center();
 	}
 	
-	@Inject
 	public LoginPresenter(LoginView display, LoginServiceAsync loginService, HandlerManager eventBus) {
 		this.display = display;
 		this.eventBus = eventBus;
