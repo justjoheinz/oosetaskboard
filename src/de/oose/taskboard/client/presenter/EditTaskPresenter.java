@@ -1,8 +1,5 @@
 package de.oose.taskboard.client.presenter;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -22,7 +19,7 @@ import de.oose.taskboard.shared.bo.UserBO;
 import de.oose.taskboard.shared.enums.TaskState;
 import de.oose.taskboard.shared.validation.ValidationResult;
 
-@Singleton
+
 public class EditTaskPresenter implements Presenter {
 
 	private final EditTaskView display;
@@ -31,7 +28,7 @@ public class EditTaskPresenter implements Presenter {
 
 	private UserBO userBO;
 
-	@Inject
+	
 	public EditTaskPresenter(EditTaskView display,
 			TaskServiceAsync taskService, HandlerManager eventBus, UserBO user) {
 		this(display, taskService, eventBus, user, null);
