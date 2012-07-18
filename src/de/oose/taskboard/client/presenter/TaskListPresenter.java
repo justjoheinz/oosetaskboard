@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -33,7 +31,7 @@ public class TaskListPresenter implements Presenter {
 	private Map<String, TaskListProvider> taskListProviders = new HashMap<String, TaskListProvider>();
 	private UserBO user;
 
-	@Inject
+
 	public TaskListPresenter(TaskListView display,
 			TaskServiceAsync taskService, HandlerManager eventBus, UserBO user) {
 		this.display = display;
