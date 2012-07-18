@@ -8,15 +8,10 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 import de.oose.taskboard.client.event.DeleteTaskEvent;
-import de.oose.taskboard.client.event.DeleteTaskEventHandler;
 import de.oose.taskboard.client.event.EditTaskCancelledEvent;
-import de.oose.taskboard.client.event.EditTaskCancelledEventHandler;
 import de.oose.taskboard.client.event.EditTaskEvent;
-import de.oose.taskboard.client.event.EditTaskHandler;
 import de.oose.taskboard.client.event.LoginEvent;
-import de.oose.taskboard.client.event.LoginHandler;
-import de.oose.taskboard.client.event.UpdateTasksEvent;
-import de.oose.taskboard.client.event.UpdateTasksHandler;
+import de.oose.taskboard.client.event.UpdateTaskEvent;
 import de.oose.taskboard.client.presenter.EditTaskPresenter;
 import de.oose.taskboard.client.presenter.LoginPresenter;
 import de.oose.taskboard.client.presenter.Presenter;
@@ -68,7 +63,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private void bind() {
 		History.addValueChangeHandler(this);
 
-		eventBus.addHandler(EditTaskEvent.TYPE, new EditTaskHandler() {
+		eventBus.addHandler(EditTaskEvent.TYPE, new EditTaskEvent.EditTaskHandler() {
 
 			@Override
 			public void onEditTask(EditTaskEvent event) {
@@ -81,7 +76,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		});
 
 		eventBus.addHandler(EditTaskCancelledEvent.TYPE,
-				new EditTaskCancelledEventHandler() {
+				new EditTaskCancelledEvent.EditTaskCancelledHandler() {
 
 					@Override
 					public void onEditTaskCancelled(EditTaskCancelledEvent event) {
@@ -89,15 +84,15 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 					}
 				});
 
-		eventBus.addHandler(UpdateTasksEvent.TYPE, new UpdateTasksHandler() {
+		eventBus.addHandler(UpdateTaskEvent.TYPE, new UpdateTaskEvent.UpdateTaskHandler() {
 
 			@Override
-			public void onUpdateTaskList(UpdateTasksEvent event) {
+			public void onUpdateTask(UpdateTaskEvent event) {
 				History.newItem(HISTORY_TASKLIST);
 			}
 		});
 
-		eventBus.addHandler(DeleteTaskEvent.TYPE, new DeleteTaskEventHandler() {
+		eventBus.addHandler(DeleteTaskEvent.TYPE, new DeleteTaskEvent.DeleteTaskHandler() {
 
 			@Override
 			public void onDeleteTask(DeleteTaskEvent event) {
@@ -105,7 +100,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}
 		});
 
-		eventBus.addHandler(LoginEvent.TYPE, new LoginHandler() {
+		eventBus.addHandler(LoginEvent.TYPE, new LoginEvent.LoginHandler() {
 
 			@Override
 			public void onLogin(LoginEvent event) {

@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import de.oose.taskboard.client.event.DeleteTaskEvent;
 import de.oose.taskboard.client.event.EditTaskCancelledEvent;
 import de.oose.taskboard.client.event.LoginEvent;
-import de.oose.taskboard.client.event.UpdateTasksEvent;
+import de.oose.taskboard.client.event.UpdateTaskEvent;
 import de.oose.taskboard.client.service.TaskServiceAsync;
 import de.oose.taskboard.client.util.DefaultAsyncCallback;
 import de.oose.taskboard.client.view.EditTaskView;
@@ -121,7 +121,7 @@ public class EditTaskPresenter implements Presenter {
 
 			@Override
 			public void onSuccess(TaskBO result) {
-				eventBus.fireEvent(new UpdateTasksEvent(result));
+				eventBus.fireEvent(new UpdateTaskEvent(result));
 			}
 		});
 	}
@@ -132,7 +132,7 @@ public class EditTaskPresenter implements Presenter {
 		taskService.updateTask(taskBO, new DefaultAsyncCallback<TaskBO>() {
 			@Override
 			public void onSuccess(TaskBO result) {
-				eventBus.fireEvent(new UpdateTasksEvent(result));
+				eventBus.fireEvent(new UpdateTaskEvent(result));
 
 			}
 		});
