@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -18,23 +17,25 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ValueListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
+import de.oose.taskboard.client.presenter.EditTaskPresenter.IEditTaskView;
 import de.oose.taskboard.client.widget.LogoutHelper;
 import de.oose.taskboard.shared.bo.TaskBO;
 import de.oose.taskboard.shared.enums.TaskState;
 import de.oose.taskboard.shared.enums.TaskVisibility;
-import de.oose.taskboard.shared.validation.Validatable;
 import de.oose.taskboard.shared.validation.ValidationError;
 import de.oose.taskboard.shared.validation.ValidationResult;
-
+ 
 /**
  * The view to add new task or edit an exisiting one.
  * 
  * @author markusklink
  * 
  */
-public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
-		HasErrors, Logoutable {
+public class EditTaskView extends VerticalPanel implements 
+		IEditTaskView {
+	
 	private static final String ERROR_STYLE = "serverResponseLabelError";
 	private static final String DESC_TITLE = "The title of the task";
 	private static final String DESC_DESCRIPTION = "A short description of this task";
@@ -185,14 +186,17 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 		init();
 	}
 
+	@Override
 	public Button getConfirmationButton() {
 		return btnConfirmation;
 	}
 
+	@Override
 	public Button getCancelButton() {
 		return btnCancel;
 	}
 
+	@Override
 	public Button getDeleteButton() {
 		return btnDelete;
 	}
@@ -255,10 +259,12 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 		}
 	}
 
+	@Override
 	public TextBox getTitleField() {
 		return boxTitle;
 	}
 
+	@Override
 	public TextArea getDescriptionField() {
 		return areaDescription;
 	}
@@ -290,6 +296,7 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 		}
 	}
 
+	@Override
 	public TaskState getState() {
 		return state;
 	}
@@ -310,6 +317,24 @@ public class EditTaskView extends VerticalPanel implements HasValue<TaskBO>,
 	protected void onLoad() {
 		super.onLoad();
 		getTitleField().setFocus(true);
+	}
+
+	@Override
+	public void addToSlot(Object slot, Widget content) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeFromSlot(Object slot, Widget content) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setInSlot(Object slot, Widget content) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

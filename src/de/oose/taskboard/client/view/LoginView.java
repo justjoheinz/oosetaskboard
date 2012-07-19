@@ -10,11 +10,13 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 
+import de.oose.taskboard.client.presenter.LoginPresenter.ILoginView;
 import de.oose.taskboard.shared.validation.ValidationError;
 import de.oose.taskboard.shared.validation.ValidationResult;
 
-public class LoginView extends DialogBox implements HasErrors {
+public class LoginView extends DialogBox implements HasErrors, ILoginView {
 	private SimpleCheckBox boxCreate;
 	private Button btnOK;
 	private Button btnCancel;
@@ -72,6 +74,7 @@ public class LoginView extends DialogBox implements HasErrors {
 		this.boxCreate = boxCreate;
 	}
 
+	@Override
 	public Button getBtnOK() {
 		return btnOK;
 	}
@@ -88,6 +91,7 @@ public class LoginView extends DialogBox implements HasErrors {
 		this.btnCancel = btnCancel;
 	}
 
+	@Override
 	public TextBox getTextBox() {
 		return textBox;
 	}
@@ -117,6 +121,24 @@ public class LoginView extends DialogBox implements HasErrors {
 				
 			}
 		});
+	}
+
+	@Override
+	public void addToSlot(Object slot, Widget content) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeFromSlot(Object slot, Widget content) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setInSlot(Object slot, Widget content) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

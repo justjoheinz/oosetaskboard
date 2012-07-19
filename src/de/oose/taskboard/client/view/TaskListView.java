@@ -21,7 +21,9 @@ import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
+import de.oose.taskboard.client.presenter.TaskListPresenter.ITaskListView;
 import de.oose.taskboard.client.widget.LogoutHelper;
 import de.oose.taskboard.client.widget.TaskCellList;
 import de.oose.taskboard.client.widget.Taskboard;
@@ -30,7 +32,7 @@ import de.oose.taskboard.shared.bo.TaskBO;
 /**
  * Sample implementation of {@link TaskView}.
  */
-public class TaskListView extends VerticalPanel implements Logoutable {
+public class TaskListView extends VerticalPanel implements ITaskListView {
 
 	private Taskboard taskboard;
 
@@ -42,6 +44,7 @@ public class TaskListView extends VerticalPanel implements Logoutable {
 	/* (non-Javadoc)
 	 * @see de.oose.taskboard.client.view.Logoutable#setUser(java.lang.String)
 	 */
+	
 	@Override
 	public void setUser(String lblUser) {
 		logoutHelper.setUser(lblUser);
@@ -68,6 +71,7 @@ public class TaskListView extends VerticalPanel implements Logoutable {
 
 	}
 
+	@Override
 	public Button getTaskButton() {
 		return btnTask;
 	}
@@ -80,12 +84,32 @@ public class TaskListView extends VerticalPanel implements Logoutable {
 		return logoutHelper.getLogoutButton();
 	}
 
+	@Override
 	public HasSelectionHandlers<TaskBO> getTaskboard() {
 		return taskboard;
 	}
 
+	@Override
 	public Map<String, TaskCellList> getFilteredCellLists() {
 		return taskboard.getFilteredCellLists();
+	}
+
+	@Override
+	public void addToSlot(Object slot, Widget content) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeFromSlot(Object slot, Widget content) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setInSlot(Object slot, Widget content) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

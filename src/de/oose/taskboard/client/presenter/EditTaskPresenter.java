@@ -1,55 +1,81 @@
 package de.oose.taskboard.client.presenter;
 
+import javax.inject.Inject;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.web.bindery.event.shared.EventBus;
+import com.gwtplatform.mvp.client.View;
 
 import de.oose.taskboard.client.event.DeleteTaskEvent;
 import de.oose.taskboard.client.event.EditTaskCancelledEvent;
 import de.oose.taskboard.client.event.LoginEvent;
 import de.oose.taskboard.client.event.UpdateTaskEvent;
+import de.oose.taskboard.client.place.LoggedUser;
 import de.oose.taskboard.client.service.TaskServiceAsync;
 import de.oose.taskboard.client.util.DefaultAsyncCallback;
-import de.oose.taskboard.client.view.EditTaskView;
+import de.oose.taskboard.client.view.HasErrors;
+import de.oose.taskboard.client.view.Logoutable;
 import de.oose.taskboard.shared.bo.TaskBO;
 import de.oose.taskboard.shared.bo.UserBO;
 import de.oose.taskboard.shared.enums.TaskState;
 import de.oose.taskboard.shared.validation.ValidationResult;
 
-
 public class EditTaskPresenter implements Presenter {
 
-	private final EditTaskView display;
-	private final HandlerManager eventBus;
+	public interface IEditTaskView extends View, HasValue<TaskBO>, Logoutable,
+			HasErrors {
+
+		public Button getBtnLogout();
+
+		public TaskBO getValue();
+
+		public Button getDeleteButton();
+
+		public Button getCancelButton();
+
+		public Button getConfirmationButton();
+
+		public TaskState getState();
+
+		public TextArea getDescriptionField();
+
+		public TextBox getTitleField();
+
+	}
+
+	private final IEditTaskView display;
+	private final EventBus eventBus;
 	private final TaskServiceAsync taskService;
 
 	private UserBO userBO;
 
-	
-	public EditTaskPresenter(EditTaskView display,
-			TaskServiceAsync taskService, HandlerManager eventBus, UserBO user) {
-		this(display, taskService, eventBus, user, null);
-		display.getDeleteButton().setEnabled(false);
-	}
-
-	public EditTaskPresenter(EditTaskView display,
-			TaskServiceAsync taskService, HandlerManager eventBus,
-			UserBO userBO, TaskBO taskBO) {
+	@Inject
+	public EditTaskPresenter(IEditTaskView display,
+			TaskServiceAsync taskService, EventBus eventBus,
+			@LoggedUser UserBO user) {
+		
 		this.display = display;
 		this.eventBus = eventBus;
 		this.taskService = taskService;
-		setUserBO(userBO);
-		setTask(taskBO);
-		bind();
+		setUserBO(user);
+		display.getDeleteButton().setEnabled(false);
 	}
+
+	
 
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(display.asWidget());
+		setUserBO(userBO);
 	}
 
 	private void bind() {

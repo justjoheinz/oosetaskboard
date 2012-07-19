@@ -1,27 +1,25 @@
 package de.oose.taskboard.client;
 
-import com.google.gwt.core.client.GWT;
+import javax.inject.Inject;
+
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.web.bindery.event.shared.EventBus;
 
 import de.oose.taskboard.client.event.DeleteTaskEvent;
 import de.oose.taskboard.client.event.EditTaskCancelledEvent;
 import de.oose.taskboard.client.event.EditTaskEvent;
 import de.oose.taskboard.client.event.LoginEvent;
 import de.oose.taskboard.client.event.UpdateTaskEvent;
+import de.oose.taskboard.client.place.LoggedUser;
 import de.oose.taskboard.client.presenter.EditTaskPresenter;
 import de.oose.taskboard.client.presenter.LoginPresenter;
 import de.oose.taskboard.client.presenter.Presenter;
 import de.oose.taskboard.client.presenter.TaskListPresenter;
-import de.oose.taskboard.client.service.LoginService;
-import de.oose.taskboard.client.service.LoginServiceAsync;
 import de.oose.taskboard.client.service.TaskServiceAsync;
-import de.oose.taskboard.client.view.EditTaskView;
-import de.oose.taskboard.client.view.LoginView;
-import de.oose.taskboard.client.view.TaskListView;
+import de.oose.taskboard.shared.bo.TaskBO;
 import de.oose.taskboard.shared.bo.UserBO;
 
 /**
@@ -37,22 +35,29 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private static final String HISTORY_TASKLIST = "taskList";
 	private static final String HISTORY_LOGIN = "login";
 
-	private HandlerManager eventBus;
+	private final EventBus eventBus;
 
-	private TaskServiceAsync taskService;
-
-	private LoginServiceAsync loginService = GWT.create(LoginService.class);
+	private final TaskServiceAsync taskService;
 
 	private HasWidgets container;
 
 	private EditTaskPresenter editTaskPresenter = null;
 
-	// TODO remove
-	private UserBO user;
+	private final LoginPresenter loginPresenter;
+	
+	private final TaskListPresenter tasklistPresenter;
 
-	public AppController(TaskServiceAsync taskService, HandlerManager eventBus) {
+	private UserBO loggedUser;
+	
+
+	@Inject
+	public AppController(TaskServiceAsync taskService,
+			LoginPresenter loginPresenter, TaskListPresenter tasklistPresenter, @LoggedUser UserBO loggedUser, EventBus eventBus) {
 		this.taskService = taskService;
 		this.eventBus = eventBus;
+		this.loginPresenter = loginPresenter;
+		this.tasklistPresenter = tasklistPresenter;
+		this.loggedUser = loggedUser;
 		bind();
 	}
 
@@ -63,17 +68,18 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private void bind() {
 		History.addValueChangeHandler(this);
 
-		eventBus.addHandler(EditTaskEvent.TYPE, new EditTaskEvent.EditTaskHandler() {
+		eventBus.addHandler(EditTaskEvent.TYPE,
+				new EditTaskEvent.EditTaskHandler() {
 
-			@Override
-			public void onEditTask(EditTaskEvent event) {
-				History.newItem(HISTORY_EDIT, false);
-				EditTaskView editTaskView = GWT.create(EditTaskView.class);
-				editTaskPresenter = new EditTaskPresenter(editTaskView,
-						taskService, eventBus, user, event.getTaskBO());
-				editTaskPresenter.go(container);
-			}
-		});
+					@Override
+					public void onEditTask(EditTaskEvent event) {
+						History.newItem(HISTORY_EDIT, false);
+						TaskBO task = event.getTaskBO();
+						editTaskPresenter.setUserBO(loggedUser);
+						editTaskPresenter.setTask(task);
+						editTaskPresenter.go(container);
+					}
+				});
 
 		eventBus.addHandler(EditTaskCancelledEvent.TYPE,
 				new EditTaskCancelledEvent.EditTaskCancelledHandler() {
@@ -84,28 +90,30 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 					}
 				});
 
-		eventBus.addHandler(UpdateTaskEvent.TYPE, new UpdateTaskEvent.UpdateTaskHandler() {
+		eventBus.addHandler(UpdateTaskEvent.TYPE,
+				new UpdateTaskEvent.UpdateTaskHandler() {
 
-			@Override
-			public void onUpdateTask(UpdateTaskEvent event) {
-				History.newItem(HISTORY_TASKLIST);
-			}
-		});
+					@Override
+					public void onUpdateTask(UpdateTaskEvent event) {
+						History.newItem(HISTORY_TASKLIST);
+					}
+				});
 
-		eventBus.addHandler(DeleteTaskEvent.TYPE, new DeleteTaskEvent.DeleteTaskHandler() {
+		eventBus.addHandler(DeleteTaskEvent.TYPE,
+				new DeleteTaskEvent.DeleteTaskHandler() {
 
-			@Override
-			public void onDeleteTask(DeleteTaskEvent event) {
-				History.newItem(HISTORY_TASKLIST);
-			}
-		});
+					@Override
+					public void onDeleteTask(DeleteTaskEvent event) {
+						History.newItem(HISTORY_TASKLIST);
+					}
+				});
 
 		eventBus.addHandler(LoginEvent.TYPE, new LoginEvent.LoginHandler() {
 
 			@Override
 			public void onLogin(LoginEvent event) {
-				user = event.getAccount();
-				if (user == null) {
+				loggedUser = event.getAccount();
+				if (loggedUser == null) {
 					History.newItem(HISTORY_LOGIN);
 				} else {
 					History.newItem(HISTORY_TASKLIST);
@@ -126,17 +134,12 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 		if (token != null) {
 			if (token.equals(HISTORY_LOGIN)) {
-				LoginView loginView = GWT.create(LoginView.class);
-				Presenter presenter = new LoginPresenter(loginView,
-						loginService, eventBus);
-				presenter.go(container);
+				loginPresenter.go(container);
 			}
 
 			if (token.equals(HISTORY_TASKLIST)) {
-				TaskListView taskListView = GWT.create(TaskListView.class);
-				TaskListPresenter presenter = new TaskListPresenter(
-						taskListView, taskService, eventBus, user);
-				presenter.go(container);
+				tasklistPresenter.setLoggedUser(loggedUser);
+				tasklistPresenter.go(container);
 			}
 		}
 

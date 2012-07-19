@@ -4,41 +4,61 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
+import com.google.web.bindery.event.shared.EventBus;
+import com.gwtplatform.mvp.client.View;
 
 import de.oose.taskboard.client.event.EditTaskEvent;
 import de.oose.taskboard.client.event.LoginEvent;
+import de.oose.taskboard.client.place.LoggedUser;
 import de.oose.taskboard.client.service.TaskServiceAsync;
 import de.oose.taskboard.client.util.DefaultAsyncCallback;
-import de.oose.taskboard.client.view.TaskListView;
+import de.oose.taskboard.client.view.Logoutable;
 import de.oose.taskboard.client.widget.TaskCellList;
 import de.oose.taskboard.shared.bo.TaskBO;
 import de.oose.taskboard.shared.bo.UserBO;
 
 public class TaskListPresenter implements Presenter {
 
-	private final TaskListView display;
-	private final HandlerManager eventBus;
+	public interface ITaskListView extends View, Logoutable {
+
+		public abstract Map<String, TaskCellList> getFilteredCellLists();
+
+		public abstract HasSelectionHandlers<TaskBO> getTaskboard();
+
+		public abstract Button getBtnLogout();
+
+		public abstract Button getTaskButton();
+
+		public abstract void setUser(String lblUser);
+
+	}
+
+	private final ITaskListView display;
+	private final EventBus eventBus;
 	private final TaskServiceAsync taskService;
 	private Map<String, TaskListProvider> taskListProviders = new HashMap<String, TaskListProvider>();
 	private UserBO user;
 
-
-	public TaskListPresenter(TaskListView display,
-			TaskServiceAsync taskService, HandlerManager eventBus, UserBO user) {
+	@Inject
+	public TaskListPresenter(ITaskListView display,
+			TaskServiceAsync taskService, EventBus eventBus,
+			@LoggedUser UserBO user) {
 		this.display = display;
 		this.eventBus = eventBus;
 		this.taskService = taskService;
 		this.user = user;
-		display.setUser(user.getName());
 		bind();
 	}
 
@@ -56,6 +76,7 @@ public class TaskListPresenter implements Presenter {
 														// looks quite brute
 														// force
 		}
+		display.setUser(user.getName());
 	}
 
 	private void bind() {
@@ -126,6 +147,10 @@ public class TaskListPresenter implements Presenter {
 						}
 					});
 		}
+	}
+
+	public void setLoggedUser(UserBO loggedUser) {
+		user = loggedUser;
 	}
 
 }
