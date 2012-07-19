@@ -1,42 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivysettings>
-	<settings defaultResolver="chained" />
-	<properties file="ivyversions.properties" />
-	<resolvers>
-		<chain name="chained">
-			<ibiblio name="maven2" m2compatible="true" />
-			<url name="com.springsource.repository.bundles.release">
-				<ivy
-					pattern="http://repository.springsource.com/ivy/bundles/release/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
-				<artifact
-					pattern="http://repository.springsource.com/ivy/bundles/release/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
-			</url>
-			<url name="com.springsource.repository.bundles.external">
-				<ivy
-					pattern="http://repository.springsource.com/ivy/bundles/external/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
-				<artifact
-					pattern="http://repository.springsource.com/ivy/bundles/external/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
-			</url>
-			<url name="org.jboss" m2compatible="true">
-				<artifact
-					pattern="http://repository.jboss.org/maven2/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
-			</url>
-			
-			<url name="org.mvnsearch" m2compatible="true">
-				<artifact
-					pattern="http://www.mvnsearch.org/maven2/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
-			</url>
-			
-			<url name="com.mvnrepository" m2compatible="true">
-				<artifact
-					pattern="http://mvnrepository.com/artifact/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
-			</url>
-			
-			<url name="org.jboss.nexus" m2compatible="true">
-				<artifact
-					pattern="http://repository.jboss.org/nexus/content/groups/public/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
-			</url>
-			
-		</chain>
-	</resolvers>
+
+    <settings defaultResolver="chained" />
+
+    <properties file="ivyversions.properties" />
+
+    <resolvers>
+
+        <chain name="chained" returnFirst="true" >
+
+            <ibiblio
+                name="maven2"
+                m2compatible="true" />
+
+            <url name="com.springsource.repository.bundles.release" >
+
+                <ivy pattern="http://repository.springsource.com/ivy/bundles/release/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+
+                <artifact pattern="http://repository.springsource.com/ivy/bundles/release/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+            </url>
+
+            <url name="com.springsource.repository.bundles.external" >
+
+                <ivy pattern="http://repository.springsource.com/ivy/bundles/external/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+
+                <artifact pattern="http://repository.springsource.com/ivy/bundles/external/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+            </url>
+
+            <url
+                name="org.jboss"
+                m2compatible="true" >
+
+                <artifact pattern="http://repository.jboss.org/maven2/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+            </url>
+
+            <url
+                name="org.mvnsearch"
+                m2compatible="true" >
+
+                <artifact pattern="http://www.mvnsearch.org/maven2/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+            </url>
+
+            <url
+                name="com.mvnrepository"
+                m2compatible="true" >
+
+                <artifact pattern="http://mvnrepository.com/artifact/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+            </url>
+
+            <url
+                name="org.jboss.nexus"
+                m2compatible="true" >
+
+                <artifact pattern="http://repository.jboss.org/nexus/content/groups/public/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+            </url>
+        </chain>
+    </resolvers>
+
 </ivysettings>

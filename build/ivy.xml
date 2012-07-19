@@ -1,77 +1,180 @@
-<ivy-module version="2.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd"
-	xmlns:m="http://ant.apache.org/ivy/maven">
+<ivy-module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:m="http://ant.apache.org/ivy/maven"
+    version="2.0"
+    xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd" >
 
-	<info organisation="de.oose" module="gwt-test">
-		<ivyauthor name="oose Innovative Informatik" url="http://www.oose.de" />
-	</info>
-	<configurations>
-		<conf name="gwt" visibility="public" />
-		<conf name="default" visibility="public" extends="master" />
-		<conf name="master" visibility="public" />
-		<conf name="test" visibility="public"/>
-	</configurations>
-	<dependencies>
-		<!-- Dozer DTO mapping dependencies -->
-		<dependency org="net.sf.dozer" name="dozer" rev="${dozer.version}"
-			conf="master->default(*)" />
+    <info
+        module="gwt-test"
+        organisation="de.oose" >
 
-		<!-- Derby dependencies -->
-		<dependency org="org.apache.derby" name="derby" rev="${derby.version}"
-			conf="master->default(*)" />
+        <ivyauthor
+            name="oose Innovative Informatik"
+            url="http://www.oose.de" />
+    </info>
 
-		<dependency org="org.hsqldb" name="hsqldb" rev="2.2.8"
-			conf="master->default(*)" />
+    <configurations>
 
+        <conf
+            name="default"
+            extends="master"
+            visibility="public" />
 
-		<!-- Hibernate dependencies -->
-		<dependency org="org.hibernate" name="hibernate-core"
-			rev="${hibernate.core.version}" conf="master->default(*)" />
-		<dependency org="org.hibernate" name="hibernate-entitymanager"
-			rev="${hibernate.core.version}" conf="master->default(*)" />
-		<dependency org="org.hibernate" name="hibernate-validator"
-			rev="4.2.0.Final" conf="master->default(*)" />
+        <conf
+            name="master"
+            visibility="public" />
 
+        <conf
+            name="test"
+            visibility="public" />
+    </configurations>
 
-		<!-- Guice dependencies -->
-		<dependency org="com.google.inject" name="guice"
-			rev="${com.google.guice.version}" conf="master->default(*)" />
-		<dependency org="com.google.inject.extensions" name="guice-persist"
-			rev="${com.google.guice.version}" conf="master->default(*)" />
-		<dependency org="com.google.inject.extensions" name="guice-servlet"
-			rev="${com.google.guice.version}" conf="master->default(*)" />
+    <dependencies>
 
-		<!-- Validation API -->
-		<dependency org="javax.validation" name="validation-api"
-			rev="${validation-api.version}" conf="master->default(*)">
-			<artifact name="validation-api" />
-			<artifact name="validation-api" m:classifier="sources" />
-		</dependency>
+        <!-- Dozer DTO mapping dependencies -->
 
-		<!-- GWT dependencies -->
-		<dependency org="com.google.gwt" name="gwt"
-			rev="${com.google.gwt.version}" conf="master->default(*)" />
-		<dependency org="com.google.gwt" name="gwt-user"
-			rev="${com.google.gwt.version}" conf="master->default(*)" />
-		<dependency org="com.google.gwt" name="gwt-dev"
-			rev="${com.google.gwt.version}" conf="master->default(*)" />
+        <dependency
+            name="dozer"
+            conf="master->default(*)"
+            org="net.sf.dozer"
+            rev="${dozer.version}" />
 
-		<!-- logging framework -->
-		<dependency org="ch.qos.logback" name="logback-classic" rev="${logback.version}" conf="master->default(*);test->default(*)" />
+        <!-- Derby dependencies -->
 
-		<!-- Those dependencies are our test stuff -->
-		<dependency org="org.seleniumhq.selenium" name="selenium-java" rev="${selenium.version}" conf="test->default(*)"/>
-		<dependency org="org.hamcrest" name="hamcrest-all" rev="${hamcrest.version}" conf="test->default(*)"/>
+        <dependency
+            name="derby"
+            conf="master->default(*)"
+            org="org.apache.derby"
+            rev="${derby.version}" />
 
-		<!-- override transitive dependencies with correct versions of google gwt 
-			and guice -->
-		<override org="com.google.gwt" rev="${com.google.gwt.version}" />
-		<override org="com.google.inject" rev="${com.google.guice.version}" />
-		<override org="com.google.inject.extensions" rev="${com.google.guice.version}" />
-		<!-- override sl4j versions with the latest -->
-		<override org="org.slf4j" rev="${slf4j.version}"/>
-		
-		
-	</dependencies>
+        <dependency
+            name="hsqldb"
+            conf="master->default(*)"
+            org="org.hsqldb"
+            rev="2.2.8" />
+
+        <!-- Hibernate dependencies -->
+
+        <dependency
+            name="hibernate-core"
+            conf="master->default(*)"
+            org="org.hibernate"
+            rev="${hibernate.core.version}" />
+
+        <dependency
+            name="hibernate-entitymanager"
+            conf="master->default(*)"
+            org="org.hibernate"
+            rev="${hibernate.core.version}" />
+
+        <dependency
+            name="hibernate-validator"
+            conf="master->default(*)"
+            org="org.hibernate"
+            rev="4.2.0.Final" />
+
+        <!-- Guice dependencies -->
+
+        <dependency
+            name="guice"
+            conf="master->default(*)"
+            org="com.google.inject"
+            rev="${com.google.guice.version}" />
+
+        <dependency
+            name="guice-persist"
+            conf="master->default(*)"
+            org="com.google.inject.extensions"
+            rev="${com.google.guice.version}" />
+
+        <dependency
+            name="guice-servlet"
+            conf="master->default(*)"
+            org="com.google.inject.extensions"
+            rev="${com.google.guice.version}" />
+
+        <!-- GWT Platform -->
+
+        <dependency
+            name="gwtp-mvp-client"
+            conf="master->default(*)"
+            org="com.gwtplatform"
+            rev="${gwtp.version}" />
+
+        <dependency
+            name="gwtp-dispatch-client"
+            conf="master->default(*)"
+            org="com.gwtplatform"
+            rev="${gwtp.version}" />
+
+        <dependency
+            name="gwtp-dispatch-server-guice"
+            conf="master->default(*)"
+            org="com.gwtplatform"
+            rev="${gwtp.version}" />
+
+        <dependency
+            name="gin"
+            conf="master->default(*)"
+            org="com.google.gwt.inject"
+            rev="1.5.0" >
+
+            <exclude name="gwt-servlet" />
+        </dependency>
+
+        <!-- Validation API -->
+
+        <dependency
+            name="validation-api"
+            conf="master->default(*)"
+            org="javax.validation"
+            rev="${validation-api.version}" >
+
+            <artifact name="validation-api" />
+
+            <artifact
+                name="validation-api"
+                m:classifier="sources" />
+        </dependency>
+
+        <!-- logging framework -->
+
+        <dependency
+            name="logback-classic"
+            conf="master->default(*);test->default(*)"
+            org="ch.qos.logback"
+            rev="${logback.version}" />
+
+        <!-- Those dependencies are our test stuff -->
+
+        <dependency
+            name="selenium-java"
+            conf="test->default(*)"
+            org="org.seleniumhq.selenium"
+            rev="${selenium.version}" />
+
+        <dependency
+            name="hamcrest-all"
+            conf="test->default(*)"
+            org="org.hamcrest"
+            rev="${hamcrest.version}" />
+
+        <!--
+             override transitive dependencies with correct versions of google gwt 
+			and guice
+        -->
+
+        <override
+            org="com.google.inject"
+            rev="${com.google.guice.version}" />
+
+        <override
+            org="com.google.inject.extensions"
+            rev="${com.google.guice.version}" />
+        <!-- override sl4j versions with the latest -->
+
+        <override
+            org="org.slf4j"
+            rev="${slf4j.version}" />
+    </dependencies>
+
 </ivy-module>

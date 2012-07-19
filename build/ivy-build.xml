@@ -32,8 +32,7 @@
 	<property name="project.lib.dir" value="../lib" />
 
 	<target name="echo">
-		<echoproperties>
-		</echoproperties>
+		<echoproperties />
 	</target>
 
 	<target name="init-proxy">
@@ -62,25 +61,27 @@
 
 	<target name="download" depends="init-ivy" description="Retrieve required artifacts and copy them into the project.lib.dir.">
 		<ivy:retrieve pattern="${project.lib.dir}/[artifact]-[revision](-[classifier]).[ext]" type="bundle,jar" sync="true" conf="master" />
+		<echo message="Copy from ${gwt.home} to ${project.lib.dir}:" />
+		<copy todir="${project.lib.dir}">
+			<filelist dir="${gwt.home}">
+				<file name="gwt-servlet.jar" />
+				<file name="gwt-dev.jar" />
+				<file name="gwt-user.jar" />
+			</filelist>
+		</copy>
+		<echo message="Copy from locallibs to ${project.lib.dir}" />
 		<copy todir="${project.lib.dir}">
 			<fileset dir="locallibs" />
 		</copy>
-		<move file="${project.lib.dir}/gwt-servlet-2.4.0.jar" tofile="${project.lib.dir}/gwt-servlet.jar" />
-		<move file="${project.lib.dir}/gwt-dev-2.4.0.jar" tofile="${project.lib.dir}/gwt-dev.jar" />
-		<move file="${project.lib.dir}/gwt-user-2.4.0.jar" tofile="${project.lib.dir}/gwt-user.jar" />
-		<!--<ivy:retrieve pattern="${project.lib.dir}/[artifact].[ext]" type="bundle,jar" sync="true" conf="gwt" />
-		<copy todir="${project.lib.dir}">
-			<fileset dir="locallibs" />
-		</copy> -->
 		<antcall target="refresh" />
 	</target>
 
 	<target name="prepare-test-dirs">
 		<!--  ensure that the test dir itself is there - should be -->
-		<mkdir dir="../${test.dir}"/>
+		<mkdir dir="../${test.dir}" />
 		<!--  now create the target dirs for ivy -->
-		<mkdir dir="../${test.target.dir}"/>
-		<mkdir dir="../${test.lib.dir}"/>
+		<mkdir dir="../${test.target.dir}" />
+		<mkdir dir="../${test.lib.dir}" />
 	</target>
 
 	<target name="download-test-libs" depends="init-ivy, prepare-test-dirs" description="Retrieve required artifacts for testing and copy them into the test.lib.dir.">
