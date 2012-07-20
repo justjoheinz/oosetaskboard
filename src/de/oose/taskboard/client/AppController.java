@@ -41,22 +41,24 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 	private HasWidgets container;
 
-	private EditTaskPresenter editTaskPresenter = null;
+	private final EditTaskPresenter editTaskPresenter;
 
 	private final LoginPresenter loginPresenter;
-	
+
 	private final TaskListPresenter tasklistPresenter;
 
 	private UserBO loggedUser;
-	
 
 	@Inject
 	public AppController(TaskServiceAsync taskService,
-			LoginPresenter loginPresenter, TaskListPresenter tasklistPresenter, @LoggedUser UserBO loggedUser, EventBus eventBus) {
+			LoginPresenter loginPresenter, TaskListPresenter tasklistPresenter,
+			EditTaskPresenter editTaskPresenter, @LoggedUser UserBO loggedUser,
+			EventBus eventBus) {
 		this.taskService = taskService;
 		this.eventBus = eventBus;
 		this.loginPresenter = loginPresenter;
 		this.tasklistPresenter = tasklistPresenter;
+		this.editTaskPresenter = editTaskPresenter;
 		this.loggedUser = loggedUser;
 		bind();
 	}
