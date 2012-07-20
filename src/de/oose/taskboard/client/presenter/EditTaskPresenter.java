@@ -61,15 +61,14 @@ public class EditTaskPresenter implements Presenter {
 	public EditTaskPresenter(IEditTaskView display,
 			TaskServiceAsync taskService, EventBus eventBus,
 			@LoggedUser UserBO user) {
-		
+
 		this.display = display;
 		this.eventBus = eventBus;
 		this.taskService = taskService;
 		setUserBO(user);
 		display.getDeleteButton().setEnabled(false);
+		bind();
 	}
-
-	
 
 	@Override
 	public void go(HasWidgets container) {
