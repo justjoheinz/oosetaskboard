@@ -71,13 +71,17 @@ public class AppController implements Presenter, ValueChangeHandler<String>,
 		this.editTaskPresenter = editTaskPresenter;
 		this.loggedUser = loggedUser;
 
+		initHandler();
+		History.addValueChangeHandler(this);
+	}
+	
+	private void initHandler() {
 		eventBus.addHandler(LogoutEvent.getType(), this);
 		eventBus.addHandler(LoginEvent.getType(), this);
 		eventBus.addHandler(DeleteTaskEvent.getType(), this);
 		eventBus.addHandler(UpdateTaskEvent.getType(), this);
 		eventBus.addHandler(EditTaskEvent.getType(), this);
 		eventBus.addHandler(EditTaskCancelledEvent.getType(), this);
-		History.addValueChangeHandler(this);
 	}
 
 	// Methode die aufgerufen wird, wenn im Browser "Back", "Forward" geklickt
