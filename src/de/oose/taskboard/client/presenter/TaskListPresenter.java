@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.view.client.AsyncDataProvider;
@@ -20,7 +21,7 @@ import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.View;
 
 import de.oose.taskboard.client.event.EditTaskEvent;
-import de.oose.taskboard.client.event.LoginEvent;
+import de.oose.taskboard.client.event.LogoutEvent;
 import de.oose.taskboard.client.place.LoggedUser;
 import de.oose.taskboard.client.service.TaskServiceAsync;
 import de.oose.taskboard.client.util.DefaultAsyncCallback;
@@ -33,15 +34,15 @@ public class TaskListPresenter implements Presenter {
 
 	public interface ITaskListView extends View, Logoutable {
 
-		public abstract Map<String, TaskCellList> getFilteredCellLists();
+		public Map<String, TaskCellList> getFilteredCellLists();
 
-		public abstract HasSelectionHandlers<TaskBO> getTaskboard();
+		public HasSelectionHandlers<TaskBO> getTaskboard();
 
-		public abstract Button getBtnLogout();
+		public Button getBtnLogout();
 
-		public abstract Button getTaskButton();
+		public Button getTaskButton();
 
-		public abstract void setUser(String lblUser);
+		public void setUser(String lblUser);
 
 	}
 
@@ -84,7 +85,7 @@ public class TaskListPresenter implements Presenter {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new EditTaskEvent(null));
+				EditTaskEvent.fire(TaskListPresenter.this, null);
 			}
 		});
 
@@ -93,8 +94,7 @@ public class TaskListPresenter implements Presenter {
 
 					@Override
 					public void onSelection(SelectionEvent<TaskBO> event) {
-						eventBus.fireEvent(new EditTaskEvent(event
-								.getSelectedItem()));
+						EditTaskEvent.fire(TaskListPresenter.this, event.getSelectedItem());
 					}
 				});
 
@@ -102,7 +102,7 @@ public class TaskListPresenter implements Presenter {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new LoginEvent(null));
+				LogoutEvent.fire(TaskListPresenter.this);
 			}
 		});
 
@@ -153,4 +153,9 @@ public class TaskListPresenter implements Presenter {
 		user = loggedUser;
 	}
 
+
+	@Override
+	public void fireEvent(GwtEvent<?> event) {
+		eventBus.fireEventFromSource(event, this);
+	}
 }
