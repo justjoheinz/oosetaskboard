@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,23 +100,23 @@ public class PersistenceServiceImpl implements PersistenceService {
 	public List<Task> getPrivateTasks(int userId) {
 		String queryText = "from Task t where t.visibility = '"
 				+ TaskVisibility.PRIVATE + "' and t.user=" + userId;
-		Query query = em.createQuery(queryText, Task.class);
+		TypedQuery<Task> query = em.createQuery(queryText, Task.class);
 		return query.getResultList();
 	}
 
-	private Query createTaskQuery(String status) {
+	private TypedQuery<Task> createTaskQuery(String status) {
 		String query = "from Task t where t.status = '" + status + "'";
 		LOG.trace("Query is '{}'", query);
-		return em.createQuery(query);
+		return em.createQuery(query, Task.class);
 	}
 
 	private List<Task> execQuery(String status) {
-		Query query = createTaskQuery(status);
+		TypedQuery<Task> query = createTaskQuery(status);
 		return query.getResultList();
 	}
 
 	private List<Task> execQuery(String status, int start, int count) {
-		Query query = createTaskQuery(status);
+		TypedQuery<Task> query = createTaskQuery(status);
 		query.setFirstResult(start);
 		query.setMaxResults(count);
 		return query.getResultList();
