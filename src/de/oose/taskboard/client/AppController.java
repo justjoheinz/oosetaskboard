@@ -4,15 +4,23 @@ import javax.inject.Inject;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.web.bindery.event.shared.EventBus;
 
 import de.oose.taskboard.client.event.DeleteTaskEvent;
+import de.oose.taskboard.client.event.DeleteTaskEvent.DeleteTaskHandler;
 import de.oose.taskboard.client.event.EditTaskCancelledEvent;
+import de.oose.taskboard.client.event.EditTaskCancelledEvent.EditTaskCancelledHandler;
 import de.oose.taskboard.client.event.EditTaskEvent;
+import de.oose.taskboard.client.event.EditTaskEvent.EditTaskHandler;
 import de.oose.taskboard.client.event.LoginEvent;
+import de.oose.taskboard.client.event.LoginEvent.LoginHandler;
+import de.oose.taskboard.client.event.LogoutEvent;
+import de.oose.taskboard.client.event.LogoutEvent.LogoutHandler;
 import de.oose.taskboard.client.event.UpdateTaskEvent;
+import de.oose.taskboard.client.event.UpdateTaskEvent.UpdateTaskHandler;
 import de.oose.taskboard.client.place.LoggedUser;
 import de.oose.taskboard.client.presenter.EditTaskPresenter;
 import de.oose.taskboard.client.presenter.LoginPresenter;
@@ -29,7 +37,9 @@ import de.oose.taskboard.shared.bo.UserBO;
  * @author markusklink
  * 
  */
-public class AppController implements Presenter, ValueChangeHandler<String> {
+public class AppController implements Presenter, ValueChangeHandler<String>,
+		LogoutHandler, LoginHandler, DeleteTaskHandler, UpdateTaskHandler,
+		EditTaskCancelledHandler, EditTaskHandler {
 
 	private static final String HISTORY_EDIT = "edit";
 	private static final String HISTORY_TASKLIST = "taskList";
@@ -60,72 +70,18 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		this.tasklistPresenter = tasklistPresenter;
 		this.editTaskPresenter = editTaskPresenter;
 		this.loggedUser = loggedUser;
-		bind();
-	}
 
-	public void init() {
-
-	}
-
-	private void bind() {
+		initHandler();
 		History.addValueChangeHandler(this);
-
-		eventBus.addHandler(EditTaskEvent.TYPE,
-				new EditTaskEvent.EditTaskHandler() {
-
-					@Override
-					public void onEditTask(EditTaskEvent event) {
-						History.newItem(HISTORY_EDIT, false);
-						TaskBO task = event.getTaskBO();
-						editTaskPresenter.setUserBO(loggedUser);
-						editTaskPresenter.setTask(task);
-						editTaskPresenter.go(container);
-					}
-				});
-
-		eventBus.addHandler(EditTaskCancelledEvent.TYPE,
-				new EditTaskCancelledEvent.EditTaskCancelledHandler() {
-
-					@Override
-					public void onEditTaskCancelled(EditTaskCancelledEvent event) {
-						doEditTaskCancelled();
-					}
-				});
-
-		eventBus.addHandler(UpdateTaskEvent.TYPE,
-				new UpdateTaskEvent.UpdateTaskHandler() {
-
-					@Override
-					public void onUpdateTask(UpdateTaskEvent event) {
-						History.newItem(HISTORY_TASKLIST);
-					}
-				});
-
-		eventBus.addHandler(DeleteTaskEvent.TYPE,
-				new DeleteTaskEvent.DeleteTaskHandler() {
-
-					@Override
-					public void onDeleteTask(DeleteTaskEvent event) {
-						History.newItem(HISTORY_TASKLIST);
-					}
-				});
-
-		eventBus.addHandler(LoginEvent.TYPE, new LoginEvent.LoginHandler() {
-
-			@Override
-			public void onLogin(LoginEvent event) {
-				loggedUser = event.getAccount();
-				if (loggedUser == null) {
-					History.newItem(HISTORY_LOGIN);
-				} else {
-					History.newItem(HISTORY_TASKLIST);
-				}
-			}
-		});
 	}
-
-	private void doEditTaskCancelled() {
-		History.newItem(HISTORY_TASKLIST);
+	
+	private void initHandler() {
+		eventBus.addHandler(LogoutEvent.getType(), this);
+		eventBus.addHandler(LoginEvent.getType(), this);
+		eventBus.addHandler(DeleteTaskEvent.getType(), this);
+		eventBus.addHandler(UpdateTaskEvent.getType(), this);
+		eventBus.addHandler(EditTaskEvent.getType(), this);
+		eventBus.addHandler(EditTaskCancelledEvent.getType(), this);
 	}
 
 	// Methode die aufgerufen wird, wenn im Browser "Back", "Forward" geklickt
@@ -143,8 +99,11 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				tasklistPresenter.setLoggedUser(loggedUser);
 				tasklistPresenter.go(container);
 			}
-		}
 
+			if (token.equals(HISTORY_EDIT)) {
+				editTaskPresenter.go(container);
+			}
+		}
 	}
 
 	// setzen des Initialzustandes für die History. Damit wird die Startview
@@ -162,6 +121,46 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			History.fireCurrentHistoryState();
 		}
 
+	}
+
+	@Override
+	public void fireEvent(GwtEvent<?> event) {
+		eventBus.fireEventFromSource(event, this);
+	}
+
+	@Override
+	public void onLogout(LogoutEvent event) {
+		loggedUser = null;
+		History.newItem(HISTORY_LOGIN);
+	}
+
+	@Override
+	public void onLogin(LoginEvent event) {
+		loggedUser = event.getAccount();
+		History.newItem(HISTORY_TASKLIST);
+	}
+
+	@Override
+	public void onDeleteTask(DeleteTaskEvent event) {
+		History.newItem(HISTORY_TASKLIST);
+	}
+
+	@Override
+	public void onUpdateTask(UpdateTaskEvent event) {
+		History.newItem(HISTORY_TASKLIST);
+	}
+
+	@Override
+	public void onEditTaskCancelled(EditTaskCancelledEvent event) {
+		History.newItem(HISTORY_TASKLIST);
+	}
+
+	@Override
+	public void onEditTask(EditTaskEvent event) {
+		TaskBO task = event.getTaskBO();
+		editTaskPresenter.setUserBO(loggedUser);
+		editTaskPresenter.setTask(task);
+		History.newItem(HISTORY_EDIT);
 	}
 
 }

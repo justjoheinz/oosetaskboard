@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -23,15 +24,20 @@ import de.oose.taskboard.shared.errors.LoginException;
 import de.oose.taskboard.shared.validation.ValidationError;
 import de.oose.taskboard.shared.validation.ValidationResult;
 
-public class LoginPresenter implements Presenter {
+public class LoginPresenter implements Presenter, LoginEvent.LoginHandler {
 
 	public interface ILoginView extends View, HasErrors {
 
 		public TextBox getTextBox();
+
 		public Button getBtnOK();
+
 		public SimpleCheckBox getBoxCreate();
+
 		public Button getBtnCancel();
+
 		public void hide();
+
 		public void center();
 
 	}
@@ -48,8 +54,8 @@ public class LoginPresenter implements Presenter {
 	}
 
 	@Inject
-	public LoginPresenter(ILoginView display,
-			LoginServiceAsync loginService, EventBus eventBus) {
+	public LoginPresenter(ILoginView display, LoginServiceAsync loginService,
+			EventBus eventBus) {
 		this.display = display;
 		this.eventBus = eventBus;
 		this.loginService = loginService;
@@ -94,7 +100,7 @@ public class LoginPresenter implements Presenter {
 																		// later
 								Cookies.setCookie(COOKIE, result.getName(),
 										new Date(nowLong));
-								eventBus.fireEvent(new LoginEvent(result));
+								onLogin(new LoginEvent(result));
 							}
 						});
 			}
@@ -110,4 +116,14 @@ public class LoginPresenter implements Presenter {
 		});
 	}
 
+	@Override
+	public void fireEvent(GwtEvent<?> event) {
+		eventBus.fireEvent(event);
+
+	}
+
+	@Override
+	public void onLogin(LoginEvent event) {
+		fireEvent(event);
+	}
 }

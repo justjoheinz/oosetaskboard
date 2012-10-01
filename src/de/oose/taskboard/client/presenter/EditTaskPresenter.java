@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -92,8 +93,7 @@ public class EditTaskPresenter implements Presenter {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new EditTaskCancelledEvent());
-
+				EditTaskCancelledEvent.fire(EditTaskPresenter.this);
 			}
 		});
 
@@ -143,7 +143,7 @@ public class EditTaskPresenter implements Presenter {
 
 			@Override
 			public void onSuccess(TaskBO result) {
-				eventBus.fireEvent(new UpdateTaskEvent(result));
+				UpdateTaskEvent.fire(EditTaskPresenter.this, result);
 			}
 		});
 	}
@@ -154,8 +154,7 @@ public class EditTaskPresenter implements Presenter {
 		taskService.updateTask(taskBO, new DefaultAsyncCallback<TaskBO>() {
 			@Override
 			public void onSuccess(TaskBO result) {
-				eventBus.fireEvent(new UpdateTaskEvent(result));
-
+				UpdateTaskEvent.fire(EditTaskPresenter.this, result);
 			}
 		});
 	}
@@ -189,4 +188,9 @@ public class EditTaskPresenter implements Presenter {
 		display.setUser(userBO.getName());
 	}
 
+	@Override
+	public void fireEvent(GwtEvent<?> event) {
+		eventBus.fireEventFromSource(event, this);
+		
+	}
 }
