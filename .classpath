@@ -6,8 +6,8 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ooseTaskboard/test/compile"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=ooseTaskboard&amp;ivyXmlPath=build%2Fivy.xml&amp;confs=*&amp;ivySettingsPath=file%3A%2F%2F%24%7Bworkspace_loc%3AooseTaskboard%2Fbuild%2Fivysettings.xml%7D&amp;loadSettingsOnDemand=true&amp;propertyFiles=%24%7Bworkspace_loc%3AooseTaskboard%2Fbuild%2Fivyversions.properties%7D"/>
 	<classpathentry kind="lib" path="test/build/lib/cglib-nodep-2.1_3.jar"/>
 	<classpathentry kind="lib" path="test/build/lib/commons-codec-1.6.jar"/>
@@ -79,5 +79,13 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/slf4j-api-1.6.4.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/validation-api-1.0.0.GA-sources.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/validation-api-1.0.0.GA.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gin-1.5.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/guice-assistedinject-3.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtp-clients-common-0.7.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtp-dispatch-client-0.7.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtp-dispatch-server-0.7.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtp-dispatch-server-guice-0.7.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtp-dispatch-shared-0.7.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtp-mvp-client-0.7.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

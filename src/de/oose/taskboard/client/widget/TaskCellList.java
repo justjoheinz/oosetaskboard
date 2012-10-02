@@ -16,7 +16,9 @@ public class TaskCellList extends CellList<TaskBO> {
 
 	public TaskCellList() {
 		super(new TaskCell());
-		setEmptyListWidget(new Label("nothing"));
+		Label emptyLabel = new Label("nothing");
+		emptyLabel.setStylePrimaryName("label");
+		setEmptyListWidget(emptyLabel);
 	}
 
 	static class TaskCell extends AbstractCell<TaskBO> {
