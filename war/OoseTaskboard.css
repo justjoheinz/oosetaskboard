@@ -66,3 +66,7 @@ h1 {
 .gwt-TextArea {
 	font-family: Arial, sans-serif;
 }
+
+.label {
+	margin: 4px;
+}
