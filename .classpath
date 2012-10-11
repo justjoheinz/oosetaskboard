@@ -97,5 +97,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="/Users/markusklink/Documents/gwt-2.5.0.rc2/validation-api-1.0.0.GA-sources.jar"/>
 	<classpathentry kind="lib" path="/Users/markusklink/Documents/gwt-2.5.0.rc2/validation-api-1.0.0.GA.jar" sourcepath="/Users/markusklink/Documents/gwt-2.5.0.rc2/validation-api-1.0.0.GA-sources.jar"/>
+
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

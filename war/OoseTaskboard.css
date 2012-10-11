@@ -65,3 +65,10 @@ h1 {
 	max-height: 60px;
 	overflow: scroll;
 }
+.gwt-TextArea {
+	font-family: Arial, sans-serif;
+}
+
+.label {
+	margin: 8px;
+}
