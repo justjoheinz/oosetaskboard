@@ -16,13 +16,13 @@ public class TaskCellList extends CellList<TaskBO> {
 
 	public TaskCellList() {
 		super(new TaskCell());
-		setEmptyListWidget(new Label("nothing"));
+		setEmptyListWidget(new Label("nothing to do."));
 	}
 
 	static class TaskCell extends AbstractCell<TaskBO> {
 
 		interface Templates extends SafeHtmlTemplates {
-			@SafeHtmlTemplates.Template("<div style='{0}'><p class='tasktitle'><b>{1}</b></p><p class='taskdesc'>{2}</p></div>")
+			@SafeHtmlTemplates.Template("<div style='{0}'><div class='tasktitle'><b>{1}</b></div><div class='taskdesc'>{2}</div></div>")
 			SafeHtml cell(String style, SafeHtml title, SafeHtml description);
 		}
 
