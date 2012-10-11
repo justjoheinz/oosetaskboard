@@ -60,15 +60,13 @@ h1 {
 
 .taskdesc {
 	font-size: x-small;
-	margin: 8px;
+	margin: 4px;
 	max-width: 100%;
 	max-height: 60px;
 	overflow: scroll;
 }
-.gwt-TextArea {
-	font-family: Arial, sans-serif;
-}
 
-.label {
-	margin: 8px;
+
+.nothingToDoLabel {
+	margin: 4px;
 }
