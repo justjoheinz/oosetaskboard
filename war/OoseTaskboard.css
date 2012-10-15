@@ -63,3 +63,10 @@ h1 {
 	font-size: x-small;
 	margin: 4px;
 }
+.gwt-TextArea {
+	font-family: Arial, sans-serif;
+}
+
+.label {
+	margin: 4px;
+}

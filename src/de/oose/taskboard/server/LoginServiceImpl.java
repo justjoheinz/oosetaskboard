@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.apache.commons.lang.StringUtils;
 import org.dozer.Mapper;
@@ -15,9 +15,6 @@ import de.oose.taskboard.client.service.LoginService;
 import de.oose.taskboard.server.entity.User;
 import de.oose.taskboard.shared.bo.UserBO;
 import de.oose.taskboard.shared.errors.LoginException;
-import de.oose.taskboard.shared.validation.ValidationError;
-import de.oose.taskboard.shared.validation.ValidationException;
-import de.oose.taskboard.shared.validation.ValidationResult;
 
 public class LoginServiceImpl implements LoginService {
 
@@ -33,7 +30,7 @@ public class LoginServiceImpl implements LoginService {
 		if (StringUtils.isEmpty(name)) {
 			throw new LoginException("The account name cannot be empty.");
 		}
-		Query query = em.createQuery("from User u where u.name = '" + name
+		TypedQuery<User> query = em.createQuery("from User u where u.name = '" + name
 				+ "'", User.class);
 		List<User> userList = (List<User>)query.getResultList();
 		if (create) {
