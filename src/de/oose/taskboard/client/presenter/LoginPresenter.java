@@ -17,6 +17,7 @@ import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.View;
 
 import de.oose.taskboard.client.event.LoginEvent;
+import de.oose.taskboard.client.place.LoggedUser;
 import de.oose.taskboard.client.service.LoginServiceAsync;
 import de.oose.taskboard.client.view.HasErrors;
 import de.oose.taskboard.shared.bo.UserBO;
@@ -46,6 +47,7 @@ public class LoginPresenter implements Presenter, LoginEvent.LoginHandler {
 	private ILoginView display;
 	private EventBus eventBus;
 	private LoginServiceAsync loginService;
+	private UserBO loggedUser;
 
 	@Override
 	public void go(HasWidgets container) {
@@ -55,10 +57,11 @@ public class LoginPresenter implements Presenter, LoginEvent.LoginHandler {
 
 	@Inject
 	public LoginPresenter(ILoginView display, LoginServiceAsync loginService,
-			EventBus eventBus) {
+			EventBus eventBus, @LoggedUser UserBO loggedUser) {
 		this.display = display;
 		this.eventBus = eventBus;
 		this.loginService = loginService;
+		this.loggedUser = loggedUser;
 		bind();
 		initCookieInformation();
 	}

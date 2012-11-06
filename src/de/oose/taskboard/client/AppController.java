@@ -1,12 +1,12 @@
 package de.oose.taskboard.client;
 
-import javax.inject.Inject;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
 import de.oose.taskboard.client.event.DeleteTaskEvent;
@@ -26,7 +26,6 @@ import de.oose.taskboard.client.presenter.EditTaskPresenter;
 import de.oose.taskboard.client.presenter.LoginPresenter;
 import de.oose.taskboard.client.presenter.Presenter;
 import de.oose.taskboard.client.presenter.TaskListPresenter;
-import de.oose.taskboard.client.service.TaskServiceAsync;
 import de.oose.taskboard.shared.bo.TaskBO;
 import de.oose.taskboard.shared.bo.UserBO;
 
@@ -47,8 +46,6 @@ public class AppController implements Presenter, ValueChangeHandler<String>,
 
 	private final EventBus eventBus;
 
-	private final TaskServiceAsync taskService;
-
 	private HasWidgets container;
 
 	private final EditTaskPresenter editTaskPresenter;
@@ -60,17 +57,15 @@ public class AppController implements Presenter, ValueChangeHandler<String>,
 	private UserBO loggedUser;
 
 	@Inject
-	public AppController(TaskServiceAsync taskService,
-			LoginPresenter loginPresenter, TaskListPresenter tasklistPresenter,
+	public AppController(LoginPresenter loginPresenter, TaskListPresenter tasklistPresenter,
 			EditTaskPresenter editTaskPresenter, @LoggedUser UserBO loggedUser,
 			EventBus eventBus) {
-		this.taskService = taskService;
 		this.eventBus = eventBus;
 		this.loginPresenter = loginPresenter;
 		this.tasklistPresenter = tasklistPresenter;
 		this.editTaskPresenter = editTaskPresenter;
 		this.loggedUser = loggedUser;
-
+		
 		initHandler();
 		History.addValueChangeHandler(this);
 	}
@@ -88,20 +83,23 @@ public class AppController implements Presenter, ValueChangeHandler<String>,
 	// werden
 	@Override
 	public void onValueChange(ValueChangeEvent<String> event) {
-		String token = event.getValue();
-
+		final String token = event.getValue();
+		
 		if (token != null) {
-			if (token.equals(HISTORY_LOGIN)) {
+			if (token.equals(HISTORY_LOGIN) ) {
 				loginPresenter.go(container);
+				return;
 			}
-
+			
 			if (token.equals(HISTORY_TASKLIST)) {
-				tasklistPresenter.setLoggedUser(loggedUser);
+     			tasklistPresenter.setLoggedUser(loggedUser);
 				tasklistPresenter.go(container);
+				return;
 			}
 
 			if (token.equals(HISTORY_EDIT)) {
 				editTaskPresenter.go(container);
+				return;
 			}
 		}
 	}
@@ -115,7 +113,7 @@ public class AppController implements Presenter, ValueChangeHandler<String>,
 	public void go(HasWidgets container) {
 		this.container = container;
 
-		if ("".equals(History.getToken())) {
+		if ("".equals(History.getToken()) || loggedUser == null || loggedUser.getName() == null) {
 			History.newItem(HISTORY_LOGIN);
 		} else {
 			History.fireCurrentHistoryState();

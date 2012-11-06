@@ -17,7 +17,7 @@ public class TaskCellList extends CellList<TaskBO> {
 	public TaskCellList() {
 		super(new TaskCell());
 		Label emptyLabel = new Label("nothing to do");
-		emptyLabel.setStylePrimaryName("label");
+		emptyLabel.setStylePrimaryName("nothingToDoLabel");
 		setEmptyListWidget(emptyLabel);
 	}
 

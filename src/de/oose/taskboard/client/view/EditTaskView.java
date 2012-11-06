@@ -85,11 +85,11 @@ public class EditTaskView extends VerticalPanel implements
 		decoratorPanel.setWidget(flexTable);
 		flexTable.setSize("100%", "100%");
 
-		Label lblNewLabel_1 = new Label("Title");
-		lblNewLabel_1.setStyleName("gwt-Label bold");
-		flexTable.setWidget(0, 0, lblNewLabel_1);
+		Label lblTitle = new Label("Title");
+		lblTitle.setStyleName("gwt-Label bold");
+		flexTable.setWidget(0, 0, lblTitle);
 		flexTable.getCellFormatter().setWidth(0, 0, "100px");
-		lblNewLabel_1.setWidth("");
+		lblTitle.setWidth("");
 
 		boxTitle = new TextBox();
 		flexTable.setWidget(0, 1, boxTitle);

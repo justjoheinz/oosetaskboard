@@ -13,11 +13,14 @@ public class OoseTaskboard implements EntryPoint {
 	private final ClientGinjector ginjector = GWT.create(ClientGinjector.class);
 	
 	private  AppController appController;
+	
+	
 
 	@Override
 	public void onModuleLoad() {
 		// This is required for Gwt-Platform proxy's generator
 		DelayedBindRegistry.bind(ginjector);
+		
 		//ginjector.getPlaceManager().revealCurrentPlace();
 		
 		appController = ginjector.getAppController();

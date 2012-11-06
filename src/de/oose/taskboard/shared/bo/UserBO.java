@@ -7,7 +7,7 @@ import java.util.List;
 public class UserBO implements Serializable{
 	
 	private long version;
-	private String name;
+	private String name = null;
 	private int id;
 	private List<TaskBO> tasks = new ArrayList<TaskBO>();
 	

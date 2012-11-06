@@ -65,6 +65,7 @@ public class TaskListPresenter implements Presenter {
 
 	@Override
 	public void go(HasWidgets container) {
+		display.setUser(user.getName());
 		container.clear();
 		container.add(display.asWidget());
 		// update the data in the cells
@@ -77,7 +78,6 @@ public class TaskListPresenter implements Presenter {
 														// looks quite brute
 														// force
 		}
-		display.setUser(user.getName());
 	}
 
 	private void bind() {
@@ -94,7 +94,8 @@ public class TaskListPresenter implements Presenter {
 
 					@Override
 					public void onSelection(SelectionEvent<TaskBO> event) {
-						EditTaskEvent.fire(TaskListPresenter.this, event.getSelectedItem());
+						EditTaskEvent.fire(TaskListPresenter.this,
+								event.getSelectedItem());
 					}
 				});
 
@@ -152,7 +153,6 @@ public class TaskListPresenter implements Presenter {
 	public void setLoggedUser(UserBO loggedUser) {
 		user = loggedUser;
 	}
-
 
 	@Override
 	public void fireEvent(GwtEvent<?> event) {
