@@ -5,8 +5,8 @@ import org.dozer.Mapper;
 
 import com.google.inject.AbstractModule;
 
-import de.oose.taskboard.server.entity.PersistenceService;
-import de.oose.taskboard.server.entity.PersistenceServiceImpl;
+import de.oose.taskboard.server.service.PersistenceService;
+import de.oose.taskboard.server.service.PersistenceServiceImpl;
 
 public class DozerModule extends AbstractModule {
 
