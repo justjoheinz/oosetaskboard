@@ -7,7 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/gwt-2.5.0.rc2"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/antlr-2.7.6.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/aopalliance-1.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/asm-3.1.jar"/>
@@ -41,8 +40,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtp-mvp-client-0.7.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gin-1.5.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/guice-assistedinject-3.0.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-dev.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-user.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtp-dispatch-client-0.7.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtp-dispatch-server-0.7.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtp-dispatch-server-guice-0.7.jar"/>
@@ -97,6 +94,18 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="/Users/markusklink/Documents/gwt-2.5.0.rc2/validation-api-1.0.0.GA-sources.jar"/>
 	<classpathentry kind="lib" path="/Users/markusklink/Documents/gwt-2.5.0.rc2/validation-api-1.0.0.GA.jar" sourcepath="/Users/markusklink/Documents/gwt-2.5.0.rc2/validation-api-1.0.0.GA-sources.jar"/>
-
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/gwt-2.5.0"/>
+	<classpathentry kind="lib" path="/Users/markusklink/Projects/gwt-2.5.0/gwt-user.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/markusklink/Projects/gwt-2.5.0/doc/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/markusklink/Projects/gwt-2.5.0/gwt-dev.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/markusklink/Projects/gwt-2.5.0/doc/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/markusklink/Projects/gwt-2.5.0/validation-api-1.0.0.GA-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/markusklink/Projects/gwt-2.5.0/validation-api-1.0.0.GA.jar" sourcepath="/Users/markusklink/Projects/gwt-2.5.0/validation-api-1.0.0.GA-sources.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
