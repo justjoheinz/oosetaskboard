@@ -21,4 +21,6 @@ public interface TaskServiceAsync {
 
 	void getTaskCount(UserBO user, String status, AsyncCallback<Integer> callback);
 
+	void getAllTasks(AsyncCallback<List<TaskBO>> callback);
+
 }

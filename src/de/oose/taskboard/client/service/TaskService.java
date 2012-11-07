@@ -15,4 +15,5 @@ public interface TaskService extends RemoteService {
 	public TaskBO updateTask(TaskBO taskBO);
 	public void deleteTask(TaskBO taskBO);
 	public Integer getTaskCount(UserBO user, String status);
+	public List<TaskBO> getAllTasks();
 }

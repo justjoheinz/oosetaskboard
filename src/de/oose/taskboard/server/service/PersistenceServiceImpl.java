@@ -124,4 +124,10 @@ public class PersistenceServiceImpl implements PersistenceService {
 		return query.getResultList();
 	}
 
+	@Override
+	public List<Task> getAllTasks() {
+		TypedQuery<Task> query = em.createQuery("from Task", Task.class);
+		return query.getResultList();
+	}
+
 }

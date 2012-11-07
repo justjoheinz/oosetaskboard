@@ -80,5 +80,11 @@ public class TaskServiceImpl implements TaskService {
 		}
 		return taskBOs;
 	}
+
+	@Override
+	public List<TaskBO> getAllTasks() {
+		List<Task> tasks = ps.getAllTasks();
+		return map(tasks);
+	}
 	
 }

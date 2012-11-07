@@ -18,4 +18,6 @@ public interface PersistenceService {
 	int getTaskCount(int userID, String status);
 	
 	List<Task> getPrivateTasks(int userId);
+
+	List<Task> getAllTasks();
 }
