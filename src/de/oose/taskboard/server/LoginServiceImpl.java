@@ -17,9 +17,6 @@ import de.oose.taskboard.shared.errors.LoginException;
 public class LoginServiceImpl implements LoginService {
 
 	@Inject
-	private EntityManager em;
-
-	@Inject
 	private Mapper mapper;
 
 	@Inject

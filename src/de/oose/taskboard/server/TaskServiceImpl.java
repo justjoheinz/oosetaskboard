@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 import org.dozer.Mapper;
 
@@ -22,9 +21,6 @@ public class TaskServiceImpl implements TaskService {
 
 	@Inject
 	private Mapper mapper;
-
-	@Inject
-	private EntityManager em;
 	
 	@Inject
 	private TaskPersistenceService ps;
