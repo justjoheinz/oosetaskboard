@@ -78,7 +78,11 @@
             name="guice"
             conf="master->default(*)"
             org="com.google.inject"
-            rev="${com.google.guice.version}" />
+            rev="${com.google.guice.version}" >
+
+            <exclude org="org.sonatype.sisu.inject">
+            </exclude>
+        </dependency>
 
         <dependency
             name="guice-persist"
