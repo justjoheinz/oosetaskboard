@@ -1,4 +1,5 @@
 build/markusklink.properties
+build/local.properties
 /gwt-unitCache
 /builddir
 /dist
