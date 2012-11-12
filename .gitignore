@@ -6,6 +6,7 @@ build/local.properties
 war/WEB-INF/lib/gwt-servlet.jar
 war/WEB-INF/classes
 war/WEB-INF/deploy
+war/oosetaskboard
 tomcat/
 taskdb.*
 .gwt/
