@@ -16,13 +16,13 @@ import de.oose.taskboard.server.entity.Task;
 import de.oose.taskboard.server.entity.User;
 import de.oose.taskboard.shared.enums.TaskVisibility;
 
-public class PersistenceServiceImpl implements PersistenceService {
+public class TaskPersistenceServiceImpl implements TaskPersistenceService {
 
 	@Inject
 	private EntityManager em;
 
 	static final Logger LOG = LoggerFactory
-			.getLogger(PersistenceServiceImpl.class);
+			.getLogger(TaskPersistenceServiceImpl.class);
 
 	/*
 	 * (non-Javadoc)

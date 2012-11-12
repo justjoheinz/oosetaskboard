@@ -12,7 +12,7 @@ import com.google.inject.persist.Transactional;
 
 import de.oose.taskboard.client.service.TaskService;
 import de.oose.taskboard.server.entity.Task;
-import de.oose.taskboard.server.service.PersistenceService;
+import de.oose.taskboard.server.service.TaskPersistenceService;
 import de.oose.taskboard.shared.bo.TaskBO;
 import de.oose.taskboard.shared.bo.UserBO;
 import de.oose.taskboard.shared.enums.TaskVisibility;
@@ -27,7 +27,7 @@ public class TaskServiceImpl implements TaskService {
 	private EntityManager em;
 	
 	@Inject
-	private PersistenceService ps;
+	private TaskPersistenceService ps;
 
 
 	public TaskServiceImpl() {

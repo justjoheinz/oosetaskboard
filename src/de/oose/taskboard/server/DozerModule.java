@@ -5,15 +5,18 @@ import org.dozer.Mapper;
 
 import com.google.inject.AbstractModule;
 
-import de.oose.taskboard.server.service.PersistenceService;
-import de.oose.taskboard.server.service.PersistenceServiceImpl;
+import de.oose.taskboard.server.service.TaskPersistenceService;
+import de.oose.taskboard.server.service.TaskPersistenceServiceImpl;
+import de.oose.taskboard.server.service.UserPersistenceService;
+import de.oose.taskboard.server.service.UserPersistenceServiceImpl;
 
 public class DozerModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
 		bind(Mapper.class).to(DozerBeanMapper.class).asEagerSingleton();
-		bind(PersistenceService.class).to(PersistenceServiceImpl.class);
+		bind(TaskPersistenceService.class).to(TaskPersistenceServiceImpl.class);
+		bind(UserPersistenceService.class).to(UserPersistenceServiceImpl.class);
 	}
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import de.oose.taskboard.server.entity.Task;
 import de.oose.taskboard.shared.enums.TaskVisibility;
 
-public interface PersistenceService {
+public interface TaskPersistenceService {
 
 	Task createTask(int userId, String title, String description, String status, TaskVisibility visibility);
 
