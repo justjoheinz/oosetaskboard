@@ -1,7 +1,6 @@
 package de.oose.taskboard.server;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 import org.apache.commons.lang.StringUtils;
 import org.dozer.Mapper;
