@@ -3,7 +3,9 @@ build/local.properties
 /gwt-unitCache
 /builddir
 /dist
-war/
+war/WEB-INF/lib/gwt-servlet.jar
+war/WEB-INF/classes
+war/WEB-INF/deploy
 tomcat/
 taskdb.*
 .gwt/
