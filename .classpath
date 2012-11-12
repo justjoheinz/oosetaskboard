@@ -10,7 +10,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/antlr-2.7.6.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/aopalliance-1.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/asm-3.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/cglib-2.2.1-v20090111.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/cglib-2.2.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-beanutils-1.8.3.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-collections-3.1.jar"/>
