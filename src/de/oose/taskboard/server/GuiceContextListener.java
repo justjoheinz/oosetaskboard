@@ -14,7 +14,7 @@ public class GuiceContextListener extends GuiceServletContextListener {
 	@Override
 	protected Injector getInjector() {
 		Injector injector = Guice.createInjector(new ServletModule(),
-				new DozerModule());
+				new TaskboardModule());
 		return injector;
 	}
 }
