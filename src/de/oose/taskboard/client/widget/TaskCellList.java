@@ -2,6 +2,8 @@ package de.oose.taskboard.client.widget;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.safecss.shared.SafeStyles;
+import com.google.gwt.safecss.shared.SafeStylesUtils;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
@@ -25,11 +27,11 @@ public class TaskCellList extends CellList<TaskBO> {
 
 		interface Templates extends SafeHtmlTemplates {
 			@SafeHtmlTemplates.Template("<div style='{0}'><div class='tasktitle'><b>{1}</b></div><div class='taskdesc'>{2}</div></div>")
-			SafeHtml cell(String style, SafeHtml title, SafeHtml description);
+			SafeHtml cell(SafeStyles style, SafeHtml title, SafeHtml description);
 		}
 
 		private static Templates templates = GWT.create(Templates.class);
-
+ 
 		@Override
 		public void render(com.google.gwt.cell.client.Cell.Context context,
 				TaskBO value, SafeHtmlBuilder sb) {
@@ -37,15 +39,19 @@ public class TaskCellList extends CellList<TaskBO> {
 				return;
 			SafeHtml title = SafeHtmlUtils.fromString(value.getTitle());
 			SafeHtml desc = SafeHtmlUtils.fromString(value.getDescription());
-			String style;
-			if (value.getVisibility().equals(TaskVisibility.PRIVATE)) {
-				style = "background-color: #D3D3D3;";
-			} else
-				style = "";
-			SafeHtml html = templates.cell(style, title, desc);
+			final String style = computeStyle(value);
+			SafeHtml html = templates.cell(SafeStylesUtils.fromTrustedString(style), title, desc);
 			sb.append(html);
 
 		}
 
+		private String computeStyle(final TaskBO value) {
+			if (value.getVisibility().equals(TaskVisibility.PRIVATE)) {
+				return "background-color: #D3D3D3;";
+			} else
+				return "";
+		}
 	}
+	
+	
 }
